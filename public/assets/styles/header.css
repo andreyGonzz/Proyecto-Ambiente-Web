@@ -1,0 +1,78 @@
+/* ---------- Header / Navbar ---------- */
+
+.vt-navbar {
+  background-color: var(--color-surface-container-lowest);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.vt-brand {
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.vt-nav-link {
+  color: var(--color-on-surface-variant);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 1rem 0;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.vt-nav-link:hover {
+  color: var(--color-primary);
+}
+
+.vt-nav-link-active {
+  color: var(--color-primary);
+  font-weight: 700;
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.vt-btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s ease;
+  border: none;
+}
+.vt-btn-primary:hover {
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary);
+}
+
+.vt-btn-lg {
+  padding: 0.75rem 2rem;
+  font-size: 14px;
+}
+
+.vt-link-primary {
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.vt-link-primary:hover {
+  color: var(--color-primary-container);
+}
+
+.vt-navbar-inner {
+  height: 64px;
+}
