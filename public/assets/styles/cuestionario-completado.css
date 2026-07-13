@@ -1,0 +1,155 @@
+:root {
+    color-scheme: light;
+}
+
+.vt-page-completed {
+    min-height: 100vh;
+    background-color: #f7f9fb;
+    color: #191c1e;
+    position: relative;
+}
+
+.vt-completed-page {
+    min-height: calc(100vh - 80px);
+    z-index: 1;
+}
+
+.vt-confetti-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.vt-completed-card {
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.vt-completed-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top center, rgba(0, 74, 198, 0.08), transparent 40%);
+    pointer-events: none;
+}
+
+.vt-completed-icon-wrap {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    background-color: rgba(0, 74, 198, 0.1);
+    border: 1px solid rgba(0, 74, 198, 0.12);
+    box-shadow: 0 12px 30px -16px rgba(0, 74, 198, 0.25);
+}
+
+.vt-completed-icon {
+    font-size: 3.5rem;
+    color: #004ac6;
+}
+
+.vt-completed-title {
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: #0c225a;
+}
+
+.vt-completed-copy {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #4b5563;
+    max-width: 40rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.vt-btn-completed {
+    border-radius: 999px;
+    padding: 1rem 1.4rem;
+    font-weight: 600;
+    box-shadow: 0 12px 24px -12px rgba(0, 74, 198, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vt-btn-completed:hover,
+.vt-btn-completed:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 30px -14px rgba(0, 74, 198, 0.35);
+}
+
+.vt-secondary-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.vt-secondary-link:hover,
+.vt-secondary-link:focus-visible {
+    color: #004ac6;
+    text-decoration: none;
+}
+
+.soft-shadow {
+    box-shadow: 0 10px 25px -5px rgba(0, 74, 198, 0.08), 0 8px 10px -6px rgba(0, 74, 198, 0.04);
+}
+
+.vt-confetti-piece {
+    position: absolute;
+    width: 0.6rem;
+    height: 1.4rem;
+    border-radius: 0.35rem;
+    opacity: 0;
+    animation-name: vt-confetti-fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.vt-confetti-color-1 {
+    background-color: #004ac6;
+}
+
+.vt-confetti-color-2 {
+    background-color: #712ae2;
+}
+
+.vt-confetti-color-3 {
+    background-color: #b4c5ff;
+}
+
+.vt-confetti-color-4 {
+    background-color: #8a4cfc;
+}
+
+.vt-confetti-shape-circle {
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 50%;
+}
+
+@keyframes vt-confetti-fall {
+    0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .vt-completed-page {
+        min-height: calc(100vh - 120px);
+    }
+    .vt-completed-card {
+        border-radius: 1.25rem;
+    }
+}

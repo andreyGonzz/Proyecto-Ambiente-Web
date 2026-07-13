@@ -1,0 +1,146 @@
+/* public/assets/styles/cuestionario.css */
+:root {
+  --primary: #004ac6;
+  --primary-container: #2563eb;
+  --surface: #f7f9fb;
+  --surface-container-low: #f2f4f6;
+  --muted: #6c757d;
+}
+body.page-cuestionario {
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial;
+  background: var(--surface);
+  color: #111;
+}
+.container-max {
+  max-width: 800px;
+}
+.brand-icon {
+  color: var(--primary);
+  font-size: 28px;
+}
+.brand-title {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.125rem;
+}
+.ambient-shadow {
+  box-shadow: 0 15px 35px -10px rgba(0, 74, 198, 0.05);
+}
+.question-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.question-desc {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.progress-custom {
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.04);
+}
+.progress-fill {
+  background: var(--primary);
+  width: 20%;
+  height: 100%;
+  transition: width 0.5s ease;
+}
+
+.selection-card {
+  display: block;
+  text-align: left;
+  background: white;
+  border: 2px solid transparent;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+  color: inherit;
+}
+.selection-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary-container);
+}
+.selection-card:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+.selection-card.selected {
+  border-color: var(--primary);
+  background: var(--primary) !important;
+  color: #ffffff !important;
+}
+
+/* When a selection-card is a Bootstrap button, ensure our styles override */
+button.selection-card,
+.selection-card.btn {
+  background: #ffffff;
+  color: inherit;
+  border: 2px solid transparent;
+  padding: 1rem;
+}
+
+button.selection-card.selected,
+.selection-card.btn.selected {
+  background: var(--primary) !important;
+  color: #fff !important;
+  border-color: var(--primary) !important;
+}
+
+/* Ensure text inside becomes white on selected */
+.selection-card.selected .option-title,
+.selection-card.selected .option-desc,
+.selection-card.selected .material-symbols-outlined {
+  color: #ffffff !important;
+}
+
+/* invert icon container colors for contrast when selected */
+.selection-card.selected .icon-container {
+  background: #ffffff !important;
+  color: var(--primary) !important;
+}
+
+.icon-container {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-container);
+  color: #fff;
+  font-size: 24px;
+}
+.selection-card.selected .icon-container {
+  background: var(--primary);
+}
+.option-title {
+  font-weight: 600;
+}
+.option-desc {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+#nextBtn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Small helpers */
+.gap-2 {
+  gap: 0.5rem;
+}
