@@ -1,0 +1,72 @@
+/* Minimal fallback for Tailwind utilities used in admin templates */
+:root{
+    --background: #f7f9fb;
+    --on-surface: #191c1e;
+    --primary: #004ac6;
+    --primary-container: #2563eb;
+    --surface: #ffffff;
+    --surface-container-lowest:#f7f9fb;
+    --outline-variant:#c3c6d7;
+    --tertiary:#006058;
+    --error:#ba1a1a;
+
+    --gutter:1.5rem;
+    --stack-md:1rem;
+    --stack-lg:2rem;
+}
+
+/* Basic utilities */
+.bg-background{background-color:var(--background)!important}
+.font-body-md{font-family:Inter, sans-serif; font-size:16px}
+.text-on-surface{color:var(--on-surface)}
+.h-screen{min-height:100vh}
+.flex{display:flex}
+.items-center{align-items:center}
+.justify-between{justify-content:space-between}
+.overflow-hidden{overflow:hidden}
+.hidden{display:none}
+.block{display:block}
+
+/* spacing */
+.p-gutter{padding:var(--gutter)}
+.px-gutter{padding-left:var(--gutter);padding-right:var(--gutter)}
+.py-stack-md{padding-top:var(--stack-md);padding-bottom:var(--stack-md)}
+.mb-stack-lg{margin-bottom:var(--stack-lg)}
+.mt-stack-md{margin-top:var(--stack-md)}
+
+/* layout */
+.grid{display:grid}
+.grid-cols-1{grid-template-columns:repeat(1,1fr)}
+.md\:grid-cols-3{grid-template-columns:repeat(1,1fr)}
+
+/* simple responsive breakpoint: md = 768px */
+@media(min-width:768px){
+    .md\:flex{display:flex}
+    .md\:hidden{display:none}
+    .md\:grid-cols-3{grid-template-columns:repeat(3,1fr)}
+}
+
+/* visual */
+.rounded-xl{border-radius:12px}
+.soft-shadow{box-shadow:0 4px 20px rgba(0,74,198,0.05)}
+.hover-lift{transition:transform .2s, box-shadow .2s}
+.hover-lift:hover{transform:translateY(-4px);box-shadow:0 8px 25px rgba(0,74,198,0.08)}
+
+/* badges and misc */
+.font-caption{font-size:12px}
+.font-label-md{font-size:14px}
+.font-display-lg{font-size:48px}
+.text-display-lg{font-size:48px}
+.text-label-md{font-size:14px}
+.text-caption{font-size:12px}
+
+/* fallback for utility colors */
+.text-primary{color:var(--primary)}
+.bg-primary-container{background:var(--primary-container)}
+.text-on-primary-container{color:#eeefff}
+.bg-surface-container-lowest{background:var(--surface-container-lowest)}
+.bg-surface{background:var(--surface)}
+.border-outline-variant{border-color:var(--outline-variant)}
+
+/* make sure the sidebar visible if previously hidden */
+.aside, .sidebar{display:flex}
