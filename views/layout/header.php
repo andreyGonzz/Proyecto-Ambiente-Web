@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/../../config/config.php';
+?>
 <header class="vt-navbar">
     <div class="vt-container d-flex justify-content-between align-items-center vt-navbar-inner">
         <div class="d-flex align-items-center gap-4">
