@@ -32,7 +32,8 @@ $baseUrl = '/Proyecto%20Ambiente%20Web';
                         <span class="vt-badge vt-badge-primary">Paso 1 de 4</span>
                         <h1 class="vt-intro-title">Antes de comenzar</h1>
                         <p class="vt-intro-text">
-                            Estás a punto de iniciar una experiencia diseñada para descubrir tus intereses y fortalezas profesionales.
+                            Estás a punto de iniciar una experiencia diseñada para descubrir tus intereses y fortalezas
+                            profesionales.
                             Lee atentamente cómo funciona el proceso.
                         </p>
 
@@ -43,7 +44,8 @@ $baseUrl = '/Proyecto%20Ambiente%20Web';
                                 </div>
                                 <div>
                                     <h2>Tiempo estimado</h2>
-                                    <p>El test tomará aproximadamente 15 a 20 minutos. Busca un lugar tranquilo donde no tengas interrupciones.</p>
+                                    <p>El test tomará aproximadamente 15 a 20 minutos. Busca un lugar tranquilo donde no
+                                        tengas interrupciones.</p>
                                 </div>
                             </article>
 
@@ -53,7 +55,8 @@ $baseUrl = '/Proyecto%20Ambiente%20Web';
                                 </div>
                                 <div>
                                     <h2>Formato de preguntas</h2>
-                                    <p>Encontrarás 60 preguntas de opción múltiple basadas en escenarios del mundo real.</p>
+                                    <p>Encontrarás 60 preguntas de opción múltiple basadas en escenarios del mundo real.
+                                    </p>
                                 </div>
                             </article>
 
@@ -63,16 +66,15 @@ $baseUrl = '/Proyecto%20Ambiente%20Web';
                                 </div>
                                 <div>
                                     <h2>Sé honesto contigo</h2>
-                                    <p>No hay respuestas correctas o incorrectas. Responde basándote en lo que realmente disfrutas.</p>
+                                    <p>No hay respuestas correctas o incorrectas. Responde basándote en lo que realmente
+                                        disfrutas.</p>
                                 </div>
                             </article>
                         </div>
 
                         <div class="vt-actions">
-                            <a href="<?php echo $baseUrl; ?>/views/areas/cuestionario.php"
-                                class="btn vt-btn-cta"
-                                id="startQuizBtn"
-                                data-label="Comenzar cuestionario">
+                            <a href="<?php echo $baseUrl; ?>/views/areas/cuestionario.php" class="btn vt-btn-cta"
+                                id="startQuizBtn" data-label="Comenzar cuestionario">
                                 <span class="vt-btn-label">Comenzar cuestionario</span>
                                 <span class="material-symbols-outlined vt-btn-icon">arrow_forward</span>
                             </a>
@@ -86,7 +88,8 @@ $baseUrl = '/Proyecto%20Ambiente%20Web';
                             alt="Estudiante preparándose para el test de orientación vocacional">
                         <div class="vt-visual-caption">
                             <span class="vt-visual-caption-title">Descubre tu próxima oportunidad</span>
-                            <span class="vt-visual-caption-text">Una experiencia guiada para entender mejor tus intereses.</span>
+                            <span class="vt-visual-caption-text">Una experiencia guiada para entender mejor tus
+                                intereses.</span>
                         </div>
                     </div>
                 </div>
