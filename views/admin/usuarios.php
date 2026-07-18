@@ -1,8 +1,7 @@
 <?php
 // Variables globales
-$siteName = "Vocatio";
-$year = date("Y");
-$baseUrl = '/Proyecto%20Ambiente%20Web';
+require_once __DIR__ . '/../../config/config.php';
+
 
 // Datos de usuarios de ejemplo - en producción vendrían de la BD
 $usuarios = [
