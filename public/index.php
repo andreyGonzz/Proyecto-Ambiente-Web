@@ -1,7 +1,5 @@
 <?php
-
-$siteName = "Vocatio";
-$year = date("Y");
+require_once __DIR__ . '/../config/config.php';
 
 $steps = [
     [
@@ -75,7 +73,7 @@ $bentoSecondary = [
 <body>
 
     <!-- ============ HEADER / NAVBAR ============ -->
-    <?php include __DIR__ . '/../views/layout/header.php'; ?>
+    <?php require_once __DIR__ . '/../views/layout/header.php'; ?>
 
     <main class="flex-grow-1">
 
@@ -93,7 +91,7 @@ $bentoSecondary = [
                             intereses y habilidades con las mejores oportunidades del mercado.
                         </p>
                         <div class="pt-2 d-flex flex-column flex-sm-row gap-3">
-                            <a href="#" class="vt-btn-primary vt-btn-lg vt-shadow-soft">
+                            <a href="<?= htmlspecialchars($baseUrl) ?>/views/areas/antes-comenzar.php" class="vt-btn-primary vt-btn-lg vt-shadow-soft">
                                 Descubre tu vocación
                                 <span class="material-symbols-outlined">arrow_forward</span>
                             </a>
@@ -182,7 +180,7 @@ $bentoSecondary = [
     </main>
 
     <!-- ============ FOOTER ============ -->
-    <?php include __DIR__ . '/../views/layout/footer.php'; ?>
+    <?php require_once __DIR__ . '/../views/layout/footer.php'; ?>
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

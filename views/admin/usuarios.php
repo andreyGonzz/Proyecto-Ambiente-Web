@@ -94,15 +94,15 @@ $usuarios_por_pagina = 4;
 
         <!-- Navigation Menu -->
         <nav class="sidebar-nav">
-            <a href="#" class="nav-item">
+            <a href="<?php echo $baseUrl; ?>/views/admin/admin.php" class="nav-item">
                 <span class="material-symbols-outlined">dashboard</span>
                 Panel de Control
             </a>
-            <a href="#" class="nav-item active">
+            <a href="<?php echo $baseUrl; ?>/views/admin/usuarios.php" class="nav-item active">
                 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
                 Usuarios
             </a>
-            <a href="#" class="nav-item">
+            <a href="<?php echo $baseUrl; ?>/views/admin/carrera.php" class="nav-item">
                 <span class="material-symbols-outlined">work</span>
                 Carreras
             </a>

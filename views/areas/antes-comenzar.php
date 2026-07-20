@@ -1,6 +1,5 @@
 <?php
-$year = date('Y');
-$baseUrl = '/Proyecto%20Ambiente%20Web';
+require_once __DIR__ . '/../../config/config.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -22,7 +21,7 @@ $baseUrl = '/Proyecto%20Ambiente%20Web';
 </head>
 
 <body class="vt-page-intro">
-    <?php include __DIR__ . '/../layout/header.php'; ?>
+    <?php require_once __DIR__ . '/../layout/header.php'; ?>
 
     <main class="vt-main py-5">
         <div class="container-xxl">
@@ -97,7 +96,7 @@ $baseUrl = '/Proyecto%20Ambiente%20Web';
         </div>
     </main>
 
-    <?php include __DIR__ . '/../layout/footer.php'; ?>
+    <?php require_once __DIR__ . '/../layout/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="<?php echo $baseUrl; ?>/public/assets/js/antes-comenzar.js"></script>

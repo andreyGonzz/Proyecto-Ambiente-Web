@@ -8,9 +8,9 @@ require_once __DIR__ . '/../../config/config.php';
             <?= htmlspecialchars($siteName ?? 'Vocatio') ?>
         </div>
         <div class="d-flex flex-wrap justify-content-center gap-4">
-            <a href="#" class="vt-footer-link">Institucional</a>
-            <a href="#" class="vt-footer-link">Contacto</a>
-            <a href="#" class="vt-footer-link">Política de Privacidad</a>
+            <a href="<?= htmlspecialchars($baseUrl) ?>/public/index.php" class="vt-footer-link">Institucional</a>
+            <a href="<?= htmlspecialchars($baseUrl) ?>/views/login/login.php" class="vt-footer-link">Contacto</a>
+            <a href="<?= htmlspecialchars($baseUrl) ?>/views/login/register.php" class="vt-footer-link">Política de Privacidad</a>
         </div>
         <div class="vt-footer-copy">
             &copy; <?= (int) ($year ?? date('Y')) ?> <?= htmlspecialchars($siteName ?? 'Vocatio') ?>. Todos los derechos reservados.

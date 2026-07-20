@@ -1,7 +1,5 @@
 <?php
-$siteName = 'Vocatio';
-$year = date('Y');
-$baseUrl = '/Proyecto-Ambiente-Web';
+require_once __DIR__ . '/../../config/config.php';
 
 $stats = [
     [
@@ -74,10 +72,10 @@ $recentEvaluations = [
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
 
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/index.css">
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/header.css">
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/footer.css">
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/admin.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/index.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/header.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/footer.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/admin.css">
 </head>
 
 <body class="vt-admin-page">
@@ -99,15 +97,15 @@ $recentEvaluations = [
             </div>
 
             <nav class="vt-admin-nav">
-                <a class="vt-admin-nav-link active" href="#">
+                <a class="vt-admin-nav-link active" href="<?php echo $baseUrl; ?>/views/admin/admin.php">
                     <span class="material-symbols-outlined">dashboard</span>
                     Panel de Control
                 </a>
-                <a class="vt-admin-nav-link" href="#">
+                <a class="vt-admin-nav-link" href="<?php echo $baseUrl; ?>/views/admin/usuarios.php">
                     <span class="material-symbols-outlined">group</span>
                     Usuarios
                 </a>
-                <a class="vt-admin-nav-link" href="#">
+                <a class="vt-admin-nav-link" href="<?php echo $baseUrl; ?>/views/admin/carrera.php">
                     <span class="material-symbols-outlined">work</span>
                     Carreras
                 </a>
@@ -165,7 +163,7 @@ $recentEvaluations = [
                             <h2 class="vt-admin-section-title">Evaluaciones recientes</h2>
                             <p class="vt-admin-description">Seguimiento rápido del avance de los usuarios.</p>
                         </div>
-                        <a href="#" class="vt-admin-link">Ver todo</a>
+                        <a href="<?php echo $baseUrl; ?>/views/admin/carrera.php" class="vt-admin-link">Ver todo</a>
                     </div>
 
                     <div class="vt-admin-table-card">
@@ -202,7 +200,7 @@ $recentEvaluations = [
         </main>
     </div>
 
-    <?php include __DIR__ . '/../layout/footer.php'; ?>
+    <?php require_once __DIR__ . '/../layout/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -1,5 +1,5 @@
 <?php
-$year = date('Y');
+require_once __DIR__ . '/../../config/config.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -13,14 +13,14 @@ $year = date('Y');
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/index.css">
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/header.css">
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/footer.css">
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/login.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/index.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/header.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/footer.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/login.css">
 </head>
 
 <body class="bg-light min-vh-100 d-flex flex-column">
-    <?php include __DIR__ . '/../layout/header.php'; ?>
+    <?php require_once __DIR__ . '/../layout/header.php'; ?>
 
     <main class="flex-grow-1 d-flex align-items-center py-5">
         <div class="vt-container w-100">
@@ -78,7 +78,7 @@ $year = date('Y');
                                     <label class="form-check-label vt-text-on-surface-variant"
                                         for="remember">Recordarme</label>
                                 </div>
-                                <a href="/Proyecto%20Ambiente%20Web/views/login/recover.php"
+                                <a href="<?php echo $baseUrl; ?>/views/login/recover.php"
                                     class="vt-link-primary">¿Olvidaste tu contraseña?</a>
                             </div>
 
@@ -96,7 +96,7 @@ $year = date('Y');
                         <div class="mt-4 pt-4 border-top text-center">
                             <p class="mb-0 vt-text-on-surface-variant">
                                 ¿No tienes una cuenta?
-                                <a href="/Proyecto%20Ambiente%20Web/views/login/register.php"
+                                <a href="<?php echo $baseUrl; ?>/views/login/register.php"
                                     class="vt-link-primary ms-1">Regístrate aquí</a>
                             </p>
                         </div>
@@ -106,10 +106,10 @@ $year = date('Y');
         </div>
     </main>
 
-    <?php include __DIR__ . '/../layout/footer.php'; ?>
+    <?php require_once __DIR__ . '/../layout/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/Proyecto%20Ambiente%20Web/public/assets/js/login.js"></script>
+    <script src="<?php echo $baseUrl; ?>/public/assets/js/login.js"></script>
 
 </body>
 

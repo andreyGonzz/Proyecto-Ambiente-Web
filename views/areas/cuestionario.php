@@ -1,5 +1,5 @@
 <?php
-// views/areas/cuestionario.php
+require_once __DIR__ . '/../../config/config.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,10 +15,10 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <!-- Custom styles -->
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/index.css">
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/cuestionario.css">
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/header.css">
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/footer.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/index.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/cuestionario.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/header.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/footer.css">
 </head>
 
 <body class="page-cuestionario">
@@ -28,10 +28,10 @@
                 <span class="material-symbols-outlined brand-icon">school</span>
                 <span class="brand-title">Vocatio</span>
             </div>
-            <button class="btn btn-link text-muted save-exit">
+            <a href="<?php echo $baseUrl; ?>/public/index.php" class="btn btn-link text-muted save-exit">
                 <span class="material-symbols-outlined">close</span>
                 <span class="d-none d-sm-inline"></span>
-            </button>
+            </a>
         </div>
     </header>
 
@@ -110,20 +110,20 @@
             </div>
 
             <div class="d-flex justify-content-between align-items-center">
-                <button type="button" class="btn btn-outline-secondary d-flex align-items-center gap-2 prev-btn">
+                <a href="<?php echo $baseUrl; ?>/views/areas/antes-comenzar.php" class="btn btn-outline-secondary d-flex align-items-center gap-2 prev-btn">
                     <span class="material-symbols-outlined">arrow_back</span>
                     <span>Anterior</span>
-                </button>
+                </a>
 
-                <button id="nextBtn" type="button" class="btn btn-primary d-flex align-items-center gap-2" disabled>
+                <a href="<?php echo $baseUrl; ?>/views/areas/cuestionario-completado.php" id="nextBtn" class="btn btn-primary d-flex align-items-center gap-2">
                     <span>Siguiente</span>
                     <span class="material-symbols-outlined">arrow_forward</span>
-                </button>
+                </a>
             </div>
         </div>
     </main>
 
-    <script src="/Proyecto%20Ambiente%20Web/public/assets/js/cuestionario.js"></script>
+    <script src="<?php echo $baseUrl; ?>/public/assets/js/cuestionario.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

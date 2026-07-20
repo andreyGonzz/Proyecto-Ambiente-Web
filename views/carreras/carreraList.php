@@ -1,7 +1,5 @@
 <?php
-$siteName = 'Vocatio';
-$year = date('Y');
-$baseUrl = '/Proyecto%20Ambiente%20Web';
+require_once __DIR__ . '/../../config/config.php';
 
 $carreras = [
     [

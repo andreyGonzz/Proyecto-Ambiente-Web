@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../../config/config.php';
+
 $areas = [
     [
         'nombre' => 'Tech',
@@ -50,7 +52,6 @@ usort($areas, function ($a, $b) {
 $principal = $areas[0];
 $secundaria = $areas[1] ?? null;
 $anioActual = date('Y');
-$baseUrl = '/Proyecto%20Ambiente%20Web';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -68,16 +69,16 @@ $baseUrl = '/Proyecto%20Ambiente%20Web';
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
     <!-- Google Font: Inter -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap">
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/index.css">
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/areas.css">
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/header.css">
-    <link rel="stylesheet" href="/Proyecto%20Ambiente%20Web/public/assets/styles/footer.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/index.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/areas.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/header.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/footer.css">
 </head>
 
 <body>
 
     <!-- ============ Header / Navbar ============ -->
-    <?php include __DIR__ . '/../layout/header.php'; ?>
+    <?php require_once __DIR__ . '/../layout/header.php'; ?>
 
     <!-- ============ Contenido principal ============ -->
     <main class="container-xxl">
@@ -169,10 +170,10 @@ $baseUrl = '/Proyecto%20Ambiente%20Web';
             <div class="col-12 col-md-6">
                 <div class="card-cta">
                     <h3 class="h5 mb-4">¿Listo para dar el siguiente paso?</h3>
-                    <button class="btn-explorar">
+                    <a href="<?php echo $baseUrl; ?>/views/carreras/carreraList.php" class="btn-explorar">
                         Explorar carreras relacionadas
                         <span class="material-symbols-outlined">arrow_forward</span>
-                    </button>
+                    </a>
                 </div>
             </div>
 
@@ -180,11 +181,11 @@ $baseUrl = '/Proyecto%20Ambiente%20Web';
     </main>
 
     <!-- ============ Footer ============ -->
-    <?php include __DIR__ . '/../layout/footer.php'; ?>
+    <?php require_once __DIR__ . '/../layout/footer.php'; ?>
 
     <!-- Bootstrap JS (opcional, para el menú móvil si se extiende) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/Proyecto%20Ambiente%20Web/public/assets/js/areas.js"></script>
+    <script src="<?php echo $baseUrl; ?>/public/assets/js/areas.js"></script>
 
 </body>
 

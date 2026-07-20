@@ -1,7 +1,5 @@
 <?php
-$siteName = 'Vocatio';
-$year = date('Y');
-$baseUrl = '/Proyecto%20Ambiente%20Web';
+require_once __DIR__ . '/../../config/config.php';
 
 $carreras = [
     [
@@ -91,7 +89,7 @@ $carreras = [
 
 <body class="vt-admin-page">
 
-    <?php include __DIR__ . '/../layout/header.php'; ?>
+    <?php require_once __DIR__ . '/../layout/header.php'; ?>
 
     <div class="vt-admin-shell">
         <aside class="vt-admin-sidebar d-none d-md-flex">
@@ -108,15 +106,15 @@ $carreras = [
             </div>
 
             <nav class="vt-admin-nav">
-                <a class="vt-admin-nav-link" href="#">
+                <a class="vt-admin-nav-link" href="<?php echo $baseUrl; ?>/views/admin/admin.php">
                     <span class="material-symbols-outlined">dashboard</span>
                     Panel de Control
                 </a>
-                <a class="vt-admin-nav-link" href="#">
+                <a class="vt-admin-nav-link" href="<?php echo $baseUrl; ?>/views/admin/usuarios.php">
                     <span class="material-symbols-outlined">group</span>
                     Usuarios
                 </a>
-                <a class="vt-admin-nav-link active" href="#">
+                <a class="vt-admin-nav-link active" href="<?php echo $baseUrl; ?>/views/admin/carrera.php">
                     <span class="material-symbols-outlined">work</span>
                     Carreras
                 </a>
@@ -227,7 +225,7 @@ $carreras = [
         </main>
     </div>
 
-    <?php include __DIR__ . '/../layout/footer.php'; ?>
+    <?php require_once __DIR__ . '/../layout/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

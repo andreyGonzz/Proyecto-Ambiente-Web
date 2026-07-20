@@ -1,7 +1,5 @@
 <?php
-$siteName = 'Vocatio';
-$year = date('Y');
-$baseUrl = '/Proyecto%20Ambiente%20Web';
+require_once __DIR__ . '/../../config/config.php';
 
 $carrera = [
     'nombre' => 'Ingeniería de Software',
@@ -164,7 +162,7 @@ $carrera = [
                     </div>
 
                     <p>Tus respuestas en el test indican un alto perfil analítico, ideal para esta carrera.</p>
-                    <button type="button" class="btn-affinity">Ver desglose</button>
+                    <a href="<?= $baseUrl; ?>/views/areas/areas.php" class="btn-affinity">Ver desglose</a>
                 </div>
             </aside>
         </section>
