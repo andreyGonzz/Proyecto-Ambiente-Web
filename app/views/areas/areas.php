@@ -69,10 +69,10 @@ $anioActual = date('Y');
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
     <!-- Google Font: Inter -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/index.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/areas.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/header.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/footer.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/index.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/areas.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/header.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/footer.css">
 </head>
 
 <body>
@@ -170,7 +170,7 @@ $anioActual = date('Y');
             <div class="col-12 col-md-6">
                 <div class="card-cta">
                     <h3 class="h5 mb-4">¿Listo para dar el siguiente paso?</h3>
-                    <a href="<?php echo $baseUrl; ?>/views/carreras/carreraList.php" class="btn-explorar">
+                    <a href="<?php echo BASE_URL; ?>/app/views/carreras/carreraList.php" class="btn-explorar">
                         Explorar carreras relacionadas
                         <span class="material-symbols-outlined">arrow_forward</span>
                     </a>
@@ -185,7 +185,7 @@ $anioActual = date('Y');
 
     <!-- Bootstrap JS (opcional, para el menú móvil si se extiende) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="<?php echo $baseUrl; ?>/public/assets/js/areas.js"></script>
+    <script src="<?php echo BASE_URL; ?>/public/assets/js/areas.js"></script>
 
 </body>
 

@@ -80,11 +80,11 @@ $carreras = [
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
 
-    <link rel="stylesheet" href="<?= htmlspecialchars($baseUrl) ?>/public/assets/styles/index.css">
-    <link rel="stylesheet" href="<?= htmlspecialchars($baseUrl) ?>/public/assets/styles/header.css">
-    <link rel="stylesheet" href="<?= htmlspecialchars($baseUrl) ?>/public/assets/styles/footer.css">
-    <link rel="stylesheet" href="<?= htmlspecialchars($baseUrl) ?>/public/assets/styles/admin.css">
-    <link rel="stylesheet" href="<?= htmlspecialchars($baseUrl) ?>/public/assets/styles/carreras.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars(BASE_URL) ?>/public/assets/styles/index.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars(BASE_URL) ?>/public/assets/styles/header.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars(BASE_URL) ?>/public/assets/styles/footer.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars(BASE_URL) ?>/public/assets/styles/admin.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars(BASE_URL) ?>/public/assets/styles/carreras.css">
 </head>
 
 <body class="vt-admin-page">
@@ -106,15 +106,15 @@ $carreras = [
             </div>
 
             <nav class="vt-admin-nav">
-                <a class="vt-admin-nav-link" href="<?php echo $baseUrl; ?>/views/admin/admin.php">
+                <a class="vt-admin-nav-link" href="<?php echo BASE_URL; ?>/app/views/admin/admin.php">
                     <span class="material-symbols-outlined">dashboard</span>
                     Panel de Control
                 </a>
-                <a class="vt-admin-nav-link" href="<?php echo $baseUrl; ?>/views/admin/usuarios.php">
+                <a class="vt-admin-nav-link" href="<?php echo BASE_URL; ?>/app/views/admin/usuarios.php">
                     <span class="material-symbols-outlined">group</span>
                     Usuarios
                 </a>
-                <a class="vt-admin-nav-link active" href="<?php echo $baseUrl; ?>/views/admin/carrera.php">
+                <a class="vt-admin-nav-link active" href="<?php echo BASE_URL; ?>/app/views/admin/carrera.php">
                     <span class="material-symbols-outlined">work</span>
                     Carreras
                 </a>

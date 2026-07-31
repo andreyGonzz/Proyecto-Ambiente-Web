@@ -14,10 +14,10 @@ require_once __DIR__ . '/../../config/config.php';
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/index.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/header.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/footer.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/antes-comenzar.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/index.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/header.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/footer.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/antes-comenzar.css">
 </head>
 
 <body class="vt-page-intro">
@@ -72,7 +72,7 @@ require_once __DIR__ . '/../../config/config.php';
                         </div>
 
                         <div class="vt-actions">
-                            <a href="<?php echo $baseUrl; ?>/views/areas/cuestionario.php" class="btn vt-btn-cta"
+                            <a href="<?php echo BASE_URL; ?>/app/views/areas/cuestionario.php" class="btn vt-btn-cta"
                                 id="startQuizBtn" data-label="Comenzar cuestionario">
                                 <span class="vt-btn-label">Comenzar cuestionario</span>
                                 <span class="material-symbols-outlined vt-btn-icon">arrow_forward</span>
@@ -99,7 +99,7 @@ require_once __DIR__ . '/../../config/config.php';
     <?php require_once __DIR__ . '/../layout/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="<?php echo $baseUrl; ?>/public/assets/js/antes-comenzar.js"></script>
+    <script src="<?php echo BASE_URL; ?>/public/assets/js/antes-comenzar.js"></script>
 </body>
 
 </html>

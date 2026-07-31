@@ -13,10 +13,10 @@ require_once __DIR__ . '/../../config/config.php';
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/index.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/header.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/footer.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/login.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/index.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/header.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/footer.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/login.css">
 </head>
 
 <body class="bg-light min-vh-100 d-flex flex-column">
@@ -68,7 +68,7 @@ require_once __DIR__ . '/../../config/config.php';
                     </div>
 
                     <div class="text-center mt-4">
-                        <a href="<?php echo $baseUrl; ?>/views/login/login.php"
+                        <a href="<?php echo BASE_URL; ?>/app/views/login/login.php"
                             class="vt-link-primary d-inline-flex align-items-center gap-2">
                             <span class="material-symbols-outlined">arrow_back</span>
                             Volver a Iniciar sesión
@@ -82,7 +82,7 @@ require_once __DIR__ . '/../../config/config.php';
     <?php require_once __DIR__ . '/../layout/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="<?php echo $baseUrl; ?>/public/assets/js/recover.js"></script>
+    <script src="<?php echo BASE_URL; ?>/public/assets/js/recover.js"></script>
 </body>
 
 </html>

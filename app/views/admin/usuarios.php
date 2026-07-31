@@ -66,10 +66,10 @@ $usuarios_por_pagina = 4;
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 
     <!-- Custom Styles -->
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/index.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/header.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/footer.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/usuarios.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/index.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/header.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/footer.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/usuarios.css">
 </head>
 
 <body class="sidebar-open">
@@ -94,15 +94,15 @@ $usuarios_por_pagina = 4;
 
         <!-- Navigation Menu -->
         <nav class="sidebar-nav">
-            <a href="<?php echo $baseUrl; ?>/views/admin/admin.php" class="nav-item">
+            <a href="<?php echo BASE_URL; ?>/app/views/admin/admin.php" class="nav-item">
                 <span class="material-symbols-outlined">dashboard</span>
                 Panel de Control
             </a>
-            <a href="<?php echo $baseUrl; ?>/views/admin/usuarios.php" class="nav-item active">
+            <a href="<?php echo BASE_URL; ?>/app/views/admin/usuarios.php" class="nav-item active">
                 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
                 Usuarios
             </a>
-            <a href="<?php echo $baseUrl; ?>/views/admin/carrera.php" class="nav-item">
+            <a href="<?php echo BASE_URL; ?>/app/views/admin/carrera.php" class="nav-item">
                 <span class="material-symbols-outlined">work</span>
                 Carreras
             </a>

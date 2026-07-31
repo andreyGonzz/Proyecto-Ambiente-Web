@@ -15,10 +15,10 @@ require_once __DIR__ . '/../../config/config.php';
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <!-- Custom styles -->
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/index.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/cuestionario.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/header.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/public/assets/styles/footer.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/index.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/cuestionario.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/header.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/footer.css">
 </head>
 
 <body class="page-cuestionario">
@@ -28,7 +28,7 @@ require_once __DIR__ . '/../../config/config.php';
                 <span class="material-symbols-outlined brand-icon">school</span>
                 <span class="brand-title">Vocatio</span>
             </div>
-            <a href="<?php echo $baseUrl; ?>/public/index.php" class="btn btn-link text-muted save-exit">
+            <a href="<?php echo BASE_URL; ?>/public/index.php" class="btn btn-link text-muted save-exit">
                 <span class="material-symbols-outlined">close</span>
                 <span class="d-none d-sm-inline"></span>
             </a>
@@ -110,12 +110,12 @@ require_once __DIR__ . '/../../config/config.php';
             </div>
 
             <div class="d-flex justify-content-between align-items-center">
-                <a href="<?php echo $baseUrl; ?>/views/areas/antes-comenzar.php" class="btn btn-outline-secondary d-flex align-items-center gap-2 prev-btn">
+                <a href="<?php echo BASE_URL; ?>/app/views/areas/antes-comenzar.php" class="btn btn-outline-secondary d-flex align-items-center gap-2 prev-btn">
                     <span class="material-symbols-outlined">arrow_back</span>
                     <span>Anterior</span>
                 </a>
 
-                <a href="<?php echo $baseUrl; ?>/views/areas/cuestionario-completado.php" id="nextBtn" class="btn btn-primary d-flex align-items-center gap-2">
+                <a href="<?php echo BASE_URL; ?>/app/views/areas/cuestionario-completado.php" id="nextBtn" class="btn btn-primary d-flex align-items-center gap-2">
                     <span>Siguiente</span>
                     <span class="material-symbols-outlined">arrow_forward</span>
                 </a>
@@ -123,7 +123,7 @@ require_once __DIR__ . '/../../config/config.php';
         </div>
     </main>
 
-    <script src="<?php echo $baseUrl; ?>/public/assets/js/cuestionario.js"></script>
+    <script src="<?php echo BASE_URL; ?>/public/assets/js/cuestionario.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
