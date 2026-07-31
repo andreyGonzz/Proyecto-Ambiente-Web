@@ -1,7 +1,7 @@
 <?php
 class App
 {
-    protected $controller = 'AuthController';
+    protected $controller = 'MainController';
     protected $method = 'index';
     protected $params = [];
 
