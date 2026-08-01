@@ -84,6 +84,19 @@
   background-color: var(--color-tertiary);
 }
 
+.vt-register-strength.level-1 span.active {
+  background-color: var(--color-error);
+}
+
+.vt-register-strength.level-2 span.active {
+  background-color: var(--color-secondary);
+}
+
+.vt-register-strength.level-3 span.active,
+.vt-register-strength.level-4 span.active {
+  background-color: var(--color-tertiary);
+}
+
 .vt-register-checkbox {
   margin-top: 0.25rem;
   border-color: var(--color-outline-variant);

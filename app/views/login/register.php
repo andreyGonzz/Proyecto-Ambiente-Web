@@ -4,6 +4,7 @@ $error = $error ?? '';
 
 $pageTitle = 'Vocatio - Crear cuenta';
 $pageStyles = ['login.css'];
+$pageScripts = ['register.js'];
 $bodyClass = 'bg-light min-vh-100 d-flex flex-column';
 require_once __DIR__ . '/../layout/header.php';
 ?>
@@ -41,21 +42,33 @@ require_once __DIR__ . '/../layout/header.php';
                             <div class="position-relative">
                                 <input class="form-control vt-register-input" id="password" name="password" type="password" placeholder="Contraseña" required>
                                 <label class="vt-register-label" for="password">Contraseña</label>
+                                <button type="button"
+                                    class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 p-0 text-muted"
+                                    id="togglePassword" aria-label="Mostrar u ocultar contraseña">
+                                    <span class="material-symbols-outlined"
+                                        id="visibilityIcon">visibility_off</span>
+                                </button>
                             </div>
 
                             <div class="position-relative">
                                 <input class="form-control vt-register-input" id="confirm_password" name="confirm_password" type="password" placeholder="Confirmar contraseña" required>
                                 <label class="vt-register-label" for="confirm_password">Confirmar contraseña</label>
+                                <button type="button"
+                                    class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 p-0 text-muted"
+                                    id="toggleConfirmPassword" aria-label="Mostrar u ocultar contraseña">
+                                    <span class="material-symbols-outlined"
+                                        id="confirmVisibilityIcon">visibility_off</span>
+                                </button>
                             </div>
 
                             <div class="d-flex flex-column gap-2 mt-1">
-                                <div class="vt-register-strength" aria-label="Indicador de seguridad de contraseña">
-                                    <span class="active"></span>
+                                <div class="vt-register-strength" id="passwordStrength" aria-label="Indicador de seguridad de contraseña">
+                                    <span></span>
                                     <span></span>
                                     <span></span>
                                     <span></span>
                                 </div>
-                                <span class="vt-caption text-end text-muted">Débil</span>
+                                <span class="vt-caption text-end text-muted" id="strengthLabel">Débil</span>
                             </div>
 
                             <div class="d-flex align-items-start gap-2">
