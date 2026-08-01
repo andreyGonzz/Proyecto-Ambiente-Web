@@ -45,10 +45,11 @@ class Usuario
 
     public function create($data)
     {
-        $query = "INSERT INTO usuarios (nombre, correo, contrasena) VALUES (?, ?, ?)";
+        $query = "INSERT INTO usuarios (nombre, correo, contrasena,rol) VALUES (?, ?, ?,?)";
         $stmt = $this->db->prepare($query);
         $hashedPassword = password_hash($data['contrasena'], PASSWORD_DEFAULT);
-        $stmt->bind_param("sss", $data['nombre'], $data['correo'], $hashedPassword);
+        $rol = 'USUARIO';
+        $stmt->bind_param("ssss", $data['nombre'], $data['correo'], $hashedPassword, $rol);
         return $stmt->execute();
     }
 

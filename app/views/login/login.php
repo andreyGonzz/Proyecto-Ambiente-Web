@@ -45,7 +45,8 @@ require_once __DIR__ . '/../../config/config.php';
                             <p class="vt-text-on-surface-variant">Ingresa tus credenciales para continuar.</p>
                         </div>
 
-                        <form class="d-flex flex-column gap-3" id="loginForm">
+                        <form class="d-flex flex-column gap-3" id="loginForm" method="POST"
+                            action="<?php echo BASE_URL; ?>/public/auth/login">
                             <div>
                                 <label for="email" class="form-label vt-label">Correo electrónico</label>
                                 <div class="position-relative">
@@ -96,7 +97,7 @@ require_once __DIR__ . '/../../config/config.php';
                         <div class="mt-4 pt-4 border-top text-center">
                             <p class="mb-0 vt-text-on-surface-variant">
                                 ¿No tienes una cuenta?
-                                <a href="<?php echo BASE_URL; ?>/app/views/login/register.php"
+                                <a href="<?php echo BASE_URL; ?>/public/auth/register"
                                     class="vt-link-primary ms-1">Regístrate aquí</a>
                             </p>
                         </div>

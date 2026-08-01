@@ -17,19 +17,37 @@ document.addEventListener('DOMContentLoaded', () => {
         visibilityIcon.textContent = type === 'password' ? 'visibility_off' : 'visibility';
     });
 
-    loginForm.addEventListener('submit', (event) => {
+    loginForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         messageArea.className = 'rounded-3 p-3 d-flex align-items-center gap-2';
-        const email = document.getElementById('email').value;
 
-        if (email.includes('error')) {
+        const submitBtn = loginForm.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+
+        try {
+            const response = await fetch(loginForm.action, {
+                method: 'POST',
+                body: new FormData(loginForm),
+            });
+
+            const data = await response.json();
+
+            if (data.ok) {
+                messageArea.classList.add('bg-success-subtle', 'text-success');
+                messageIcon.textContent = 'check_circle';
+                messageText.textContent = data.message || 'Inicio de sesión exitoso. Redirigiendo...';
+                setTimeout(() => window.location.href = data.redirect, 1000);
+            } else {
+                messageArea.classList.add('bg-danger-subtle', 'text-danger');
+                messageIcon.textContent = 'error';
+                messageText.textContent = data.message || 'Las credenciales ingresadas son incorrectas. Inténtalo de nuevo.';
+            }
+        } catch (error) {
             messageArea.classList.add('bg-danger-subtle', 'text-danger');
             messageIcon.textContent = 'error';
-            messageText.textContent = 'Las credenciales ingresadas son incorrectas. Inténtalo de nuevo.';
-        } else {
-            messageArea.classList.add('bg-success-subtle', 'text-success');
-            messageIcon.textContent = 'check_circle';
-            messageText.textContent = 'Inicio de sesión exitoso. Redirigiendo...';
+            messageText.textContent = 'No se pudo conectar con el servidor. Inténtalo de nuevo.';
+        } finally {
+            submitBtn.disabled = false;
         }
     });
 });

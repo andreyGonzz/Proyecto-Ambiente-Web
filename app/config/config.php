@@ -8,7 +8,11 @@ define('DB_NAME', 'vocatio');
 // Configuración de la URL base
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 $domainName = $_SERVER['HTTP_HOST'];
-$path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+$path = dirname($_SERVER['SCRIPT_NAME']);
+if (basename($path) === 'public') {
+    $path = dirname($path);
+}
+$path = rtrim($path, '/\\');
 define('BASE_URL', $protocol . $domainName . $path);
 
 // Datos generales del sitio

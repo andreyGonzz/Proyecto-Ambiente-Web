@@ -68,7 +68,7 @@ require_once __DIR__ . '/../../config/config.php';
                     </div>
 
                     <div class="text-center mt-4">
-                        <a href="<?php echo BASE_URL; ?>/app/views/login/login.php"
+                        <a href="<?php echo BASE_URL; ?>/public/auth/login"
                             class="vt-link-primary d-inline-flex align-items-center gap-2">
                             <span class="material-symbols-outlined">arrow_back</span>
                             Volver a Iniciar sesión

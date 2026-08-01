@@ -54,7 +54,7 @@ $bentoSecondary = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($siteName) ?> - Descubre tu futuro profesional</title>
+    <title><?= siteName ?> - Descubre tu futuro profesional'</title>
 
     <!-- Bootstrap 5 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -91,7 +91,8 @@ $bentoSecondary = [
                             intereses y habilidades con las mejores oportunidades del mercado.
                         </p>
                         <div class="pt-2 d-flex flex-column flex-sm-row gap-3">
-                            <a href="<?= htmlspecialchars(BASE_URL) ?>/app/views/areas/antes-comenzar.php" class="vt-btn-primary vt-btn-lg vt-shadow-soft">
+                            <a href="<?= htmlspecialchars(BASE_URL) ?>/app/views/areas/antes-comenzar.php"
+                                class="vt-btn-primary vt-btn-lg vt-shadow-soft">
                                 Descubre tu vocación
                                 <span class="material-symbols-outlined">arrow_forward</span>
                             </a>
@@ -111,7 +112,7 @@ $bentoSecondary = [
         <section class="vt-section vt-bg-surface">
             <div class="vt-container">
                 <div class="text-center mb-5 d-flex flex-column gap-2">
-                    <h2 class="vt-headline-lg">¿Cómo funciona <?= htmlspecialchars($siteName) ?>?</h2>
+                    <h2 class="vt-headline-lg">¿Cómo funciona <?= htmlspecialchars(siteName) ?>?</h2>
                     <p class="vt-text-on-surface-variant mx-auto vt-max-w-2xl">
                         Un proceso simple de 3 pasos diseñado para guiarte con claridad hacia tu mejor opción
                         profesional.

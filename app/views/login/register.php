@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
+$error = $error ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -33,7 +34,13 @@ require_once __DIR__ . '/../../config/config.php';
                             <p class="vt-text-on-surface-variant">Únete para descubrir tu camino profesional con confianza.</p>
                         </div>
 
-                        <form class="d-flex flex-column gap-3" method="POST" action="#">
+                        <form class="d-flex flex-column gap-3" method="POST"
+                            action="<?php echo BASE_URL; ?>/public/auth/register">
+                            <?php if ($error !== ''): ?>
+                                <div class="alert alert-danger mb-0" role="alert">
+                                    <?= htmlspecialchars($error) ?>
+                                </div>
+                            <?php endif; ?>
                             <div class="position-relative">
                                 <input class="form-control vt-register-input" id="fullname" name="fullname" type="text" placeholder="Nombre completo" required>
                                 <label class="vt-register-label" for="fullname">Nombre completo</label>
@@ -79,7 +86,7 @@ require_once __DIR__ . '/../../config/config.php';
                         <div class="text-center mt-4 pt-4 border-top">
                             <p class="mb-0 vt-text-on-surface-variant">
                                 ¿Ya tienes una cuenta?
-                                <a href="<?php echo BASE_URL; ?>/app/views/login/login.php" class="vt-link-primary ms-1">Iniciar sesión</a>
+                                <a href="<?php echo BASE_URL; ?>/public/auth/login" class="vt-link-primary ms-1">Iniciar sesión</a>
                             </p>
                         </div>
                     </div>
