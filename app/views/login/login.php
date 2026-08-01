@@ -79,7 +79,7 @@ require_once __DIR__ . '/../../config/config.php';
                                     <label class="form-check-label vt-text-on-surface-variant"
                                         for="remember">Recordarme</label>
                                 </div>
-                                <a href="<?php echo BASE_URL; ?>/app/views/login/recover.php"
+                                <a href="<?php echo BASE_URL; ?>/public/auth/recover"
                                     class="vt-link-primary">¿Olvidaste tu contraseña?</a>
                             </div>
 

@@ -96,11 +96,124 @@ class AuthController extends Controller
         $this->view('login/register', ['error' => $error]);
     }
 
+    public function recover()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $correo = trim($_POST['email'] ?? '');
+
+            if ($correo === '' || !filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+                $this->respond(['ok' => false, 'message' => 'Ingresa un correo electrónico válido.'], 400);
+            }
+
+            $usuario = $this->model('Usuario');
+            $user = $usuario->getByCorreo($correo);
+
+            if ($user) {
+                $token = bin2hex(random_bytes(32));
+                $expira = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+                if ($usuario->setToken($correo, $token, $expira)) {
+                    $enlace = str_replace(' ', '%20', BASE_URL . '/public/auth/reset/' . $token);
+                    if (!$this->enviarCorreo($correo, $enlace)) {
+                        $this->respond([
+                            'ok' => false,
+                            'message' => 'No se pudo enviar el correo. Revisa la configuración SMTP en sendmail.ini.',
+                        ], 500);
+                    }
+                }
+            }
+
+            $this->respond([
+                'ok' => true,
+                'message' => 'Si el correo existe, hemos enviado un enlace de recuperación. Revisa tu bandeja de entrada y spam.',
+            ]);
+        }
+
+        $this->view('login/recover');
+    }
+
+    public function reset($token = null)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $token = trim($_POST['token'] ?? '');
+            $nueva = $_POST['password'] ?? '';
+            $confirmacion = $_POST['confirm_password'] ?? '';
+
+            $error = null;
+            $usuario = $this->model('Usuario');
+
+            if (!$usuario->getByToken($token)) {
+                $error = 'El enlace es inválido o ha expirado. Solicita un nuevo enlace de recuperación.';
+            } elseif ($nueva === '' || $confirmacion === '') {
+                $error = 'Ingresa y confirma tu nueva contraseña.';
+            } elseif ($nueva !== $confirmacion) {
+                $error = 'Las contraseñas no coinciden.';
+            } elseif (strlen($nueva) < 6) {
+                $error = 'La contraseña debe tener al menos 6 caracteres.';
+            }
+
+            if ($error === null) {
+                $user = $usuario->getByToken($token);
+                if ($usuario->actualizarContrasena($user['correo'], $nueva)) {
+                    $usuario->setToken($user['correo'], null, null);
+                    return $this->redirect('/public/auth/login');
+                }
+                $error = 'No se pudo actualizar la contraseña. Inténtalo de nuevo.';
+            }
+
+            $this->view('login/reset', ['error' => $error, 'token' => $token]);
+        }
+
+        $usuario = $this->model('Usuario');
+        if (!$usuario->getByToken($token ?? '')) {
+            $this->view('login/reset', ['error' => 'El enlace es inválido o ha expirado. Solicita un nuevo enlace de recuperación.']);
+        }
+
+        $this->view('login/reset', ['token' => $token]);
+    }
+
     public function logout()
     {
         $_SESSION = [];
         session_destroy();
         $this->redirect('/public/index.php');
+    }
+
+    private function enviarCorreo($correo, $enlace)
+    {
+        require_once '../app/config/mail.php';
+        require_once '../app/libs/phpmailer/PHPMailer.php';
+        require_once '../app/libs/phpmailer/SMTP.php';
+        require_once '../app/libs/phpmailer/Exception.php';
+
+        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host = MAIL_HOST;
+            $mail->SMTPAuth = true;
+            $mail->Username = MAIL_USER;
+            $mail->Password = MAIL_PASS;
+            $mail->SMTPSecure = MAIL_SECURE;
+            $mail->Port = MAIL_PORT;
+            $mail->CharSet = 'UTF-8';
+
+            $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
+            $mail->addAddress($correo);
+
+            $mail->Subject = 'Recupera tu contraseña - ' . siteName;
+            $mail->Body = "Hola,\n\n"
+                . "Recibimos una solicitud para restablecer la contraseña de tu cuenta.\n\n"
+                . "Para continuar, haz clic en el siguiente enlace (válido por 1 hora):\n\n"
+                . "<" . $enlace . ">\n\n"
+                . "Si no solicitaste este cambio, puedes ignorar este correo.\n\n"
+                . "— " . siteName;
+
+            $mail->send();
+            return true;
+        } catch (PHPMailer\PHPMailer\Exception $e) {
+            error_log('Correo no enviado: ' . $mail->ErrorInfo);
+            return false;
+        }
     }
 
     private function respond($data, $code = 200)

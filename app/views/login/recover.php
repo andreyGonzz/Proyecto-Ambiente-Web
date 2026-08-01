@@ -39,11 +39,17 @@ require_once __DIR__ . '/../../config/config.php';
                                 restablecer tu contraseña.
                             </p>
 
-                            <form id="recover-form" class="d-flex flex-column gap-3">
+                            <form id="recover-form" method="POST"
+                                action="<?php echo BASE_URL; ?>/public/auth/recover" class="d-flex flex-column gap-3">
                                 <div>
                                     <label for="email" class="form-label vt-label">Correo electrónico</label>
                                     <input type="email" id="email" name="email" class="form-control py-3"
                                         placeholder="correo@ejemplo.com" required>
+                                </div>
+
+                                <div id="messageArea" class="d-none rounded-3 p-3 align-items-center gap-2">
+                                    <span class="material-symbols-outlined" id="messageIcon">info</span>
+                                    <span id="messageText"></span>
                                 </div>
 
                                 <button type="submit" class="vt-btn-primary vt-btn-lg w-100 justify-content-center">

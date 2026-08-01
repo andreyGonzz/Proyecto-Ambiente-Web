@@ -62,6 +62,31 @@ class Usuario
         return $stmt->execute();
     }
 
+    public function setToken($correo, $token, $expira)
+    {
+        if ($token === null) {
+            $query = "UPDATE usuarios SET token = NULL, token_expira = NULL WHERE correo = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param("s", $correo);
+            return $stmt->execute();
+        }
+
+        $query = "UPDATE usuarios SET token = ?, token_expira = ? WHERE correo = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("sss", $token, $expira, $correo);
+        return $stmt->execute();
+    }
+
+    public function getByToken($token)
+    {
+        $query = "SELECT * FROM usuarios WHERE token = ? AND token_expira > NOW() LIMIT 1";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $token);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
     public function verificarCredenciales($correo, $contrasena)
     {
         $usuario = $this->getByCorreo($correo);
