@@ -10,6 +10,6 @@ class AreasController extends Controller
 
     public function index()
     {
-        $this->view('areas/areas');
+        $this->view('areas/index');
     }
 }
