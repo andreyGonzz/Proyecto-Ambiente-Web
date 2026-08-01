@@ -1,27 +1,13 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
+
+$pageTitle = 'Cuestionario Vocacional - ' . siteName;
+$pageStyles = ['cuestionario.css'];
+$pageScripts = ['cuestionario.js'];
+$bodyClass = 'page-cuestionario';
+$sinNavbar = true;
+require_once __DIR__ . '/../layout/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cuestionario Vocacional - Vocatio</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Material Symbols -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <!-- Custom styles -->
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/index.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/cuestionario.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/header.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/footer.css">
-</head>
-
-<body class="page-cuestionario">
     <header class="site-header bg-white border-bottom">
         <div class="container container-max d-flex align-items-center justify-content-between py-3">
             <div class="brand d-flex align-items-center gap-2">
@@ -123,9 +109,4 @@ require_once __DIR__ . '/../../config/config.php';
         </div>
     </main>
 
-    <script src="<?php echo BASE_URL; ?>/public/assets/js/cuestionario.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+    <?php require_once __DIR__ . '/../layout/footer.php'; ?>

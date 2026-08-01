@@ -48,32 +48,10 @@ $bentoSecondary = [
     ],
 ];
 ?>
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= siteName ?> - Descubre tu futuro profesional'</title>
-
-    <!-- Bootstrap 5 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-
-    <!-- Tipografía e iconos -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
-
-    <!-- CSS propio (vanilla) -->
-    <link rel="stylesheet" href="assets/styles/index.css">
-    <link rel="stylesheet" href="assets/styles/header.css">
-    <link rel="stylesheet" href="assets/styles/footer.css">
-</head>
-
-<body>
-
-    <!-- ============ HEADER / NAVBAR ============ -->
-    <?php require_once __DIR__ . '/../layout/header.php'; ?>
+<?php
+$pageTitle = siteName . ' - Descubre tu futuro profesional';
+require_once __DIR__ . '/../layout/header.php';
+?>
 
     <main class="flex-grow-1">
 
@@ -180,11 +158,4 @@ $bentoSecondary = [
 
     </main>
 
-    <!-- ============ FOOTER ============ -->
     <?php require_once __DIR__ . '/../layout/footer.php'; ?>
-
-    <!-- Bootstrap 5 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>

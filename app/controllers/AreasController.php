@@ -1,7 +1,7 @@
 <?php
 require_once '../app/core/Controller.php';
 
-class MainController extends Controller
+class AreasController extends Controller
 {
     public function __construct()
     {
@@ -10,7 +10,6 @@ class MainController extends Controller
 
     public function index()
     {
-        $this->view('main/index');
+        $this->view('areas/areas');
     }
-
 }

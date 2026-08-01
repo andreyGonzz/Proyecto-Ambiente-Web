@@ -52,34 +52,12 @@ usort($areas, function ($a, $b) {
 $principal = $areas[0];
 $secundaria = $areas[1] ?? null;
 $anioActual = date('Y');
+
+$pageTitle = 'Tus áreas de interés - ' . siteName;
+$pageStyles = ['areas.css'];
+$pageScripts = ['areas.js'];
+require_once __DIR__ . '/../layout/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tus áreas de interés - Vocatio</title>
-
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Material Symbols -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
-    <!-- Google Font: Inter -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/index.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/areas.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/header.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/assets/styles/footer.css">
-</head>
-
-<body>
-
-    <!-- ============ Header / Navbar ============ -->
-    <?php require_once __DIR__ . '/../layout/header.php'; ?>
-
     <!-- ============ Contenido principal ============ -->
     <main class="container-xxl">
 
@@ -180,13 +158,4 @@ $anioActual = date('Y');
         </div>
     </main>
 
-    <!-- ============ Footer ============ -->
     <?php require_once __DIR__ . '/../layout/footer.php'; ?>
-
-    <!-- Bootstrap JS (opcional, para el menú móvil si se extiende) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="<?php echo BASE_URL; ?>/public/assets/js/areas.js"></script>
-
-</body>
-
-</html>
