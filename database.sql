@@ -11,3 +11,7 @@ token varchar(64),
 token_expira datetime
 );
 -- ROL: ADMIN, USUARIO
+
+
+insert into ususarios () values ('Admin', 'admin@admin.com', '$2y$10$mHTsxtlyxSSy4s5ULRybEufBSP3bi2HDb8/2GfSJZvD4Hdj3nlWlC')
+--contraseña : admin123
