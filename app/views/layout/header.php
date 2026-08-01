@@ -50,7 +50,7 @@ $sinNavbar = !empty($sinNavbar);
                 <?= htmlspecialchars($siteName ?? 'Vocatio') ?>
             </a>
             <nav class="d-none d-md-flex gap-4">
-                <a href="<?= htmlspecialchars(BASE_URL) ?>/public/" class="vt-nav-link vt-nav-link-active">Inicio</a>
+                <a href="<?= htmlspecialchars(BASE_URL) ?>/public/" class="vt-nav-link">Inicio</a>
                 <a href="<?= htmlspecialchars(BASE_URL) ?>/public/areas/index" class="vt-nav-link">Carreras</a>
             </nav>
         </div>
@@ -59,15 +59,49 @@ $sinNavbar = !empty($sinNavbar);
                 <span class="vt-text-on-surface-variant d-none d-md-inline-block">
                     Hola, <?= htmlspecialchars($nombreUsuario) ?>
                 </span>
-                <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/logout" class="vt-btn-primary vt-shadow-soft">
+                <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/logout" class="vt-btn-primary vt-shadow-soft d-none d-md-inline-flex">
                     <span class="material-symbols-outlined">logout</span>
                     Cerrar sesión
                 </a>
             <?php else: ?>
                 <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/login" class="vt-link-primary d-none d-md-inline-block">Iniciar sesión</a>
-                <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/register" class="vt-btn-primary vt-shadow-soft">Registrarse</a>
+                <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/register" class="vt-btn-primary vt-shadow-soft d-none d-md-inline-flex">Registrarse</a>
             <?php endif; ?>
+
+            <button type="button" class="btn vt-navbar-burger d-md-none" data-bs-toggle="offcanvas"
+                data-bs-target="#mobileMenu" aria-controls="mobileMenu" aria-label="Abrir menú">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
         </div>
     </div>
 </header>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
+    <div class="offcanvas-header">
+        <span class="vt-brand" id="mobileMenuLabel">
+            <span class="material-symbols-outlined">explore</span>
+            <?= htmlspecialchars($siteName ?? 'Vocatio') ?>
+        </span>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column">
+        <nav class="d-flex flex-column mb-3">
+            <a href="<?= htmlspecialchars(BASE_URL) ?>/public/" class="vt-nav-link vt-nav-link-mobile">Inicio</a>
+            <a href="<?= htmlspecialchars(BASE_URL) ?>/public/areas/index" class="vt-nav-link vt-nav-link-mobile">Carreras</a>
+        </nav>
+        <hr>
+        <div class="d-flex flex-column gap-2 mt-auto">
+            <?php if ($logueado): ?>
+                <span class="vt-text-on-surface-variant">Hola, <?= htmlspecialchars($nombreUsuario) ?></span>
+                <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/logout" class="vt-btn-primary justify-content-center">
+                    <span class="material-symbols-outlined">logout</span>
+                    Cerrar sesión
+                </a>
+            <?php else: ?>
+                <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/login" class="vt-link-primary">Iniciar sesión</a>
+                <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/register" class="vt-btn-primary justify-content-center">Registrarse</a>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
 <?php endif; ?>

@@ -25,16 +25,12 @@
   letter-spacing: 0.05em;
   padding: 1rem 0;
   text-decoration: none;
-  transition: color 0.2s ease;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 .vt-nav-link:hover {
   color: var(--color-primary);
-}
-
-.vt-nav-link-active {
-  color: var(--color-primary);
-  font-weight: 700;
-  border-bottom: 2px solid var(--color-primary);
+  border-bottom-color: var(--color-primary);
 }
 
 .vt-btn-primary {
@@ -75,4 +71,24 @@
 
 .vt-navbar-inner {
   height: 64px;
+}
+
+.vt-navbar-burger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  color: var(--color-on-surface-variant);
+  border-radius: var(--radius-full);
+}
+.vt-navbar-burger:hover {
+  background-color: var(--color-surface-variant);
+}
+
+.vt-nav-link-mobile {
+  font-size: 16px;
+  font-weight: 500;
+  padding: 0.75rem 0;
 }
