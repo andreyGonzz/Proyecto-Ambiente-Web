@@ -8,7 +8,8 @@ define('DB_NAME', 'vocatio');
 // Configuración de la URL base
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 $domainName = $_SERVER['HTTP_HOST'];
-define('BASE_URL', $protocol . $domainName . '/Proyecto%20Ambiente%20Web');
+$path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+define('BASE_URL', $protocol . $domainName . $path);
 
 // Datos generales del sitio
 define('siteName', 'Vocatio');
