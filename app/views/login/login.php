@@ -59,11 +59,6 @@ require_once __DIR__ . '/../layout/header.php';
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="remember" name="remember">
-                                    <label class="form-check-label vt-text-on-surface-variant"
-                                        for="remember">Recordarme</label>
-                                </div>
                                 <a href="<?php echo BASE_URL; ?>/public/auth/recover"
                                     class="vt-link-primary">¿Olvidaste tu contraseña?</a>
                             </div>
