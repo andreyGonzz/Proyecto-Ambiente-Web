@@ -1,75 +1,9 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
 
-$carreras = [
-    [
-        'nombre' => 'Ingeniería en Sistemas Computacionales',
-        'area' => 'Tecnología y Sistemas',
-        'estado' => 'activo',
-        'estadoLabel' => 'Activo',
-        'estadoClass' => 'vt-carrera-badge--active',
-        'areaClass' => 'vt-carrera-pill--technology',
-        'modificacion' => '28 Oct, 2023',
-    ],
-    [
-        'nombre' => 'Medicina General',
-        'area' => 'Ciencias de la Salud',
-        'estado' => 'activo',
-        'estadoLabel' => 'Activo',
-        'estadoClass' => 'vt-carrera-badge--active',
-        'areaClass' => 'vt-carrera-pill--health',
-        'modificacion' => '25 Oct, 2023',
-    ],
-    [
-        'nombre' => 'Diseño Gráfico Digital',
-        'area' => 'Arte y Diseño',
-        'estado' => 'activo',
-        'estadoLabel' => 'Activo',
-        'estadoClass' => 'vt-carrera-badge--active',
-        'areaClass' => 'vt-carrera-pill--design',
-        'modificacion' => '22 Oct, 2023',
-    ],
-    [
-        'nombre' => 'Administración de Empresas',
-        'area' => 'Negocios y Finanzas',
-        'estado' => 'inactivo',
-        'estadoLabel' => 'Inactivo',
-        'estadoClass' => 'vt-carrera-badge--inactive',
-        'areaClass' => 'vt-carrera-pill--business',
-        'modificacion' => '15 Oct, 2023',
-    ],
-    [
-        'nombre' => 'Derecho y Ciencias Políticas',
-        'area' => 'Ciencias Sociales',
-        'estado' => 'activo',
-        'estadoLabel' => 'Activo',
-        'estadoClass' => 'vt-carrera-badge--active',
-        'areaClass' => 'vt-carrera-pill--social',
-        'modificacion' => '12 Oct, 2023',
-    ],
-    [
-        'nombre' => 'Arquitectura y Urbanismo',
-        'area' => 'Arte y Diseño',
-        'estado' => 'activo',
-        'estadoLabel' => 'Activo',
-        'estadoClass' => 'vt-carrera-badge--active',
-        'areaClass' => 'vt-carrera-pill--design',
-        'modificacion' => '10 Oct, 2023',
-    ],
-    [
-        'nombre' => 'Ingeniería Mecatrónica',
-        'area' => 'Tecnología y Sistemas',
-        'estado' => 'activo',
-        'estadoLabel' => 'Activo',
-        'estadoClass' => 'vt-carrera-badge--active',
-        'areaClass' => 'vt-carrera-pill--technology',
-        'modificacion' => '08 Oct, 2023',
-    ],
-];
-?>
-<?php
 $pageTitle = 'Gestión de Carreras - ' . siteName;
 $pageStyles = ['admin.css', 'carreras.css'];
+$pageScripts = ['admin.js'];
 $bodyClass = 'vt-admin-page';
 require_once __DIR__ . '/../layout/header.php';
 ?>
@@ -116,7 +50,7 @@ require_once __DIR__ . '/../layout/header.php';
                     <h1 class="vt-admin-title">Gestión de Carreras</h1>
                     <p class="vt-admin-topbar-label">Administra el catálogo de carreras profesionales y sus áreas asociadas.</p>
                 </div>
-                <button type="button" class="btn btn-primary rounded-pill px-4 py-2">
+                <button type="button" class="btn btn-primary rounded-pill px-4 py-2" data-open-career-modal>
                     <span class="material-symbols-outlined align-middle">add</span>
                     <span class="align-middle">Agregar carrera</span>
                 </button>
@@ -147,64 +81,62 @@ require_once __DIR__ . '/../layout/header.php';
                             <thead>
                                 <tr>
                                     <th>Nombre de la Carrera</th>
-                                    <th>Área de Estudio</th>
+                                    <th>Dificultad</th>
                                     <th>Estado</th>
-                                    <th>Modificación</th>
+                                    <th>Disponibilidad</th>
                                     <th class="text-end">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <?php foreach ($carreras as $carrera): ?>
-                                    <tr>
-                                        <td class="fw-semibold text-dark"><?= htmlspecialchars($carrera['nombre']) ?></td>
-                                        <td>
-                                            <span class="vt-carrera-pill <?= htmlspecialchars($carrera['areaClass']) ?>">
-                                                <?= htmlspecialchars($carrera['area']) ?>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="vt-carrera-badge <?= htmlspecialchars($carrera['estadoClass']) ?>">
-                                                <?= htmlspecialchars($carrera['estadoLabel']) ?>
-                                            </span>
-                                        </td>
-                                        <td class="text-body-secondary">
-                                            <?= htmlspecialchars($carrera['modificacion']) ?>
-                                        </td>
-                                        <td>
-                                            <div class="vt-carrera-action-buttons">
-                                                <button type="button" class="vt-carrera-action-btn" title="Editar" aria-label="Editar">
-                                                    <span class="material-symbols-outlined">edit</span>
-                                                </button>
-                                                <button type="button" class="vt-carrera-action-btn vt-carrera-action-btn--danger" title="Eliminar" aria-label="Eliminar">
-                                                    <span class="material-symbols-outlined">delete</span>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
+                            <tbody id="carrerasTableBody"></tbody>
                         </table>
-                    </div>
-
-                    <div class="vt-carrera-pagination">
-                        <span class="vt-admin-topbar-label">Mostrando <span class="fw-semibold text-dark">7</span> de <span class="fw-semibold text-dark">142</span> carreras</span>
-                        <div class="d-flex align-items-center gap-2">
-                            <button type="button" class="vt-carrera-page-btn" disabled aria-label="Página anterior">
-                                <span class="material-symbols-outlined">chevron_left</span>
-                            </button>
-                            <button type="button" class="vt-carrera-page-btn active">1</button>
-                            <button type="button" class="vt-carrera-page-btn">2</button>
-                            <button type="button" class="vt-carrera-page-btn">3</button>
-                            <span class="text-body-secondary">...</span>
-                            <button type="button" class="vt-carrera-page-btn">21</button>
-                            <button type="button" class="vt-carrera-page-btn" aria-label="Página siguiente">
-                                <span class="material-symbols-outlined">chevron_right</span>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </section>
         </main>
+    </div>
+
+    <div class="modal fade" id="carreraModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <form class="modal-content" id="carreraForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">Carrera</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="carrera_id" value="">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input class="form-control" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Dificultad</label>
+                        <select class="form-select" name="dificultad">
+                            <option value="Baja">Baja</option>
+                            <option value="Media">Media</option>
+                            <option value="Alta">Alta</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Disponibilidad</label>
+                        <select class="form-select" name="disponibilidad">
+                            <option value="Disponible">Disponible</option>
+                            <option value="No disponible">No disponible</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <select class="form-select" name="estadoId">
+                            <option value="1">Activo</option>
+                            <option value="2">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <?php require_once __DIR__ . '/../layout/footer.php'; ?>

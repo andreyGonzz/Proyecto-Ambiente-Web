@@ -53,6 +53,22 @@ class Usuario
         return $stmt->execute();
     }
 
+    public function update($id, $data)
+    {
+        $query = "UPDATE usuarios SET nombre = ?, correo = ? WHERE id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("ssi", $data['nombre'], $data['correo'], $id);
+        return $stmt->execute();
+    }
+
+    public function delete($id)
+    {
+        $query = "DELETE FROM usuarios WHERE id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
+    }
+
     public function actualizarContrasena($correo, $nuevaContrasena)
     {
         $query = "UPDATE usuarios SET contrasena = ? WHERE correo = ?";
