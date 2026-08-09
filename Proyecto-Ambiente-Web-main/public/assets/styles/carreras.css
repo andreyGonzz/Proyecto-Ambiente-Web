@@ -1,0 +1,217 @@
+/* ========================================================
+   Vocatio - Carreras admin page
+   ======================================================== */
+
+.vt-carrera-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.vt-carrera-toolbar-search {
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+}
+
+.vt-carrera-toolbar-search .material-symbols-outlined {
+  position: absolute;
+  top: 50%;
+  left: 0.9rem;
+  transform: translateY(-50%);
+  color: var(--admin-text-muted);
+}
+
+.vt-carrera-toolbar-search input {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 2.8rem;
+  border: 1px solid var(--admin-border);
+  border-radius: 0.9rem;
+  background-color: var(--admin-surface);
+  color: var(--admin-text);
+}
+
+.vt-carrera-toolbar-search input:focus {
+  outline: none;
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 0.2rem rgba(0, 74, 198, 0.15);
+}
+
+.vt-carrera-action-group {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.vt-carrera-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  border-radius: 0.9rem;
+  border: 1px solid var(--admin-border);
+  background-color: var(--admin-surface);
+  color: var(--admin-text-muted);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.vt-carrera-btn:hover {
+  background-color: rgba(0, 74, 198, 0.06);
+  color: var(--admin-primary);
+  text-decoration: none;
+}
+
+.vt-carrera-table-card {
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.vt-carrera-table thead th {
+  background-color: #f3f6fb;
+  color: var(--admin-text-muted);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.95rem 1rem;
+}
+
+.vt-carrera-table tbody td {
+  padding: 1rem;
+  vertical-align: middle;
+  border-top: 1px solid #ebeff5;
+}
+
+.vt-carrera-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.vt-carrera-pill--technology {
+  background-color: #dbe1ff;
+  color: var(--admin-primary);
+}
+
+.vt-carrera-pill--health {
+  background-color: #89f5e7;
+  color: #004f4a;
+}
+
+.vt-carrera-pill--design {
+  background-color: #eaddff;
+  color: #4f2395;
+}
+
+.vt-carrera-pill--business {
+  background-color: #eef4ff;
+  color: #4f5d7c;
+}
+
+.vt-carrera-pill--social {
+  background-color: #f1f3f4;
+  color: #4c4f57;
+}
+
+.vt-carrera-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.vt-carrera-badge::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.vt-carrera-badge--active {
+  background-color: rgba(0, 127, 110, 0.12);
+  color: var(--admin-success);
+}
+
+.vt-carrera-badge--inactive {
+  background-color: rgba(115, 118, 134, 0.12);
+  color: var(--admin-text-muted);
+}
+
+.vt-carrera-action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.35rem;
+}
+
+.vt-carrera-action-btn {
+  border: 0;
+  background-color: transparent;
+  color: var(--admin-text-muted);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.7rem;
+}
+
+.vt-carrera-action-btn:hover {
+  background-color: rgba(0, 74, 198, 0.08);
+  color: var(--admin-primary);
+}
+
+.vt-carrera-action-btn--danger:hover {
+  background-color: rgba(186, 26, 26, 0.08);
+  color: var(--admin-danger);
+}
+
+.vt-carrera-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #fbfcfe;
+  border-top: 1px solid var(--admin-border);
+}
+
+.vt-carrera-pagination .vt-carrera-page-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.7rem;
+  border: 1px solid var(--admin-border);
+  background-color: var(--admin-surface);
+  color: var(--admin-text-muted);
+}
+
+.vt-carrera-pagination .vt-carrera-page-btn.active {
+  background-color: var(--admin-primary);
+  color: #ffffff;
+  border-color: var(--admin-primary);
+}
+
+@media (max-width: 767.98px) {
+  .vt-carrera-toolbar {
+    align-items: stretch;
+  }
+
+  .vt-carrera-toolbar-search {
+    max-width: none;
+  }
+
+  .vt-carrera-pagination {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

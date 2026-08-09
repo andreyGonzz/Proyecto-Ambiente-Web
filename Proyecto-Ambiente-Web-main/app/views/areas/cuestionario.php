@@ -1,0 +1,119 @@
+<?php
+require_once __DIR__ . '/../../config/config.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ' . BASE_URL . '/public/auth/login');
+    exit;
+}
+
+$pageTitle = 'Cuestionario Vocacional - ' . siteName;
+$pageStyles = ['cuestionario.css'];
+$pageScripts = ['cuestionario.js'];
+$bodyClass = 'page-cuestionario';
+$sinNavbar = true;
+require_once __DIR__ . '/../layout/header.php';
+?>
+    <header class="site-header bg-white border-bottom">
+        <div class="container container-max d-flex align-items-center justify-content-between py-3">
+            <div class="brand d-flex align-items-center gap-2">
+                <span class="material-symbols-outlined brand-icon">school</span>
+                <span class="brand-title">Vocatio</span>
+            </div>
+            <a href="<?php echo BASE_URL; ?>/public/index.php" class="btn btn-link text-muted save-exit">
+                <span class="material-symbols-outlined">close</span>
+                <span class="d-none d-sm-inline"></span>
+            </a>
+        </div>
+    </header>
+
+    <main class="py-5">
+        <div class="container container-max">
+            <div class="progress-section mb-4">
+                <div class="d-flex justify-content-between small text-muted">
+                    <span>Módulo de Intereses</span>
+                    <span class="fw-semibold text-primary">Pregunta 3 de 15</span>
+                </div>
+                <div class="progress progress-custom mt-2" aria-hidden="true">
+                    <div class="progress-bar progress-fill" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                        aria-valuenow="20"></div>
+                </div>
+            </div>
+
+            <div class="card ambient-shadow mb-4">
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <h1 class="question-title">¿Cómo prefieres resolver un problema complejo?</h1>
+                        <p class="text-muted question-desc">Piensa en una situación donde tienes un desafío nuevo frente
+                            a ti. ¿Cuál es tu instinto natural?</p>
+                    </div>
+
+                    <div class="row g-3 options-grid">
+                        <div class="col-12 col-md-6 ">
+                            <button type="button" class="selection-card btn" data-value="A">
+                                <div class="d-flex align-items-start">
+
+                                    <div class="option-text ms-3 text-start">
+                                        <div class="option-title">Analizo los datos</div>
+                                        <div class="option-desc text-muted">Busco patrones, números y estructuro un plan
+                                            lógico antes de actuar.</div>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <button type="button" class="selection-card btn" data-value="B">
+                                <div class="d-flex align-items-start">
+
+                                    <div class="option-text ms-3 text-start">
+                                        <div class="option-title">Discuto con otros</div>
+                                        <div class="option-desc text-muted">Prefiero hacer una lluvia de ideas con un
+                                            equipo para encontrar soluciones conjuntas.</div>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <button type="button" class="selection-card btn" data-value="C">
+                                <div class="d-flex align-items-start">
+
+                                    <div class="option-text ms-3 text-start">
+                                        <div class="option-title">Pruebo ideas creativas</div>
+                                        <div class="option-desc text-muted">Boceto, diseño o experimento con enfoques
+                                            poco convencionales.</div>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <button type="button" class="selection-card btn" data-value="D">
+                                <div class="d-flex align-items-start">
+
+                                    <div class="option-text ms-3 text-start">
+                                        <div class="option-title">Manos a la obra</div>
+                                        <div class="option-desc text-muted">Construyo un prototipo rápido o empiezo a
+                                            ejecutar para ver qué funciona.</div>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="<?php echo BASE_URL; ?>/app/views/areas/antes-comenzar.php" class="btn btn-outline-secondary d-flex align-items-center gap-2 prev-btn">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    <span>Anterior</span>
+                </a>
+
+                <a href="<?php echo BASE_URL; ?>/app/views/areas/cuestionario-completado.php" id="nextBtn" class="btn btn-primary d-flex align-items-center gap-2">
+                    <span>Siguiente</span>
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <?php require_once __DIR__ . '/../layout/footer.php'; ?>
