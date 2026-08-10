@@ -51,6 +51,15 @@ function validarCorreo(correo) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo);
 }
 
+function esJsonValido(texto) {
+    try {
+        JSON.parse(texto);
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
 function notificarExito(mensaje) {
     if (typeof Swal !== 'undefined') {
         Swal.fire({
@@ -305,7 +314,49 @@ function resetearFormularioCarrera() {
 
     formulario.reset();
     formulario.querySelector('[name="carrera_id"]').value = '';
+    vaciarHabilidades(formulario);
     formulario.querySelector('[name="nombre"]').focus();
+}
+
+function vaciarHabilidades(formulario) {
+    const contenedor = formulario.querySelector('#habilidadesChips');
+    if (contenedor) {
+        contenedor.innerHTML = '';
+    }
+}
+
+function renderizarHabilidades(formulario, habilidades) {
+    const contenedor = formulario.querySelector('#habilidadesChips');
+    if (!contenedor) return;
+
+    contenedor.innerHTML = '';
+    habilidades.forEach((habilidad) => agregarChipHabilidad(formulario, habilidad));
+}
+
+function agregarChipHabilidad(formulario, habilidad) {
+    const contenedor = formulario.querySelector('#habilidadesChips');
+    const texto = habilidad.trim();
+    if (!contenedor || !texto) return;
+
+    const chip = document.createElement('span');
+    chip.className = 'vt-chip-editor-tag';
+    chip.dataset.valor = texto;
+    chip.textContent = texto;
+
+    const botonQuitar = document.createElement('button');
+    botonQuitar.type = 'button';
+    botonQuitar.className = 'vt-chip-editor-tag-remove';
+    botonQuitar.setAttribute('aria-label', 'Quitar ' + texto);
+    botonQuitar.innerHTML = '&times;';
+    botonQuitar.addEventListener('click', () => chip.remove());
+
+    chip.appendChild(botonQuitar);
+    contenedor.appendChild(chip);
+}
+
+function obtenerHabilidades(formulario) {
+    return Array.from(formulario.querySelectorAll('#habilidadesChips .vt-chip-editor-tag'))
+        .map((chip) => chip.dataset.valor);
 }
 
 function abrirFormularioUsuario(id) {
@@ -332,10 +383,28 @@ function abrirFormularioCarrera(id) {
     const carrera = carreras.find((item) => item.carreraId === Number(id));
     formulario.querySelector('[name="carrera_id"]').value = carrera ? carrera.carreraId : '';
     formulario.querySelector('[name="nombre"]').value = carrera ? carrera.nombre : '';
+    formulario.querySelector('[name="descripcion"]').value = carrera ? (carrera.descripcion || '') : '';
     formulario.querySelector('[name="imagen"]').value = carrera ? (carrera.imagen || '') : '';
     formulario.querySelector('[name="dificultad"]').value = carrera ? carrera.dificultad : 'Media';
+    formulario.querySelector('[name="duracion"]').value = carrera ? (carrera.duracion || '') : '';
     formulario.querySelector('[name="disponibilidad"]').value = carrera ? carrera.disponibilidad : 'Disponible';
+    formulario.querySelector('[name="salario"]').value = carrera ? (carrera.salario || '') : '';
+    formulario.querySelector('[name="demanda"]').value = carrera ? (carrera.demanda || '') : '';
     formulario.querySelector('[name="estadoId"]').value = carrera ? carrera.estadoId : 1;
+
+    vaciarHabilidades(formulario);
+    if (carrera && carrera.habilidades) {
+        let habilidades = [];
+        try {
+            const parseadas = JSON.parse(carrera.habilidades);
+            if (Array.isArray(parseadas)) {
+                habilidades = parseadas;
+            }
+        } catch (error) {
+            habilidades = [];
+        }
+        renderizarHabilidades(formulario, habilidades);
+    }
 
     bootstrap.Modal.getOrCreateInstance(modal).show();
 }
@@ -393,10 +462,15 @@ async function manejarEnvioCarrera(evento) {
     const carreraId = formulario.querySelector('[name="carrera_id"]').value;
     const datos = {
         nombre: formulario.querySelector('[name="nombre"]').value.trim(),
+        descripcion: formulario.querySelector('[name="descripcion"]').value.trim(),
         imagen: formulario.querySelector('[name="imagen"]').value.trim(),
         dificultad: formulario.querySelector('[name="dificultad"]').value,
+        duracion: formulario.querySelector('[name="duracion"]').value.trim(),
         disponibilidad: formulario.querySelector('[name="disponibilidad"]').value,
+        salario: formulario.querySelector('[name="salario"]').value.trim(),
+        demanda: formulario.querySelector('[name="demanda"]').value.trim(),
         estadoId: Number(formulario.querySelector('[name="estadoId"]').value),
+        habilidades: JSON.stringify(obtenerHabilidades(formulario)),
     };
 
     if (!datos.nombre) {
@@ -458,6 +532,29 @@ function configurarBusqueda() {
     }
 }
 
+function configurarEditorHabilidades() {
+    const formulario = document.querySelector('#carreraForm');
+    const botonAgregar = document.querySelector('#btnAgregarHabilidad');
+    const inputNueva = document.querySelector('#habilidadNueva');
+    if (!formulario || !botonAgregar || !inputNueva) return;
+
+    function agregarDesdeInput() {
+        const valor = inputNueva.value;
+        if (!valor.trim()) return;
+        agregarChipHabilidad(formulario, valor);
+        inputNueva.value = '';
+        inputNueva.focus();
+    }
+
+    botonAgregar.addEventListener('click', agregarDesdeInput);
+    inputNueva.addEventListener('keydown', (evento) => {
+        if (evento.key === 'Enter') {
+            evento.preventDefault();
+            agregarDesdeInput();
+        }
+    });
+}
+
 function inicializarInterfaz() {
     const formularioUsuario = document.querySelector('#usuarioForm');
     const formularioCarrera = document.querySelector('#carreraForm');
@@ -471,6 +568,8 @@ function inicializarInterfaz() {
     if (formularioCarrera) {
         formularioCarrera.addEventListener('submit', manejarEnvioCarrera);
     }
+
+    configurarEditorHabilidades();
 
     if (botonAgregarUsuario) {
         botonAgregarUsuario.addEventListener('click', (evento) => {

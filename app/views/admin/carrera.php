@@ -47,16 +47,6 @@ require_once __DIR__ . '/../layout/header.php';
                         <input type="text" placeholder="Buscar por nombre o área..." aria-label="Buscar carrera" id="carreraBusqueda">
                     </div>
 
-                    <div class="vt-carrera-action-group">
-                        <button type="button" class="vt-carrera-btn">
-                            <span class="material-symbols-outlined">filter_list</span>
-                            Filtrar
-                        </button>
-                        <button type="button" class="vt-carrera-btn">
-                            <span class="material-symbols-outlined">download</span>
-                            Exportar
-                        </button>
-                    </div>
                 </div>
 
                 <div class="vt-carrera-table-card">
@@ -94,30 +84,61 @@ require_once __DIR__ . '/../layout/header.php';
                         <input class="form-control" name="nombre" required>
                     </div>
                     <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" name="descripcion" rows="3" placeholder="Descripción general de la carrera"></textarea>
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label">URL de la imagen</label>
                         <input class="form-control" name="imagen" placeholder="https://ejemplo.com/imagen-carrera.jpg">
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Dificultad</label>
-                        <select class="form-select" name="dificultad">
-                            <option value="Baja">Baja</option>
-                            <option value="Media">Media</option>
-                            <option value="Alta">Alta</option>
-                        </select>
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Dificultad</label>
+                            <select class="form-select" name="dificultad">
+                                <option value="Baja">Baja</option>
+                                <option value="Media">Media</option>
+                                <option value="Alta">Alta</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Duración</label>
+                            <input class="form-control" name="duracion" placeholder="Ej: 4 años">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Disponibilidad</label>
+                            <select class="form-select" name="disponibilidad">
+                                <option value="Disponible">Disponible</option>
+                                <option value="No disponible">No disponible</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Salario (Junior)</label>
+                            <input class="form-control" name="salario" placeholder="Ej: $1,500 - $2,500 / mes">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Demanda laboral</label>
+                            <input class="form-control" name="demanda" placeholder="Ej: Muy Alta">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Estado</label>
+                            <select class="form-select" name="estadoId">
+                                <option value="1">Activo</option>
+                                <option value="2">Inactivo</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Disponibilidad</label>
-                        <select class="form-select" name="disponibilidad">
-                            <option value="Disponible">Disponible</option>
-                            <option value="No disponible">No disponible</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Estado</label>
-                        <select class="form-select" name="estadoId">
-                            <option value="1">Activo</option>
-                            <option value="2">Inactivo</option>
-                        </select>
+                        <label class="form-label">Habilidades clave</label>
+                        <div id="habilidadesChips" class="d-flex flex-wrap gap-2 mb-2"></div>
+                        <div class="d-flex gap-2">
+                            <input type="text" class="form-control" id="habilidadNueva" placeholder="Ej: Lógica de Programación">
+                            <button type="button" class="btn btn-outline-primary text-nowrap" id="btnAgregarHabilidad">
+                                <span class="material-symbols-outlined align-middle">add</span>
+                                <span class="align-middle">Agregar</span>
+                            </button>
+                        </div>
+                        <div class="form-text">Escribe una habilidad y presiona "Agregar" o Enter.</div>
+                        <input type="hidden" name="habilidades" value="">
                     </div>
                 </div>
                 <div class="modal-footer">

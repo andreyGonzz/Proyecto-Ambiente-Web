@@ -105,6 +105,18 @@
   display: block;
 }
 
+.vt-career-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface-container);
+  color: var(--color-outline);
+}
+
+.vt-career-image-placeholder .material-symbols-outlined {
+  font-size: 4rem;
+}
+
 .vt-career-body {
   padding: 1.5rem;
   display: flex;
@@ -147,6 +159,21 @@
 .vt-career-chip--business {
   background-color: var(--color-surface-container-high);
   color: var(--color-on-surface);
+}
+
+.vt-career-chip--baja {
+  background-color: var(--color-tertiary-fixed);
+  color: var(--color-on-tertiary-fixed);
+}
+
+.vt-career-chip--media {
+  background-color: var(--color-secondary-fixed);
+  color: var(--color-on-secondary-fixed);
+}
+
+.vt-career-chip--alta {
+  background-color: var(--color-error);
+  color: #ffffff;
 }
 
 .vt-career-bookmark {

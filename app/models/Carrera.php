@@ -13,7 +13,8 @@ class Carrera
     public function getAll()
     {
         $stmt = $this->conn->prepare(
-            "SELECT id AS carreraId, nombre, dificultad, disponibilidad, estado_id AS estadoId, imagen_url AS imagen
+            "SELECT id AS carreraId, nombre, dificultad, disponibilidad, estado_id AS estadoId,
+                    imagen_url AS imagen, descripcion, duracion, salario, demanda, habilidades
              FROM carreras
              ORDER BY id"
         );
@@ -24,7 +25,8 @@ class Carrera
     public function getById($id)
     {
         $stmt = $this->conn->prepare(
-            "SELECT id AS carreraId, nombre, dificultad, disponibilidad, estado_id AS estadoId, imagen_url AS imagen
+            "SELECT id AS carreraId, nombre, dificultad, disponibilidad, estado_id AS estadoId,
+                    imagen_url AS imagen, descripcion, duracion, salario, demanda, habilidades
              FROM carreras
              WHERE id = ?"
         );
@@ -41,12 +43,19 @@ class Carrera
         $disponibilidad = $data['disponibilidad'] ?? 'Disponible';
         $estadoId = (int) ($data['estadoId'] ?? 1);
         $imagen = trim($data['imagen'] ?? '');
+        $descripcion = trim($data['descripcion'] ?? '');
+        $duracion = trim($data['duracion'] ?? '');
+        $salario = trim($data['salario'] ?? '');
+        $demanda = trim($data['demanda'] ?? '');
+        $habilidades = trim($data['habilidades'] ?? '');
 
         $stmt = $this->conn->prepare(
-            "INSERT INTO carreras (nombre, dificultad, disponibilidad, estado_id, imagen_url)
-             VALUES (?, ?, ?, ?, ?)"
+            "INSERT INTO carreras (nombre, dificultad, disponibilidad, estado_id, imagen_url,
+                                   descripcion, duracion, salario, demanda, habilidades)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
         );
-        $stmt->bind_param('sssis', $nombre, $dificultad, $disponibilidad, $estadoId, $imagen);
+        $stmt->bind_param('sssissssss', $nombre, $dificultad, $disponibilidad, $estadoId, $imagen,
+            $descripcion, $duracion, $salario, $demanda, $habilidades);
 
         if (!$stmt->execute()) {
             return false;
@@ -67,13 +76,20 @@ class Carrera
         $disponibilidad = $data['disponibilidad'] ?? $actual['disponibilidad'];
         $estadoId = isset($data['estadoId']) ? (int) $data['estadoId'] : (int) $actual['estadoId'];
         $imagen = isset($data['imagen']) ? trim($data['imagen']) : $actual['imagen'];
+        $descripcion = isset($data['descripcion']) ? trim($data['descripcion']) : ($actual['descripcion'] ?? '');
+        $duracion = isset($data['duracion']) ? trim($data['duracion']) : ($actual['duracion'] ?? '');
+        $salario = isset($data['salario']) ? trim($data['salario']) : ($actual['salario'] ?? '');
+        $demanda = isset($data['demanda']) ? trim($data['demanda']) : ($actual['demanda'] ?? '');
+        $habilidades = isset($data['habilidades']) ? trim($data['habilidades']) : ($actual['habilidades'] ?? '');
 
         $stmt = $this->conn->prepare(
             "UPDATE carreras
-             SET nombre = ?, dificultad = ?, disponibilidad = ?, estado_id = ?, imagen_url = ?
+             SET nombre = ?, dificultad = ?, disponibilidad = ?, estado_id = ?, imagen_url = ?,
+                 descripcion = ?, duracion = ?, salario = ?, demanda = ?, habilidades = ?
              WHERE id = ?"
         );
-        $stmt->bind_param('sssisi', $nombre, $dificultad, $disponibilidad, $estadoId, $imagen, $id);
+        $stmt->bind_param('sssissssssi', $nombre, $dificultad, $disponibilidad, $estadoId, $imagen,
+            $descripcion, $duracion, $salario, $demanda, $habilidades, $id);
         $stmt->execute();
 
         return $this->getById($id);

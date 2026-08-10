@@ -82,12 +82,14 @@ class CarreraController extends Controller
 
     public function lista()
     {
-        $this->view('carreras/carreraList');
+        $carreras = $this->carreraModel->getAll();
+        $this->view('carreras/carreraList', ['carreras' => $carreras]);
     }
 
     public function detalle($id = null)
     {
-        $this->view('carreras/detalleCarrera');
+        $carrera = $id ? $this->carreraModel->getById((int) $id) : null;
+        $this->view('carreras/detalleCarrera', ['carrera' => $carrera]);
     }
 
     public function apiStore()
@@ -168,6 +170,11 @@ class CarreraController extends Controller
             'disponibilidad' => $datos['disponibilidad'] ?? 'Disponible',
             'estadoId' => $datos['estadoId'] ?? 1,
             'imagen' => $datos['imagen'] ?? '',
+            'descripcion' => $datos['descripcion'] ?? '',
+            'duracion' => $datos['duracion'] ?? '',
+            'salario' => $datos['salario'] ?? '',
+            'demanda' => $datos['demanda'] ?? '',
+            'habilidades' => $datos['habilidades'] ?? '',
         ];
     }
 

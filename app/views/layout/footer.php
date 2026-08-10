@@ -26,7 +26,7 @@ $pageScripts = $pageScripts ?? [];
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Raíz de la API para los scripts -->
-<script>window.API_ROOT = encodeURI('<?= BASE_URL ?>') + '/public';</script>
+<script>window.API_ROOT = encodeURI('<?= BASE_URL ?>') + '/public/';</script>
 
 <!-- JS específico de la página -->
 <?php foreach ($pageScripts as $script): ?>
