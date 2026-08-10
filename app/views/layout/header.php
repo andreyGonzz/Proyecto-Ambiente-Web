@@ -23,6 +23,9 @@ $sinNavbar = !empty($sinNavbar);
     <!-- Bootstrap 5 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     <!-- Tipografía e iconos -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link rel="stylesheet"
@@ -35,7 +38,9 @@ $sinNavbar = !empty($sinNavbar);
 
     <!-- CSS específico de la página -->
     <?php foreach ($pageStyles as $estilo): ?>
-        <link rel="stylesheet" href="<?= htmlspecialchars(BASE_URL) ?>/public/assets/styles/<?= htmlspecialchars($estilo) ?>">
+        <?php $estiloRuta = __DIR__ . '/../../../public/assets/styles/' . $estilo; ?>
+        <link rel="stylesheet"
+            href="<?= htmlspecialchars(BASE_URL) ?>/public/assets/styles/<?= htmlspecialchars($estilo) ?>?v=<?= file_exists($estiloRuta) ? filemtime($estiloRuta) : '' ?>">
     <?php endforeach; ?>
 </head>
 

@@ -69,7 +69,7 @@ require_once __DIR__ . '/../layout/header.php';
                             intereses y habilidades con las mejores oportunidades del mercado.
                         </p>
                         <div class="pt-2 d-flex flex-column flex-sm-row gap-3">
-                            <a href="<?= htmlspecialchars(BASE_URL) ?>/app/views/areas/antes-comenzar.php"
+                            <a href="<?= htmlspecialchars(BASE_URL) ?>/public/areas/antesComenzar"
                                 class="vt-btn-primary vt-btn-lg vt-shadow-soft">
                                 Descubre tu vocación
                                 <span class="material-symbols-outlined">arrow_forward</span>

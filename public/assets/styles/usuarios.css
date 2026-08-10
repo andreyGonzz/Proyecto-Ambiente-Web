@@ -533,3 +533,28 @@ body.sidebar-open main {
 .pagination-btn .material-symbols-outlined {
   font-size: 18px;
 }
+
+/* ============ Ajustes layout vt-admin ============ */
+body.vt-admin-page main.vt-admin-content {
+  padding: 0;
+  overflow: visible;
+}
+
+.vt-usuarios-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.vt-usuarios-toolbar .search-container {
+  max-width: 22rem;
+  flex: 0 1 100%;
+}
+
+@media (min-width: 640px) {
+  .vt-usuarios-toolbar .search-container {
+    flex: 0 1 auto;
+  }
+}

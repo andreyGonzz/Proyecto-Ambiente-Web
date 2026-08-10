@@ -52,7 +52,7 @@ class UsuarioController extends Controller
     public function edit($id = null)
     {
         if (!$id) {
-            return $this->redirect('/public/index.php?url=usuario/index');
+            return $this->view('admin/usuarios');
         }
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -118,6 +118,7 @@ class UsuarioController extends Controller
             'nombre' => trim($data['name']),
             'correo' => trim($data['email']),
             'contrasena' => $data['password'],
+            'rol' => $data['rol'] ?? 'USUARIO',
         ]);
 
         if ($result) {

@@ -9,7 +9,7 @@ $carreras = [
         'duracion' => '5 Años',
         'descripcion' => 'Diseña, desarrolla y mantén sistemas informáticos complejos que impulsan el mundo digital.',
         'imagen' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuB6W_X0Mx6dR_iubx92fLnaBRpvk9hLuvNFZTX5esDqhQFpGKc-369-b5f3bQ6A0oTd8dBkCoxHQaGuZGz9nQTaq2Qtpj_hID5StEXoFbnxAYiA6CASDkHGm9BfZe1_HiCBCtvlzMjhe0mByeXeUNE2yudFisze6nQMVlmMByRzLUz9eVWrzTerhhfiMYwcWBauVuZKP5Yy_HhRGJIN9JpKHnxQ28TDRS-X0Ls5IfXE6sSLE7Eboc9sTQ',
-        'detalleUrl' => BASE_URL . '/app/views/carreras/detalleCarrera.php',
+        'detalleUrl' => BASE_URL . '/public/carrera/detalle',
     ],
     [
         'nombre' => 'Medicina General',
@@ -18,7 +18,7 @@ $carreras = [
         'duracion' => '6 Años',
         'descripcion' => 'Diagnostica, trata y prevén enfermedades para mejorar la calidad de vida de las personas.',
         'imagen' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuDFAvxsLqCdX3OKT2Dxu9OSzNmQRQoC3BJsN4HGrv4KOeUhp5LYVT1j-EyxUnMmFmGSIpe9jiiuGfZRJgxLWkkLMYl_86bua0lz43Qmt9CQSXvEYxQgUnbteOZOJhrqKUwX9yE2oBsY4681lLcNOm01axwIhImu7-JVvVTgxpDYDQvh6_1tpRfphC_xiX3-b0FFS3zgyWKDX4hTcWCO0FPjfMGdmekCEeuUbkGMuGKK685fRST82ntJXA',
-        'detalleUrl' => BASE_URL . '/app/views/carreras/detalleCarrera.php',
+        'detalleUrl' => BASE_URL . '/public/carrera/detalle',
     ],
     [
         'nombre' => 'Diseño Gráfico Digital',
@@ -27,7 +27,7 @@ $carreras = [
         'duracion' => '4 Años',
         'descripcion' => 'Comunica ideas a través de medios visuales, creando identidades de marca e interfaces atractivas.',
         'imagen' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuB14c6GQwTfhScuEBnxp0VApVDWgsdgPz55iCyG2Y4a8ARLtaWC4YegrvDpvK1rW4OVSCt1RzY39QUQ9aITo-DCovDPjSp564xgfsBZyxeBnYf_onRs6P9jHD9Kf2pdJFXlFb6YhPDp1XVbGPwBs2AJ8qwAYyybxJrbO19XrLjCCsAIpIo1p9_j6gDmHxhL_XGEgpRGLAnxCWd5Oxpof0stcYq43-guz4ajVS-C90pMQv-rQ-AD-GiMSQ',
-        'detalleUrl' => BASE_URL . '/app/views/carreras/detalleCarrera.php',
+        'detalleUrl' => BASE_URL . '/public/carrera/detalle',
     ],
     [
         'nombre' => 'Administración de Empresas',
@@ -36,7 +36,7 @@ $carreras = [
         'duracion' => '4 Años',
         'descripcion' => 'Lidera organizaciones, optimiza recursos y desarrolla estrategias para el crecimiento comercial.',
         'imagen' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuAhTTlg_pXX5pEbMmnmp4pNCOYt6cJaFPlQx0-D3rUEBpEYWG1OJzNtXRDyMCWCOP15pDZdjPy1e9YSIjiKDyucOUAXTWit0jlOHmnAX3bbajNC4sISnUIfXCrO21oZLMkELok3pp5Io4Zbbv8a4w8IK7NknzEJeaPiV74CiXwkwzOWDxy1Qg1aN6ELUHya8kBM08XHkpb1eYY4yTRyF_ce4GbqjvUYAo34jBdKpK-YHpIs_J5g1PpdIw',
-        'detalleUrl' => BASE_URL . '/app/views/carreras/detalleCarrera.php',
+        'detalleUrl' => BASE_URL . '/public/carrera/detalle',
     ],
 ];
 ?>

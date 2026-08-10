@@ -103,6 +103,8 @@
   color: var(--admin-primary);
 }
 
+
+
 .vt-carrera-pill--health {
   background-color: #89f5e7;
   color: #004f4a;
@@ -214,4 +216,23 @@
     flex-direction: column;
     align-items: flex-start;
   }
+}
+
+.vt-carrera-thumb {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.vt-carrera-thumb-placeholder {
+  width: 100px;
+  height: 100px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: #f1f3f5;
+  color: #98a2b3;
+  font-size: 1.5rem;
 }

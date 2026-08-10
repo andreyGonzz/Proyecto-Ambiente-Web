@@ -1,276 +1,223 @@
+const API_ROOT = window.API_ROOT;
 
-const STORAGE_KEY = 'vocatioAdminState';
-const usuarioActual = {
-    usuarioId: 1,
-    nombre: 'Administrador',
-    tipoUsuario: 'admin'
-};
-
-const estadosBase = [
-    { estadoId: 1, nombre: 'Activo' },
-    { estadoId: 2, nombre: 'Inactivo' }
-];
-
-const usuariosBase = [
-    {
-        usuarioId: 1,
-        nombre: 'Juan Carlos',
-        apellidoPaterno: 'Pérez',
-        apellidoMaterno: 'López',
-        tipoUsuario: 'Alumno',
-        estadoId: 1
-    },
-    {
-        usuarioId: 2,
-        nombre: 'María',
-        apellidoPaterno: 'Solis',
-        apellidoMaterno: 'Mora',
-        tipoUsuario: 'Profesor',
-        estadoId: 1
-    }
-];
-
-const carrerasBase = [
-    {
-        carreraId: 1,
-        nombre: 'Ingeniería en Sistemas',
-        dificultad: 'Alta',
-        disponibilidad: 'Disponible',
-        estadoId: 1
-    },
-    {
-        carreraId: 2,
-        nombre: 'Administración',
-        dificultad: 'Media',
-        disponibilidad: 'Disponible',
-        estadoId: 1
-    }
-];
-
-let estados = [];
 let usuarios = [];
 let carreras = [];
+let cargaUsuariosFallida = false;
+let cargaCarrerasFallida = false;
 
-function esAdmin() {
-    if (usuarioActual.tipoUsuario !== 'admin') {
-        throw new Error('Acceso denegado. Solo un administrador puede realizar esta acción.');
+function apiUrl(controlador, accion, id) {
+    let url = API_ROOT + '?url=' + controlador + '/' + accion;
+    if (id !== undefined && id !== null && id !== '') {
+        url += '/' + encodeURIComponent(id);
     }
+    return url;
 }
 
-function cargarEstadoPersistido() {
+async function peticionApi(url, metodo = 'GET', cuerpo = null) {
+    const opciones = { method: metodo };
+    if (cuerpo) {
+        opciones.headers = { 'Content-Type': 'application/json' };
+        opciones.body = JSON.stringify(cuerpo);
+    }
+
+    let respuesta;
     try {
-        const almacenado = localStorage.getItem(STORAGE_KEY);
-        if (!almacenado) {
-            return null;
-        }
-
-        const datos = JSON.parse(almacenado);
-        return {
-            estados: Array.isArray(datos.estados) && datos.estados.length ? datos.estados : estadosBase,
-            usuarios: Array.isArray(datos.usuarios) ? datos.usuarios : [],
-            carreras: Array.isArray(datos.carreras) ? datos.carreras : []
-        };
+        respuesta = await fetch(url, opciones);
     } catch (error) {
-        console.warn('No fue posible cargar el estado guardado:', error);
-        return null;
+        return { ok: false, estado: 0, datos: { message: 'No se pudo conectar con el servidor.' } };
     }
-}
 
-function guardarEstadoPersistido() {
+    let datos = null;
     try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({ estados, usuarios, carreras }));
+        datos = await respuesta.json();
     } catch (error) {
-        console.warn('No fue posible guardar el estado:', error);
+        datos = null;
     }
+
+    return { ok: respuesta.ok, estado: respuesta.status, datos };
 }
 
-function inicializarDatos() {
-    const datosPersistidos = cargarEstadoPersistido();
+function escapar(texto) {
+    return String(texto ?? '').replace(/[&<>"']/g, (caracter) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+    })[caracter]);
+}
 
-    if (datosPersistidos) {
-        estados = datosPersistidos.estados;
-        usuarios = datosPersistidos.usuarios;
-        carreras = datosPersistidos.carreras;
+function validarCorreo(correo) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo);
+}
+
+function notificarExito(mensaje) {
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            icon: 'success',
+            title: mensaje,
+            toast: true,
+            position: 'top-end',
+            timer: 2500,
+            timerProgressBar: true,
+            showConfirmButton: false,
+        });
     } else {
-        estados = [...estadosBase];
-        usuarios = [...usuariosBase];
-        carreras = [...carrerasBase];
-        guardarEstadoPersistido();
-    }
-
-    if (!usuarios.length && !carreras.length) {
-        usuarios = [...usuariosBase];
-        carreras = [...carrerasBase];
-        guardarEstadoPersistido();
+        alert(mensaje);
     }
 }
 
-function crearEstado(nombre) {
-    esAdmin();
-
-    const estado = {
-        estadoId: estados.length + 1,
-        nombre
-    };
-
-    estados.push(estado);
-    guardarEstadoPersistido();
-    return estado;
+function notificarError(mensaje) {
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({ icon: 'error', title: 'Error', text: mensaje });
+    } else {
+        alert(mensaje);
+    }
 }
 
-function modificarEstado(id, nuevoNombre) {
-    esAdmin();
+function notificarAdvertencia(mensaje) {
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({ icon: 'warning', title: mensaje });
+    } else {
+        alert(mensaje);
+    }
+}
 
-    const estado = estados.find((item) => item.estadoId === id);
+async function cargarUsuarios() {
+    const resultado = await peticionApi(apiUrl('usuario', 'apiList'));
+    cargaUsuariosFallida = !resultado.ok;
 
-    if (!estado) return false;
+    if (resultado.ok && Array.isArray(resultado.datos)) {
+        usuarios = resultado.datos.map((usuario) => ({
+            usuarioId: Number(usuario.id),
+            nombre: usuario.nombre || '',
+            correo: usuario.correo || '',
+            rol: usuario.rol || 'USUARIO',
+        }));
+    } else {
+        usuarios = [];
+    }
 
-    estado.nombre = nuevoNombre;
-    guardarEstadoPersistido();
+    renderUsuarios();
+}
+
+async function cargarCarreras() {
+    const resultado = await peticionApi(apiUrl('carrera', 'apiList'));
+    cargaCarrerasFallida = !resultado.ok;
+
+    if (resultado.ok && Array.isArray(resultado.datos)) {
+        carreras = resultado.datos.map((carrera) => ({
+            ...carrera,
+            carreraId: Number(carrera.carreraId),
+            estadoId: Number(carrera.estadoId),
+        }));
+    } else {
+        carreras = [];
+    }
+
+    renderCarreras();
+}
+
+async function crearUsuario(datos) {
+    const resultado = await peticionApi(apiUrl('usuario', 'apiStore'), 'POST', {
+        name: datos.nombre,
+        email: datos.correo,
+        password: datos.contrasena,
+        rol: datos.rol,
+    });
+
+    if (!resultado.ok) {
+        notificarError(resultado.datos?.message || 'Error al crear el usuario.');
+        return false;
+    }
+
     return true;
 }
 
-function eliminarEstado(id) {
-    esAdmin();
+async function modificarUsuario(usuarioId, datos) {
+    const resultado = await peticionApi(apiUrl('usuario', 'apiUpdate', usuarioId), 'POST', {
+        name: datos.nombre,
+        email: datos.correo,
+    });
 
-    const indice = estados.findIndex((item) => item.estadoId === id);
+    if (!resultado.ok) {
+        notificarError(resultado.datos?.message || 'Error al actualizar el usuario.');
+        return false;
+    }
 
-    if (indice === -1) return false;
-
-    estados.splice(indice, 1);
-    guardarEstadoPersistido();
     return true;
 }
 
-function crearUsuario(nombre, apellidoPaterno, apellidoMaterno, tipoUsuario, estadoId) {
-    esAdmin();
+async function eliminarUsuario(usuarioId) {
+    const resultado = await peticionApi(apiUrl('usuario', 'apiDelete', usuarioId), 'POST');
 
-    const usuario = {
-        usuarioId: usuarios.length ? Math.max(...usuarios.map((item) => item.usuarioId)) + 1 : 1,
-        nombre,
-        apellidoPaterno,
-        apellidoMaterno,
-        tipoUsuario,
-        estadoId: Number(estadoId)
-    };
+    if (!resultado.ok) {
+        notificarError(resultado.datos?.message || 'Error al eliminar el usuario.');
+        return false;
+    }
 
-    usuarios.push(usuario);
-    guardarEstadoPersistido();
-    return usuario;
-}
-
-function modificarUsuario(id, datos) {
-    esAdmin();
-
-    const usuario = usuarios.find((item) => item.usuarioId === id);
-
-    if (!usuario) return false;
-
-    Object.assign(usuario, datos);
-    guardarEstadoPersistido();
     return true;
 }
 
-function eliminarUsuario(id) {
-    esAdmin();
+async function crearCarrera(datos) {
+    const resultado = await peticionApi(apiUrl('carrera', 'apiStore'), 'POST', datos);
 
-    const indice = usuarios.findIndex((item) => item.usuarioId === id);
+    if (!resultado.ok) {
+        notificarError(resultado.datos?.message || 'Error al crear la carrera.');
+        return false;
+    }
 
-    if (indice === -1) return false;
-
-    usuarios.splice(indice, 1);
-    guardarEstadoPersistido();
     return true;
 }
 
-function crearCarrera(nombre, dificultad, disponibilidad, estadoId) {
-    esAdmin();
+async function modificarCarrera(carreraId, datos) {
+    const resultado = await peticionApi(apiUrl('carrera', 'apiUpdate', carreraId), 'POST', datos);
 
-    const carrera = {
-        carreraId: carreras.length ? Math.max(...carreras.map((item) => item.carreraId)) + 1 : 1,
-        nombre,
-        dificultad,
-        disponibilidad,
-        estadoId: Number(estadoId)
-    };
+    if (!resultado.ok) {
+        notificarError(resultado.datos?.message || 'Error al actualizar la carrera.');
+        return false;
+    }
 
-    carreras.push(carrera);
-    guardarEstadoPersistido();
-    return carrera;
-}
-
-function modificarCarrera(id, datos) {
-    esAdmin();
-
-    const carrera = carreras.find((item) => item.carreraId === id);
-
-    if (!carrera) return false;
-
-    Object.assign(carrera, datos);
-    guardarEstadoPersistido();
     return true;
 }
 
-function eliminarCarrera(id) {
-    esAdmin();
+async function eliminarCarrera(carreraId) {
+    const resultado = await peticionApi(apiUrl('carrera', 'apiDelete', carreraId), 'POST');
 
-    const indice = carreras.findIndex((item) => item.carreraId === id);
+    if (!resultado.ok) {
+        notificarError(resultado.datos?.message || 'Error al eliminar la carrera.');
+        return false;
+    }
 
-    if (indice === -1) return false;
-
-    carreras.splice(indice, 1);
-    guardarEstadoPersistido();
     return true;
 }
 
-function listarEstados() {
-    return estados;
-}
-
-function listarUsuarios() {
-    return usuarios;
-}
-
-function listarCarreras() {
-    return carreras;
-}
-
-function obtenerEstadoNombre(estadoId) {
-    const estado = estados.find((item) => item.estadoId === Number(estadoId));
-    return estado ? estado.nombre : 'Sin estado';
-}
-
-function obtenerEtiquetaTipoUsuario(tipoUsuario) {
-    return tipoUsuario || 'Alumno';
-}
-
-function renderUsuarios() {
+function renderUsuarios(lista = usuarios) {
     const tabla = document.querySelector('#usuariosTableBody');
     if (!tabla) return;
 
-    if (!usuarios.length) {
-        tabla.innerHTML = '<tr><td colspan="5" class="text-center py-4">No hay usuarios registrados.</td></tr>';
+    if (!lista.length) {
+        tabla.innerHTML = cargaUsuariosFallida
+            ? '<tr><td colspan="4" class="text-center py-4">No se pudieron cargar los datos.</td></tr>'
+            : '<tr><td colspan="4" class="text-center py-4">No hay usuarios registrados.</td></tr>';
         return;
     }
 
-    tabla.innerHTML = usuarios.map((usuario) => `
+    tabla.innerHTML = lista.map((usuario) => `
         <tr>
             <td>
                 <div class="user-cell">
                     <div class="user-avatar tertiary">${(usuario.nombre || 'U').charAt(0).toUpperCase()}</div>
-                    <span class="user-name">${usuario.nombre} ${usuario.apellidoPaterno}</span>
+                    <span class="user-name">${escapar(usuario.nombre)}</span>
                 </div>
             </td>
             <td>
-                <span class="user-email">${usuario.apellidoMaterno || '—'}</span>
+                <span class="user-email">${escapar(usuario.correo)}</span>
             </td>
             <td>
-                <span class="user-email">${obtenerEtiquetaTipoUsuario(usuario.tipoUsuario)}</span>
+                <span class="status-badge ${usuario.rol === 'ADMIN' ? 'status-active' : 'status-inactive'}">${escapar(usuario.rol)}</span>
             </td>
-            <td>
-                <span class="status-badge ${Number(usuario.estadoId) === 1 ? 'status-active' : 'status-inactive'}">${obtenerEstadoNombre(usuario.estadoId)}</span>
-            </td>
-            <td>
+            <td class="text-right">
                 <div class="table-actions">
                     <button class="btn-icon" type="button" title="Editar" data-user-edit="${usuario.usuarioId}">
                         <span class="material-symbols-outlined">edit</span>
@@ -284,25 +231,35 @@ function renderUsuarios() {
     `).join('');
 }
 
-function renderCarreras() {
+function renderCarreras(lista = carreras) {
     const tabla = document.querySelector('#carrerasTableBody');
     if (!tabla) return;
 
-    if (!carreras.length) {
-        tabla.innerHTML = '<tr><td colspan="5" class="text-center py-4">No hay carreras registradas.</td></tr>';
+    if (!lista.length) {
+        tabla.innerHTML = cargaCarrerasFallida
+            ? '<tr><td colspan="6" class="text-center py-4">No se pudieron cargar los datos.</td></tr>'
+            : '<tr><td colspan="6" class="text-center py-4">No hay carreras registradas.</td></tr>';
         return;
     }
 
-    tabla.innerHTML = carreras.map((carrera) => `
+    tabla.innerHTML = lista.map((carrera) => {
+        const miniatura = carrera.imagen
+            ? `<img src="${escapar(carrera.imagen)}" alt="${escapar(carrera.nombre)}" class="vt-carrera-thumb" onerror="this.style.display='none'">`
+            : '<span class="vt-carrera-thumb-placeholder material-symbols-outlined">work</span>';
+
+        const estadoActivo = Number(carrera.estadoId) === 1;
+
+        return `
         <tr>
-            <td class="fw-semibold text-dark">${carrera.nombre}</td>
+            <td>${miniatura}</td>
+            <td class="fw-semibold text-dark">${escapar(carrera.nombre)}</td>
             <td>
-                <span class="vt-carrera-pill vt-carrera-pill--technology">${carrera.dificultad}</span>
+                <span class="vt-carrera-pill vt-carrera-pill--technology">${escapar(carrera.dificultad)}</span>
             </td>
             <td>
-                <span class="vt-carrera-badge ${Number(carrera.estadoId) === 1 ? 'vt-carrera-badge--active' : 'vt-carrera-badge--inactive'}">${obtenerEstadoNombre(carrera.estadoId)}</span>
+                <span class="vt-carrera-badge ${estadoActivo ? 'vt-carrera-badge--active' : 'vt-carrera-badge--inactive'}">${estadoActivo ? 'Activo' : 'Inactivo'}</span>
             </td>
-            <td class="text-body-secondary">${carrera.disponibilidad}</td>
+            <td class="text-body-secondary">${escapar(carrera.disponibilidad)}</td>
             <td>
                 <div class="vt-carrera-action-buttons">
                     <button type="button" class="vt-carrera-action-btn" title="Editar" aria-label="Editar" data-carrera-edit="${carrera.carreraId}">
@@ -313,8 +270,8 @@ function renderCarreras() {
                     </button>
                 </div>
             </td>
-        </tr>
-    `).join('');
+        </tr>`;
+    }).join('');
 }
 
 function resetearFormularioUsuario() {
@@ -323,7 +280,23 @@ function resetearFormularioUsuario() {
 
     formulario.reset();
     formulario.querySelector('[name="usuario_id"]').value = '';
+    mostrarCampoContrasena(true);
+    mostrarCampoRol(true);
     formulario.querySelector('[name="nombre"]').focus();
+}
+
+function mostrarCampoContrasena(visible) {
+    const campo = document.querySelector('#campoContrasena');
+    if (campo) {
+        campo.classList.toggle('d-none', !visible);
+    }
+}
+
+function mostrarCampoRol(visible) {
+    const campo = document.querySelector('#campoRol');
+    if (campo) {
+        campo.classList.toggle('d-none', !visible);
+    }
 }
 
 function resetearFormularioCarrera() {
@@ -340,16 +313,15 @@ function abrirFormularioUsuario(id) {
     const modal = document.querySelector('#usuarioModal');
     if (!formulario || !modal) return;
 
-    const usuario = usuarios.find((item) => item.usuarioId === id);
+    const usuario = usuarios.find((item) => item.usuarioId === Number(id));
     formulario.querySelector('[name="usuario_id"]').value = usuario ? usuario.usuarioId : '';
     formulario.querySelector('[name="nombre"]').value = usuario ? usuario.nombre : '';
-    formulario.querySelector('[name="apellidoPaterno"]').value = usuario ? usuario.apellidoPaterno : '';
-    formulario.querySelector('[name="apellidoMaterno"]').value = usuario ? usuario.apellidoMaterno : '';
-    formulario.querySelector('[name="tipoUsuario"]').value = usuario ? usuario.tipoUsuario : 'Alumno';
-    formulario.querySelector('[name="estadoId"]').value = usuario ? usuario.estadoId : 1;
+    formulario.querySelector('[name="correo"]').value = usuario ? usuario.correo : '';
+    formulario.querySelector('[name="contrasena"]').value = '';
+    mostrarCampoContrasena(!usuario);
+    mostrarCampoRol(!usuario);
 
-    const instanciaModal = bootstrap.Modal.getOrCreateInstance(modal);
-    instanciaModal.show();
+    bootstrap.Modal.getOrCreateInstance(modal).show();
 }
 
 function abrirFormularioCarrera(id) {
@@ -357,77 +329,136 @@ function abrirFormularioCarrera(id) {
     const modal = document.querySelector('#carreraModal');
     if (!formulario || !modal) return;
 
-    const carrera = carreras.find((item) => item.carreraId === id);
+    const carrera = carreras.find((item) => item.carreraId === Number(id));
     formulario.querySelector('[name="carrera_id"]').value = carrera ? carrera.carreraId : '';
     formulario.querySelector('[name="nombre"]').value = carrera ? carrera.nombre : '';
+    formulario.querySelector('[name="imagen"]').value = carrera ? (carrera.imagen || '') : '';
     formulario.querySelector('[name="dificultad"]').value = carrera ? carrera.dificultad : 'Media';
     formulario.querySelector('[name="disponibilidad"]').value = carrera ? carrera.disponibilidad : 'Disponible';
     formulario.querySelector('[name="estadoId"]').value = carrera ? carrera.estadoId : 1;
 
-    const instanciaModal = bootstrap.Modal.getOrCreateInstance(modal);
-    instanciaModal.show();
+    bootstrap.Modal.getOrCreateInstance(modal).show();
 }
 
-function manejarEnvioUsuario(evento) {
+async function manejarEnvioUsuario(evento) {
     evento.preventDefault();
 
     const formulario = evento.currentTarget;
     const usuarioId = formulario.querySelector('[name="usuario_id"]').value;
     const datos = {
         nombre: formulario.querySelector('[name="nombre"]').value.trim(),
-        apellidoPaterno: formulario.querySelector('[name="apellidoPaterno"]').value.trim(),
-        apellidoMaterno: formulario.querySelector('[name="apellidoMaterno"]').value.trim(),
-        tipoUsuario: formulario.querySelector('[name="tipoUsuario"]').value,
-        estadoId: Number(formulario.querySelector('[name="estadoId"]').value)
+        correo: formulario.querySelector('[name="correo"]').value.trim(),
+        contrasena: formulario.querySelector('[name="contrasena"]').value,
+        rol: formulario.querySelector('[name="rol"]').value,
     };
 
     if (!datos.nombre) {
-        alert('El nombre del usuario es obligatorio.');
+        notificarAdvertencia('El nombre del usuario es obligatorio.');
         return;
     }
 
-    if (usuarioId) {
-        modificarUsuario(Number(usuarioId), datos);
-    } else {
-        crearUsuario(datos.nombre, datos.apellidoPaterno, datos.apellidoMaterno, datos.tipoUsuario, datos.estadoId);
+    if (!validarCorreo(datos.correo)) {
+        notificarAdvertencia('Ingresa un correo electrónico válido.');
+        return;
     }
 
-    renderUsuarios();
-    resetearFormularioUsuario();
+    if (!usuarioId && !datos.contrasena) {
+        notificarAdvertencia('La contraseña es obligatoria al crear un usuario.');
+        return;
+    }
+
+    const boton = formulario.querySelector('button[type="submit"]');
+    boton.disabled = true;
+
+    let exito = false;
+    if (usuarioId) {
+        exito = await modificarUsuario(Number(usuarioId), datos);
+    } else {
+        exito = await crearUsuario(datos);
+    }
+
+    boton.disabled = false;
+    if (!exito) return;
+
+    notificarExito(usuarioId ? 'Usuario actualizado correctamente' : 'Usuario creado correctamente');
     bootstrap.Modal.getOrCreateInstance(document.querySelector('#usuarioModal')).hide();
+    resetearFormularioUsuario();
+    await cargarUsuarios();
 }
 
-function manejarEnvioCarrera(evento) {
+async function manejarEnvioCarrera(evento) {
     evento.preventDefault();
 
     const formulario = evento.currentTarget;
     const carreraId = formulario.querySelector('[name="carrera_id"]').value;
     const datos = {
         nombre: formulario.querySelector('[name="nombre"]').value.trim(),
+        imagen: formulario.querySelector('[name="imagen"]').value.trim(),
         dificultad: formulario.querySelector('[name="dificultad"]').value,
         disponibilidad: formulario.querySelector('[name="disponibilidad"]').value,
-        estadoId: Number(formulario.querySelector('[name="estadoId"]').value)
+        estadoId: Number(formulario.querySelector('[name="estadoId"]').value),
     };
 
     if (!datos.nombre) {
-        alert('El nombre de la carrera es obligatorio.');
+        notificarAdvertencia('El nombre de la carrera es obligatorio.');
         return;
     }
 
+    const boton = formulario.querySelector('button[type="submit"]');
+    boton.disabled = true;
+
+    let exito = false;
     if (carreraId) {
-        modificarCarrera(Number(carreraId), datos);
+        exito = await modificarCarrera(Number(carreraId), datos);
     } else {
-        crearCarrera(datos.nombre, datos.dificultad, datos.disponibilidad, datos.estadoId);
+        exito = await crearCarrera(datos);
     }
 
-    renderCarreras();
-    resetearFormularioCarrera();
+    boton.disabled = false;
+    if (!exito) return;
+
+    notificarExito(carreraId ? 'Carrera actualizada correctamente' : 'Carrera creada correctamente');
     bootstrap.Modal.getOrCreateInstance(document.querySelector('#carreraModal')).hide();
+    resetearFormularioCarrera();
+    await cargarCarreras();
+}
+
+function configurarBusqueda() {
+    const inputUsuarios = document.querySelector('#usuarioBusqueda');
+    if (inputUsuarios) {
+        inputUsuarios.addEventListener('input', () => {
+            const termino = inputUsuarios.value.trim().toLowerCase();
+            if (!termino) {
+                renderUsuarios();
+                return;
+            }
+            const filtrados = usuarios.filter((usuario) =>
+                usuario.nombre.toLowerCase().includes(termino)
+                || usuario.correo.toLowerCase().includes(termino)
+                || usuario.rol.toLowerCase().includes(termino)
+            );
+            renderUsuarios(filtrados);
+        });
+    }
+
+    const inputCarreras = document.querySelector('#carreraBusqueda');
+    if (inputCarreras) {
+        inputCarreras.addEventListener('input', () => {
+            const termino = inputCarreras.value.trim().toLowerCase();
+            if (!termino) {
+                renderCarreras();
+                return;
+            }
+            const filtrados = carreras.filter((carrera) =>
+                carrera.nombre.toLowerCase().includes(termino)
+                || (carrera.dificultad || '').toLowerCase().includes(termino)
+            );
+            renderCarreras(filtrados);
+        });
+    }
 }
 
 function inicializarInterfaz() {
-    if (typeof document === 'undefined') return;
-
     const formularioUsuario = document.querySelector('#usuarioForm');
     const formularioCarrera = document.querySelector('#carreraForm');
     const botonAgregarUsuario = document.querySelector('[data-open-user-modal]');
@@ -459,7 +490,9 @@ function inicializarInterfaz() {
         });
     }
 
-    document.addEventListener('click', (evento) => {
+    configurarBusqueda();
+
+    document.addEventListener('click', async (evento) => {
         const botonEdicionUsuario = evento.target.closest('[data-user-edit]');
         if (botonEdicionUsuario) {
             evento.preventDefault();
@@ -472,8 +505,11 @@ function inicializarInterfaz() {
             evento.preventDefault();
             const id = Number(botonEliminacionUsuario.getAttribute('data-user-delete'));
             if (window.confirm('¿Deseas eliminar este usuario?')) {
-                eliminarUsuario(id);
-                renderUsuarios();
+                const eliminado = await eliminarUsuario(id);
+                if (eliminado) {
+                    notificarExito('Usuario eliminado correctamente');
+                    await cargarUsuarios();
+                }
             }
             return;
         }
@@ -490,36 +526,31 @@ function inicializarInterfaz() {
             evento.preventDefault();
             const id = Number(botonEliminacionCarrera.getAttribute('data-carrera-delete'));
             if (window.confirm('¿Deseas eliminar esta carrera?')) {
-                eliminarCarrera(id);
-                renderCarreras();
+                const eliminado = await eliminarCarrera(id);
+                if (eliminado) {
+                    notificarExito('Carrera eliminada correctamente');
+                    await cargarCarreras();
+                }
             }
         }
     });
 }
 
-inicializarDatos();
-
-if (typeof document !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', () => {
-        renderUsuarios();
-        renderCarreras();
-        inicializarInterfaz();
-    });
-}
+document.addEventListener('DOMContentLoaded', async () => {
+    inicializarInterfaz();
+    await cargarUsuarios();
+    await cargarCarreras();
+});
 
 window.adminState = {
-    crearEstado,
-    modificarEstado,
-    eliminarEstado,
+    cargarUsuarios,
+    cargarCarreras,
     crearUsuario,
     modificarUsuario,
     eliminarUsuario,
     crearCarrera,
     modificarCarrera,
     eliminarCarrera,
-    listarEstados,
-    listarUsuarios,
-    listarCarreras,
     renderUsuarios,
-    renderCarreras
+    renderCarreras,
 };

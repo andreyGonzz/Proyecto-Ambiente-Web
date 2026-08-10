@@ -53,7 +53,7 @@ require_once __DIR__ . '/../layout/header.php';
 ?>
     <main class="vt-container vt-section">
         <div class="mb-4">
-            <a href="<?= BASE_URL; ?>/app/views/areas/areas.php" class="btn-back">
+            <a href="<?= BASE_URL; ?>/public/areas/index" class="btn-back">
                 <span class="material-symbols-outlined">arrow_back</span>
                 Volver al listado
             </a>
@@ -146,7 +146,7 @@ require_once __DIR__ . '/../layout/header.php';
                     </div>
 
                     <p>Tus respuestas en el test indican un alto perfil analítico, ideal para esta carrera.</p>
-                    <a href="<?= BASE_URL; ?>/app/views/areas/areas.php" class="btn-affinity">Ver desglose</a>
+                    <a href="<?= BASE_URL; ?>/public/areas/index" class="btn-affinity">Ver desglose</a>
                 </div>
             </aside>
         </section>

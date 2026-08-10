@@ -9,7 +9,7 @@ $pageScripts = $pageScripts ?? [];
             <?= htmlspecialchars($siteName ?? 'Vocatio') ?>
         </div>
         <div class="d-flex flex-wrap justify-content-center gap-4">
-            <a href="<?= htmlspecialchars(BASE_URL) ?>/public/index.php" class="vt-footer-link">Institucional</a>
+            <a href="<?= htmlspecialchars(BASE_URL) ?>/public/" class="vt-footer-link">Institucional</a>
             <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/login" class="vt-footer-link">Contacto</a>
             <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/register" class="vt-footer-link">Política de Privacidad</a>
         </div>
@@ -22,9 +22,16 @@ $pageScripts = $pageScripts ?? [];
 <!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Raíz de la API para los scripts -->
+<script>window.API_ROOT = encodeURI('<?= BASE_URL ?>') + '/public';</script>
+
 <!-- JS específico de la página -->
 <?php foreach ($pageScripts as $script): ?>
-    <script src="<?= htmlspecialchars(BASE_URL) ?>/public/assets/js/<?= htmlspecialchars($script) ?>"></script>
+    <?php $scriptRuta = __DIR__ . '/../../../public/assets/js/' . $script; ?>
+    <script src="<?= htmlspecialchars(BASE_URL) ?>/public/assets/js/<?= htmlspecialchars($script) ?>?v=<?= file_exists($scriptRuta) ? filemtime($scriptRuta) : '' ?>"></script>
 <?php endforeach; ?>
 </body>
 

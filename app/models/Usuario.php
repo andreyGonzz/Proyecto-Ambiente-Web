@@ -49,6 +49,9 @@ class Usuario
         $stmt = $this->db->prepare($query);
         $hashedPassword = password_hash($data['contrasena'], PASSWORD_DEFAULT);
         $rol = 'USUARIO';
+        if (!empty($data['rol']) && in_array($data['rol'], ['ADMIN', 'USUARIO'])) {
+            $rol = $data['rol'];
+        }
         $stmt->bind_param("ssss", $data['nombre'], $data['correo'], $hashedPassword, $rol);
         return $stmt->execute();
     }

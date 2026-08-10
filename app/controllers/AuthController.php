@@ -37,8 +37,8 @@ class AuthController extends Controller
             $_SESSION['user_rol'] = $user['rol'];
 
             $redirect = $user['rol'] === 'ADMIN'
-                ? BASE_URL . '/app/views/admin/admin.php'
-                : BASE_URL . '/public/index.php';
+                ? BASE_URL . '/public/usuario/index'
+                : BASE_URL . '/public/';
 
             $this->respond([
                 'ok' => true,
@@ -49,10 +49,13 @@ class AuthController extends Controller
         }
 
         if (isset($_SESSION['user_id'])) {
-            $redirect = $_SESSION['user_rol'] === 'ADMIN'
-                ? '/app/views/admin/admin.php'
-                : '/public/index.php';
-            $this->redirect($redirect);
+            if ($_SESSION['user_rol'] === 'ADMIN') {
+                $this->view('admin/usuarios');
+                return;
+            }
+
+            $this->view('main/index');
+            return;
         }
 
         $this->view('login/login');
@@ -90,7 +93,7 @@ class AuthController extends Controller
         }
 
         if ($error === null) {
-            return $this->redirect('/public/auth/login');
+            return $this->view('login/login');
         }
 
         $this->view('login/register', ['error' => $error]);
@@ -156,7 +159,7 @@ class AuthController extends Controller
                 $user = $usuario->getByToken($token);
                 if ($usuario->actualizarContrasena($user['correo'], $nueva)) {
                     $usuario->setToken($user['correo'], null, null);
-                    return $this->redirect('/public/auth/login');
+                    return $this->view('login/login');
                 }
                 $error = 'No se pudo actualizar la contraseña. Inténtalo de nuevo.';
             }
@@ -176,7 +179,7 @@ class AuthController extends Controller
     {
         $_SESSION = [];
         session_destroy();
-        $this->redirect('/public/index.php');
+        $this->view('main/index');
     }
 
     private function enviarCorreo($correo, $enlace)

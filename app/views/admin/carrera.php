@@ -9,28 +9,12 @@ require_once __DIR__ . '/../layout/header.php';
 ?>
     <div class="vt-admin-shell">
         <aside class="vt-admin-sidebar d-none d-md-flex">
-            <div class="vt-admin-brand">Vocatio Admin</div>
-
-            <div class="vt-admin-profile">
-                <div class="vt-admin-avatar">
-                    <span class="material-symbols-outlined">person</span>
-                </div>
-                <div>
-                    <p class="vt-admin-profile-title">Perfil Admin</p>
-                    <p class="vt-admin-profile-text">Portal de Gestión</p>
-                </div>
-            </div>
-
             <nav class="vt-admin-nav">
-                <a class="vt-admin-nav-link" href="<?php echo BASE_URL; ?>/app/views/admin/admin.php">
-                    <span class="material-symbols-outlined">dashboard</span>
-                    Panel de Control
-                </a>
-                <a class="vt-admin-nav-link" href="<?php echo BASE_URL; ?>/app/views/admin/usuarios.php">
+                <a class="vt-admin-nav-link" href="<?php echo BASE_URL; ?>/public/usuario/index">
                     <span class="material-symbols-outlined">group</span>
                     Usuarios
                 </a>
-                <a class="vt-admin-nav-link active" href="<?php echo BASE_URL; ?>/app/views/admin/carrera.php">
+                <a class="vt-admin-nav-link active" href="<?php echo BASE_URL; ?>/public/carrera/index">
                     <span class="material-symbols-outlined">work</span>
                     Carreras
                 </a>
@@ -60,7 +44,7 @@ require_once __DIR__ . '/../layout/header.php';
                 <div class="vt-carrera-toolbar">
                     <div class="vt-carrera-toolbar-search">
                         <span class="material-symbols-outlined">search</span>
-                        <input type="text" placeholder="Buscar por nombre o área..." aria-label="Buscar carrera">
+                        <input type="text" placeholder="Buscar por nombre o área..." aria-label="Buscar carrera" id="carreraBusqueda">
                     </div>
 
                     <div class="vt-carrera-action-group">
@@ -80,6 +64,7 @@ require_once __DIR__ . '/../layout/header.php';
                         <table class="table align-middle mb-0 vt-carrera-table">
                             <thead>
                                 <tr>
+                                    <th>Imagen</th>
                                     <th>Nombre de la Carrera</th>
                                     <th>Dificultad</th>
                                     <th>Estado</th>
@@ -107,6 +92,10 @@ require_once __DIR__ . '/../layout/header.php';
                     <div class="mb-3">
                         <label class="form-label">Nombre</label>
                         <input class="form-control" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">URL de la imagen</label>
+                        <input class="form-control" name="imagen" placeholder="https://ejemplo.com/imagen-carrera.jpg">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Dificultad</label>

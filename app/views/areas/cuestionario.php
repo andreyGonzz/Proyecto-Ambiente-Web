@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 if (!isset($_SESSION['user_id'])) {
-    header('Location: ' . BASE_URL . '/public/auth/login');
+    require_once __DIR__ . '/../login/login.php';
     exit;
 }
 
@@ -21,7 +21,7 @@ require_once __DIR__ . '/../layout/header.php';
                 <span class="material-symbols-outlined brand-icon">school</span>
                 <span class="brand-title">Vocatio</span>
             </div>
-            <a href="<?php echo BASE_URL; ?>/public/index.php" class="btn btn-link text-muted save-exit">
+            <a href="<?php echo BASE_URL; ?>/public/" class="btn btn-link text-muted save-exit">
                 <span class="material-symbols-outlined">close</span>
                 <span class="d-none d-sm-inline"></span>
             </a>
@@ -103,12 +103,12 @@ require_once __DIR__ . '/../layout/header.php';
             </div>
 
             <div class="d-flex justify-content-between align-items-center">
-                <a href="<?php echo BASE_URL; ?>/app/views/areas/antes-comenzar.php" class="btn btn-outline-secondary d-flex align-items-center gap-2 prev-btn">
+                <a href="<?php echo BASE_URL; ?>/public/areas/antesComenzar" class="btn btn-outline-secondary d-flex align-items-center gap-2 prev-btn">
                     <span class="material-symbols-outlined">arrow_back</span>
                     <span>Anterior</span>
                 </a>
 
-                <a href="<?php echo BASE_URL; ?>/app/views/areas/cuestionario-completado.php" id="nextBtn" class="btn btn-primary d-flex align-items-center gap-2">
+                <a href="<?php echo BASE_URL; ?>/public/areas/completado" id="nextBtn" class="btn btn-primary d-flex align-items-center gap-2">
                     <span>Siguiente</span>
                     <span class="material-symbols-outlined">arrow_forward</span>
                 </a>

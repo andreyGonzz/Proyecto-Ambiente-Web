@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 if (!isset($_SESSION['user_id'])) {
-    header('Location: ' . BASE_URL . '/public/auth/login');
+    require_once __DIR__ . '/../login/login.php';
     exit;
 }
 
@@ -63,7 +63,7 @@ require_once __DIR__ . '/../layout/header.php';
                         </div>
 
                         <div class="vt-actions">
-                            <a href="<?php echo BASE_URL; ?>/app/views/areas/cuestionario.php" class="btn vt-btn-cta"
+                            <a href="<?php echo BASE_URL; ?>/public/areas/cuestionario" class="btn vt-btn-cta"
                                 id="startQuizBtn" data-label="Comenzar cuestionario">
                                 <span class="vt-btn-label">Comenzar cuestionario</span>
                                 <span class="material-symbols-outlined vt-btn-icon">arrow_forward</span>

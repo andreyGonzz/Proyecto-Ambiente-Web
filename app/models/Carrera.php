@@ -1,109 +1,89 @@
 <?php
+require_once __DIR__ . '/../config/Database.php';
+
 class Carrera
 {
-    private $filePath;
+    private $conn;
 
     public function __construct()
     {
-        $this->filePath = __DIR__ . '/../storage/carreras.json';
-        if (!is_dir(dirname($this->filePath))) {
-            mkdir(dirname($this->filePath), 0777, true);
-        }
+        $this->conn = Database::getInstance()->getConnection();
     }
 
     public function getAll()
     {
-        $data = $this->readData();
-        return $data;
+        $stmt = $this->conn->prepare(
+            "SELECT id AS carreraId, nombre, dificultad, disponibilidad, estado_id AS estadoId, imagen_url AS imagen
+             FROM carreras
+             ORDER BY id"
+        );
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
     public function getById($id)
     {
-        foreach ($this->getAll() as $item) {
-            if ((int) $item['carreraId'] === (int) $id) {
-                return $item;
-            }
-        }
-
-        return null;
+        $stmt = $this->conn->prepare(
+            "SELECT id AS carreraId, nombre, dificultad, disponibilidad, estado_id AS estadoId, imagen_url AS imagen
+             FROM carreras
+             WHERE id = ?"
+        );
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $row = $stmt->get_result()->fetch_assoc();
+        return $row ?: null;
     }
 
     public function create($data)
     {
-        $carreras = $this->getAll();
-        $nextId = 1;
-        foreach ($carreras as $item) {
-            $nextId = max($nextId, (int) $item['carreraId'] + 1);
+        $nombre = trim($data['nombre'] ?? '');
+        $dificultad = $data['dificultad'] ?? 'Media';
+        $disponibilidad = $data['disponibilidad'] ?? 'Disponible';
+        $estadoId = (int) ($data['estadoId'] ?? 1);
+        $imagen = trim($data['imagen'] ?? '');
+
+        $stmt = $this->conn->prepare(
+            "INSERT INTO carreras (nombre, dificultad, disponibilidad, estado_id, imagen_url)
+             VALUES (?, ?, ?, ?, ?)"
+        );
+        $stmt->bind_param('sssis', $nombre, $dificultad, $disponibilidad, $estadoId, $imagen);
+
+        if (!$stmt->execute()) {
+            return false;
         }
 
-        $carrera = [
-            'carreraId' => $nextId,
-            'nombre' => trim($data['nombre'] ?? ''),
-            'dificultad' => $data['dificultad'] ?? 'Media',
-            'disponibilidad' => $data['disponibilidad'] ?? 'Disponible',
-            'estadoId' => (int) ($data['estadoId'] ?? 1),
-        ];
-
-        $carreras[] = $carrera;
-        $this->saveData($carreras);
-        return $carrera;
+        return $this->getById($this->conn->insert_id);
     }
 
     public function update($id, $data)
     {
-        $carreras = $this->getAll();
-        foreach ($carreras as &$item) {
-            if ((int) $item['carreraId'] === (int) $id) {
-                $item['nombre'] = trim($data['nombre'] ?? $item['nombre']);
-                $item['dificultad'] = $data['dificultad'] ?? $item['dificultad'];
-                $item['disponibilidad'] = $data['disponibilidad'] ?? $item['disponibilidad'];
-                $item['estadoId'] = isset($data['estadoId']) ? (int) $data['estadoId'] : $item['estadoId'];
-                $this->saveData($carreras);
-                return true;
-            }
+        $actual = $this->getById($id);
+        if (!$actual) {
+            return false;
         }
 
-        return false;
+        $nombre = isset($data['nombre']) ? trim($data['nombre']) : $actual['nombre'];
+        $dificultad = $data['dificultad'] ?? $actual['dificultad'];
+        $disponibilidad = $data['disponibilidad'] ?? $actual['disponibilidad'];
+        $estadoId = isset($data['estadoId']) ? (int) $data['estadoId'] : (int) $actual['estadoId'];
+        $imagen = isset($data['imagen']) ? trim($data['imagen']) : $actual['imagen'];
+
+        $stmt = $this->conn->prepare(
+            "UPDATE carreras
+             SET nombre = ?, dificultad = ?, disponibilidad = ?, estado_id = ?, imagen_url = ?
+             WHERE id = ?"
+        );
+        $stmt->bind_param('sssisi', $nombre, $dificultad, $disponibilidad, $estadoId, $imagen, $id);
+        $stmt->execute();
+
+        return $this->getById($id);
     }
 
     public function delete($id)
     {
-        $carreras = $this->getAll();
-        $filtered = [];
-        $deleted = false;
-
-        foreach ($carreras as $item) {
-            if ((int) $item['carreraId'] === (int) $id) {
-                $deleted = true;
-                continue;
-            }
-            $filtered[] = $item;
-        }
-
-        if ($deleted) {
-            $this->saveData($filtered);
-        }
-
-        return $deleted;
-    }
-
-    private function readData()
-    {
-        if (!file_exists($this->filePath)) {
-            return [];
-        }
-
-        $content = file_get_contents($this->filePath);
-        if ($content === false || trim($content) === '') {
-            return [];
-        }
-
-        $decoded = json_decode($content, true);
-        return is_array($decoded) ? $decoded : [];
-    }
-
-    private function saveData($data)
-    {
-        file_put_contents($this->filePath, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        $stmt = $this->conn->prepare("DELETE FROM carreras WHERE id = ?");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        return $stmt->affected_rows > 0;
     }
 }

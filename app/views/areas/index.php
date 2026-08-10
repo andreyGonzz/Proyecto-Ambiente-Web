@@ -148,7 +148,7 @@ require_once __DIR__ . '/../layout/header.php';
             <div class="col-12 col-md-6">
                 <div class="card-cta">
                     <h3 class="h5 mb-4">¿Listo para dar el siguiente paso?</h3>
-                    <a href="<?php echo BASE_URL; ?>/app/views/carreras/carreraList.php" class="btn-explorar">
+                    <a href="<?php echo BASE_URL; ?>/public/carrera/lista" class="btn-explorar">
                         Explorar carreras relacionadas
                         <span class="material-symbols-outlined">arrow_forward</span>
                     </a>

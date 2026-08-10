@@ -14,7 +14,7 @@ require_once __DIR__ . '/../layout/header.php';
                 <section class="col-12 col-lg-6 d-flex flex-column justify-content-center px-4 px-md-5 py-4 py-lg-5 bg-white vt-register-form-panel">
                     <div class="mx-auto vt-register-form-wrapper">
                         <div class="text-center text-lg-start mb-4">
-                            <a href="<?php echo BASE_URL; ?>/public/index.php" class="vt-register-brand mb-3 d-inline-flex align-items-center justify-content-center justify-content-lg-start">
+                            <a href="<?php echo BASE_URL; ?>/public/" class="vt-register-brand mb-3 d-inline-flex align-items-center justify-content-center justify-content-lg-start">
                                 <span class="material-symbols-outlined">explore</span>
                                 <span>Vocatio</span>
                             </a>
