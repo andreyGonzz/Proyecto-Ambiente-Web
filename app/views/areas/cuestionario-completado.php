@@ -30,13 +30,16 @@ require_once __DIR__ . '/../layout/header.php';
                                 Hemos analizado tus respuestas. Descubre los caminos profesionales que mejor se adaptan a tu perfil.
                             </p>
 
-                            <div class="d-grid gap-3">
-                                <a href="<?php echo BASE_URL; ?>/public/areas/index"
+<div class="d-grid gap-3">
+                                <a href="<?php echo BASE_URL; ?>/public/cuestionario/resultado"
                                     class="btn btn-primary vt-btn-completed d-flex align-items-center justify-content-center gap-2">
                                     Ver mis resultados
                                     <span class="material-symbols-outlined vt-btn-icon">arrow_forward</span>
                                 </a>
-                                <a href="<?php echo BASE_URL; ?>/public/" class="vt-secondary-link">
+                                <a href="<?php echo BASE_URL; ?>/public/cuestionario/reiniciar" class="vt-secondary-link">
+                                    Volver a intentar el cuestionario
+                                </a>
+                                <a href="<?php echo BASE_URL; ?>/public/index.php" class="vt-secondary-link">
                                     Volver al inicio
                                 </a>
                             </div>

@@ -270,6 +270,75 @@ main {
   font-size: 1.75rem;
 }
 
+.icono-circulo-grande {
+  padding: 1.5rem;
+}
+
+.icono-circulo-grande .material-symbols-outlined {
+  font-size: 2.5rem;
+}
+
+.bg-color-primary .material-symbols-outlined,
+.bg-color-secondary .material-symbols-outlined,
+.bg-color-tertiary .material-symbols-outlined,
+.bg-color-error .material-symbols-outlined,
+.bg-color-info .material-symbols-outlined {
+  color: #fff;
+}
+
+.btn-explorar--ghost {
+  background-color: transparent;
+  color: var(--color-primary);
+  box-shadow: none;
+  border: 2px solid var(--color-primary);
+}
+
+.btn-explorar--ghost:hover {
+  background-color: transparent;
+  color: var(--color-on-primary-container);
+  border-color: var(--color-on-primary-container);
+}
+
+/* ============ Carrera recomendada ============ */
+.carrera-recomendada {
+  background-color: var(--color-surface-container-low);
+  border: 1px solid rgba(0, 74, 198, 0.15);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  max-width: 32rem;
+}
+
+.carrera-recomendada-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  border-radius: 9999px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.carrera-recomendada-nombre {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-top: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.carrera-recomendada-desc {
+  color: var(--color-on-surface-variant);
+  margin-bottom: 0.25rem;
+}
+
+.carrera-recomendada .btn-explorar {
+  padding: 0.6rem 1.25rem;
+  font-size: 0.8rem;
+}
+
 /* ============ Footer ============ */
 footer {
   background-color: var(--color-surface-highest);

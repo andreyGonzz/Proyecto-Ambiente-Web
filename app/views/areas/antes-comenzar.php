@@ -34,7 +34,7 @@ require_once __DIR__ . '/../layout/header.php';
                                 </div>
                                 <div>
                                     <h2>Tiempo estimado</h2>
-                                    <p>El test tomará aproximadamente 15 a 20 minutos. Busca un lugar tranquilo donde no
+                                    <p>El test tomará aproximadamente 5 a 10 minutos. Busca un lugar tranquilo donde no
                                         tengas interrupciones.</p>
                                 </div>
                             </article>
@@ -45,7 +45,7 @@ require_once __DIR__ . '/../layout/header.php';
                                 </div>
                                 <div>
                                     <h2>Formato de preguntas</h2>
-                                    <p>Encontrarás 60 preguntas de opción múltiple basadas en escenarios del mundo real.
+                                    <p>Encontrarás 15 preguntas de opción múltiple basadas en escenarios del mundo real.
                                     </p>
                                 </div>
                             </article>
@@ -62,8 +62,8 @@ require_once __DIR__ . '/../layout/header.php';
                             </article>
                         </div>
 
-                        <div class="vt-actions">
-                            <a href="<?php echo BASE_URL; ?>/public/areas/cuestionario" class="btn vt-btn-cta"
+<div class="vt-actions">
+                            <a href="<?php echo BASE_URL; ?>/public/cuestionario" class="btn vt-btn-cta"
                                 id="startQuizBtn" data-label="Comenzar cuestionario">
                                 <span class="vt-btn-label">Comenzar cuestionario</span>
                                 <span class="material-symbols-outlined vt-btn-icon">arrow_forward</span>

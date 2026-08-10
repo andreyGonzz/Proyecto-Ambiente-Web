@@ -2,7 +2,7 @@
 // Configuración de la base de datos
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASS', '131106');
+define('DB_PASS', 'jose.Ph1193');
 define('DB_NAME', 'vocatio');
 
 // Configuración de la URL base

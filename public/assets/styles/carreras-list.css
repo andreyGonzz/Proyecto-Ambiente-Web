@@ -15,6 +15,21 @@
   margin-bottom: 1rem;
 }
 
+.vt-careers-subtitle {
+  color: var(--color-on-surface-variant);
+  margin-bottom: 1.5rem;
+}
+
+.vt-careers-link-all {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.vt-careers-link-all:hover {
+  text-decoration: underline;
+}
+
 .vt-careers-toolbar {
   display: flex;
   flex-direction: column;

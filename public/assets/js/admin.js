@@ -530,6 +530,17 @@ function configurarBusqueda() {
             renderCarreras(filtrados);
         });
     }
+
+    const inputResultados = document.querySelector('#resultadoBusqueda');
+    if (inputResultados) {
+        inputResultados.addEventListener('input', () => {
+            const termino = inputResultados.value.trim().toLowerCase();
+            document.querySelectorAll('#resultadosTableBody tr[data-busqueda]').forEach((fila) => {
+                const coincide = fila.getAttribute('data-busqueda').includes(termino);
+                fila.style.display = coincide ? '' : 'none';
+            });
+        });
+    }
 }
 
 function configurarEditorHabilidades() {

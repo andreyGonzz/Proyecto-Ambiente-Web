@@ -82,14 +82,52 @@ class CarreraController extends Controller
 
     public function lista()
     {
-        $carreras = $this->carreraModel->getAll();
-        $this->view('carreras/carreraList', ['carreras' => $carreras]);
+        $areaId = isset($_GET['area']) ? (int) $_GET['area'] : 0;
+        $carreras = $areaId > 0 ? $this->carreraModel->getByArea($areaId) : $this->carreraModel->getAll();
+
+        $areaLabel = '';
+        $areaNombre = '';
+        if ($areaId > 0) {
+            $areas = $this->model('Cuestionario')->getAreas();
+            foreach ($areas as $area) {
+                if ((int) $area['area_id'] === $areaId) {
+                    $areaLabel = $area['label'];
+                    $areaNombre = $area['nombre'];
+                    break;
+                }
+            }
+        }
+
+        $this->view('carreras/carreraList', [
+            'carreras' => $carreras,
+            'areaId' => $areaId,
+            'areaLabel' => $areaLabel,
+            'areaNombre' => $areaNombre,
+        ]);
     }
 
     public function detalle($id = null)
     {
         $carrera = $id ? $this->carreraModel->getById((int) $id) : null;
-        $this->view('carreras/detalleCarrera', ['carrera' => $carrera]);
+
+        $afinidad = null;
+        if ($carrera && isset($_SESSION['user_id'])) {
+            $resultado = $this->model('Cuestionario')->obtenerUltimoResultado((int) $_SESSION['user_id']);
+            if ($resultado) {
+                $areaCarrera = (int) $carrera['areaId'];
+                foreach ($resultado['desglose'] as $area) {
+                    if ((int) $area['area_id'] === $areaCarrera) {
+                        $afinidad = (int) $area['porcentaje'];
+                        break;
+                    }
+                }
+            }
+        }
+
+        $this->view('carreras/detalleCarrera', [
+            'carrera' => $carrera,
+            'afinidad' => $afinidad,
+        ]);
     }
 
     public function apiStore()

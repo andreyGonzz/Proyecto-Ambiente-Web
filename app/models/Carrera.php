@@ -13,7 +13,7 @@ class Carrera
     public function getAll()
     {
         $stmt = $this->conn->prepare(
-            "SELECT id AS carreraId, nombre, dificultad, disponibilidad, estado_id AS estadoId,
+            "SELECT id AS carreraId, area_id AS areaId, nombre, dificultad, disponibilidad, estado_id AS estadoId,
                     imagen_url AS imagen, descripcion, duracion, salario, demanda, habilidades
              FROM carreras
              ORDER BY id"
@@ -22,10 +22,25 @@ class Carrera
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getByArea($areaId)
+    {
+        $stmt = $this->conn->prepare(
+            "SELECT id AS carreraId, area_id AS areaId, nombre, dificultad, disponibilidad, estado_id AS estadoId,
+                    imagen_url AS imagen, descripcion, duracion, salario, demanda, habilidades
+             FROM carreras
+             WHERE area_id = ?
+             ORDER BY id"
+        );
+        $stmt->bind_param('i', $areaId);
+        $stmt->execute();
+        $filas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $filas ?: [];
+    }
+
     public function getById($id)
     {
         $stmt = $this->conn->prepare(
-            "SELECT id AS carreraId, nombre, dificultad, disponibilidad, estado_id AS estadoId,
+            "SELECT id AS carreraId, area_id AS areaId, nombre, dificultad, disponibilidad, estado_id AS estadoId,
                     imagen_url AS imagen, descripcion, duracion, salario, demanda, habilidades
              FROM carreras
              WHERE id = ?"

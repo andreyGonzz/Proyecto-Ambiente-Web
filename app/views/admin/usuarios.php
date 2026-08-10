@@ -19,6 +19,10 @@ require_once __DIR__ . '/../layout/header.php';
                     <span class="material-symbols-outlined">work</span>
                     Carreras
                 </a>
+                <a class="vt-admin-nav-link" href="<?php echo BASE_URL; ?>/public/usuario/resultados">
+                    <span class="material-symbols-outlined">assessment</span>
+                    Resultados
+                </a>
             </nav>
 
             <div class="vt-admin-sidebar-footer">

@@ -1,56 +1,37 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-$areas = [
-    [
-        'nombre' => 'Tech',
-        'label' => 'Tecnología e Innovación',
-        'icono' => 'computer',
-        'porcentaje' => 85,
-        'color' => 'primary',
-        'descripcion' => 'Muestras una fuerte inclinación hacia la resolución de problemas lógicos, el desarrollo de sistemas y la innovación digital. Carreras como Ingeniería de Software, Ciencia de Datos o Diseño UX podrían ser ideales para ti.',
-    ],
-    [
-        'nombre' => 'Business',
-        'label' => 'Liderazgo y Negocios',
-        'icono' => 'storefront',
-        'porcentaje' => 70,
-        'color' => 'secondary',
-        'descripcion' => 'Tu segundo punto fuerte indica habilidades para la gestión, organización y emprendimiento.',
-    ],
-    [
-        'nombre' => 'Education',
-        'label' => 'Educación',
-        'icono' => 'school',
-        'porcentaje' => 45,
-        'color' => 'tertiary',
-        'descripcion' => 'Interés moderado por la enseñanza y la transmisión de conocimiento.',
-    ],
-    [
-        'nombre' => 'Arts',
-        'label' => 'Artes',
-        'icono' => 'palette',
-        'porcentaje' => 30,
-        'color' => 'error',
-        'descripcion' => 'Cierta afinidad con la expresión creativa y el diseño.',
-    ],
-    [
-        'nombre' => 'Health',
-        'label' => 'Salud',
-        'icono' => 'favorite',
-        'porcentaje' => 25,
-        'color' => 'info',
-        'descripcion' => 'Afinidad baja con el cuidado y cuidado de la salud.',
-    ],
-];
+if (!isset($areas)) {
+    $areas = [];
+    if (isset($_SESSION['user_id'])) {
+        require_once __DIR__ . '/../../models/Cuestionario.php';
+        $cuestionario = new Cuestionario();
+        if ($cuestionario->haRespondido((int) $_SESSION['user_id'])) {
+            $areas = $cuestionario->calcularResultado((int) $_SESSION['user_id']);
+        }
+    }
+}
 
 // Ordenar de mayor a menor afinidad
 usort($areas, function ($a, $b) {
     return $b['porcentaje'] <=> $a['porcentaje'];
 });
 
-$principal = $areas[0];
+$principal = $areas[0] ?? null;
 $secundaria = $areas[1] ?? null;
+$areaPrincipalId = $areaPrincipalId ?? ($principal['area_id'] ?? 0);
+
+if (!isset($carreraRecomendada)) {
+    $carreraRecomendada = null;
+    if ((int) $areaPrincipalId > 0) {
+        require_once __DIR__ . '/../../models/Carrera.php';
+        $carrerasArea = (new Carrera())->getByArea((int) $areaPrincipalId);
+        $carreraRecomendada = $carrerasArea[0] ?? null;
+    }
+}
 $anioActual = date('Y');
 
 $pageTitle = 'Tus áreas de interés - ' . siteName;
@@ -69,6 +50,23 @@ require_once __DIR__ . '/../layout/header.php';
             </p>
         </div>
 
+        <?php if (!$principal): ?>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
+                    <div class="card-vocatio text-center p-4">
+                        <span class="material-symbols-outlined mb-3" style="font-size: 48px;">quiz</span>
+                        <h2 class="h4 mb-2">Aún no tienes resultados</h2>
+                        <p class="text-color-on-surface-variant mb-4">
+                            Completa el cuestionario vocacional para descubrir tus áreas de interés.
+                        </p>
+                        <a href="<?php echo BASE_URL; ?>/public/cuestionario" class="btn-explorar">
+                            Comenzar cuestionario
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <?php else: ?>
         <div class="row g-4">
 
             <!-- Tarjeta principal de recomendación -->
@@ -84,15 +82,40 @@ require_once __DIR__ . '/../layout/header.php';
                             style="color: var(--color-on-surface-variant); max-width: 32rem;">
                             <?php echo htmlspecialchars($principal['descripcion']); ?>
                         </p>
+
+                        <?php if ($carreraRecomendada): ?>
+                            <div class="carrera-recomendada">
+                                <span class="carrera-recomendada-chip">
+                                    <span class="material-symbols-outlined" style="font-size:16px;">school</span>
+                                    Tu carrera recomendada
+                                </span>
+                                <h3 class="carrera-recomendada-nombre"><?php echo htmlspecialchars($carreraRecomendada['nombre']); ?></h3>
+                                <p class="carrera-recomendada-desc">
+                                    <?php echo htmlspecialchars($carreraRecomendada['descripcion'] ?: 'Una opción profesional que conecta con tu perfil.'); ?>
+                                </p>
+                                <div class="d-flex flex-wrap gap-2 mt-2">
+                                    <a href="<?php echo BASE_URL; ?>/public/carrera/detalle/<?php echo (int) $carreraRecomendada['carreraId']; ?>"
+                                        class="btn-explorar">
+                                        Ver esta carrera
+                                        <span class="material-symbols-outlined">arrow_forward</span>
+                                    </a>
+                                    <a href="<?php echo BASE_URL; ?>/public/carrera/lista?area=<?php echo (int) $areaPrincipalId; ?>"
+                                        class="btn-explorar btn-explorar--ghost">
+                                        Explorar carreras relacionadas
+                                        <span class="material-symbols-outlined">apartments</span>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mt-3">
                         <div class="d-flex flex-column">
                             <span class="afinidad-numero"><?php echo (int) $principal['porcentaje']; ?>%</span>
                             <span class="afinidad-label">Afinidad</span>
                         </div>
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAO5jwISjYqYTLKw3dtJej1BDDtvaeZu0oD7YUNhHu2zWwtcBcdnTrfUKICJrjNGG1q8-G5y0F4d2zORZVmjgF8NtdwteDZyxSH2YkH6X2s1Hff3CEyPEHM8lfBHRdcrElWX67vXmmlASuzFDn9Tymd7nmB12eTYHo0ZiCmzvIu-BUzfkbNr8drx92fa305MAYzMxtN1pS62U-Z4_iKF6YnPOvt3LK6aPk7ACHOcmA7XEpemM_LPPdPKg"
-                            alt="Tech Illustration" class="d-none d-sm-block"
-                            style="width:8rem;height:8rem;object-fit:contain;opacity:0.8;">
+                        <div class="icono-circulo icono-circulo-grande bg-color-<?php echo htmlspecialchars($principal['color']); ?>">
+                            <span class="material-symbols-outlined"><?php echo htmlspecialchars($principal['icono']); ?></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,7 +129,7 @@ require_once __DIR__ . '/../layout/header.php';
                             <div>
                                 <div class="d-flex justify-content-between align-items-center mb-1">
                                     <span class="d-flex align-items-center gap-2 small">
-                                        <span class="material-symbols-outlined text-color-<?php echo $area['color']; ?>"
+                                        <span class="material-symbols-outlined text-color-<?php echo htmlspecialchars($area['color']); ?>"
                                             style="font-size:16px;">
                                             <?php echo htmlspecialchars($area['icono']); ?>
                                         </span>
@@ -117,7 +140,7 @@ require_once __DIR__ . '/../layout/header.php';
                                     </span>
                                 </div>
                                 <div class="barra-afinidad">
-                                    <div class="relleno bg-color-<?php echo $area['color']; ?>"
+                                    <div class="relleno bg-color-<?php echo htmlspecialchars($area['color']); ?>"
                                         data-target="<?php echo (int) $area['porcentaje']; ?>" style="width:0%;"></div>
                                 </div>
                             </div>
@@ -131,8 +154,7 @@ require_once __DIR__ . '/../layout/header.php';
                 <div class="col-12 col-md-6">
                     <div class="card-vocatio d-flex flex-row align-items-start gap-3">
                         <div class="icono-circulo">
-                            <span
-                                class="material-symbols-outlined"><?php echo htmlspecialchars($secundaria['icono']); ?></span>
+                            <span class="material-symbols-outlined"><?php echo htmlspecialchars($secundaria['icono']); ?></span>
                         </div>
                         <div>
                             <h3 class="h5 mb-2"><?php echo htmlspecialchars($secundaria['label']); ?></h3>
@@ -148,14 +170,19 @@ require_once __DIR__ . '/../layout/header.php';
             <div class="col-12 col-md-6">
                 <div class="card-cta">
                     <h3 class="h5 mb-4">¿Listo para dar el siguiente paso?</h3>
-                    <a href="<?php echo BASE_URL; ?>/public/carrera/lista" class="btn-explorar">
+                    <a href="<?php echo BASE_URL; ?>/public/carrera/lista?area=<?php echo (int) $areaPrincipalId; ?>" class="btn-explorar">
                         Explorar carreras relacionadas
                         <span class="material-symbols-outlined">arrow_forward</span>
+                    </a>
+                    <a href="<?php echo BASE_URL; ?>/public/cuestionario/reiniciar" class="btn-explorar btn-explorar--ghost mt-3">
+                        Volver a intentar el cuestionario
+                        <span class="material-symbols-outlined">replay</span>
                     </a>
                 </div>
             </div>
 
         </div>
+        <?php endif; ?>
     </main>
 
     <?php require_once __DIR__ . '/../layout/footer.php'; ?>

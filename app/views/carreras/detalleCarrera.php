@@ -2,6 +2,9 @@
 require_once __DIR__ . '/../../config/config.php';
 
 $carrera = $carrera ?? null;
+$afinidad = $afinidad ?? null;
+$anillo = 251.2;
+$desplazamiento = $afinidad !== null ? round($anillo * (1 - $afinidad / 100), 2) : $anillo;
 
 $habilidades = json_decode($carrera['habilidades'] ?? '', true);
 if (!is_array($habilidades)) {
@@ -130,23 +133,32 @@ require_once __DIR__ . '/../layout/header.php';
                 <?php endif; ?>
             </article>
 
-            <aside class="affinity-card">
+<aside class="affinity-card">
                 <div class="affinity-content">
                     <h3>Tu Afinidad</h3>
 
-                    <div class="affinity-circle">
-                        <svg viewBox="0 0 100 100" aria-hidden="true">
-                            <circle cx="50" cy="50" r="40" class="affinity-circle-bg"></circle>
-                            <circle cx="50" cy="50" r="40" class="affinity-circle-progress" style="stroke-dasharray: 251.2; stroke-dashoffset: 37.68;"></circle>
-                        </svg>
-                        <div class="affinity-percentage">
-                            <span class="affinity-percentage-number">85</span>
-                            <span class="affinity-percentage-symbol">%</span>
+                    <?php if ($afinidad !== null): ?>
+                        <div class="affinity-circle">
+                            <svg viewBox="0 0 100 100" aria-hidden="true">
+                                <circle cx="50" cy="50" r="40" class="affinity-circle-bg"></circle>
+                                <circle cx="50" cy="50" r="40" class="affinity-circle-progress"
+                                    style="stroke-dasharray: <?php echo $anillo; ?>; stroke-dashoffset: <?php echo $desplazamiento; ?>;"></circle>
+                            </svg>
+                            <div class="affinity-percentage">
+                                <span class="affinity-percentage-number"><?php echo (int) $afinidad; ?></span>
+                                <span class="affinity-percentage-symbol">%</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <p>Tus respuestas en el test indican un alto perfil analítico, ideal para esta carrera.</p>
-                    <a href="<?= BASE_URL; ?>/public/areas/index" class="btn-affinity">Ver desglose</a>
+                        <p>Según tu resultado guardado, tu afinidad con esta área es de <?php echo (int) $afinidad; ?>%.</p>
+                        <a href="<?php echo BASE_URL; ?>/public/cuestionario/resultado" class="btn-affinity">Ver desglose</a>
+                    <?php else: ?>
+                        <div class="affinity-circle affinity-circle--empty">
+                            <span class="material-symbols-outlined">quiz</span>
+                        </div>
+                        <p>Completa el cuestionario vocacional para conocer tu afinidad con esta carrera.</p>
+                        <a href="<?php echo BASE_URL; ?>/public/cuestionario" class="btn-affinity">Hacer el cuestionario</a>
+                    <?php endif; ?>
                 </div>
             </aside>
         </section>

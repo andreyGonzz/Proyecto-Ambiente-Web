@@ -17,6 +17,12 @@ class UsuarioController extends Controller
         $this->view('admin/usuarios', ['users' => $users]);
     }
 
+    public function resultados()
+    {
+        $resultados = $this->model('Cuestionario')->obtenerResultados();
+        $this->view('admin/resultados', ['resultados' => $resultados]);
+    }
+
     public function create()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

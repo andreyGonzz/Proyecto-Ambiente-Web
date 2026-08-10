@@ -363,6 +363,16 @@ main {
   transition: stroke-dashoffset 0.5s ease;
 }
 
+.affinity-circle--empty {
+  border: 2px dashed var(--color-outline-variant);
+  border-radius: 9999px;
+}
+
+.affinity-circle--empty .material-symbols-outlined {
+  font-size: 2.5rem;
+  color: var(--color-on-surface-variant);
+}
+
 .affinity-percentage {
   position: absolute;
   display: flex;

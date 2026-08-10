@@ -1,6 +1,10 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
 
+$areaId = $areaId ?? 0;
+$areaLabel = $areaLabel ?? '';
+$areaNombre = $areaNombre ?? '';
+
 function chipDificultad($dificultad)
 {
     return match ($dificultad) {
@@ -11,7 +15,7 @@ function chipDificultad($dificultad)
 }
 ?>
 <?php
-$pageTitle = 'Carreras - ' . siteName;
+$pageTitle = ($areaLabel ? $areaLabel . ' - ' : '') . 'Carreras - ' . siteName;
 $pageStyles = ['carreras-list.css'];
 $pageScripts = ['carreras.js'];
 $bodyClass = 'vt-careers-page';
@@ -19,8 +23,19 @@ require_once __DIR__ . '/../layout/header.php';
 ?>
     <main class="vt-container vt-section w-100">
         <section class="vt-careers-hero">
-            <h1 class="vt-careers-title vt-display">Explora tu futuro</h1>
-<div class="vt-careers-toolbar">
+            <?php if ($areaLabel): ?>
+                <h1 class="vt-careers-title vt-display">Carreras de <?php echo htmlspecialchars($areaLabel); ?></h1>
+                <p class="vt-careers-subtitle">
+                    Carreras relacionadas con tu perfil. Explora las opciones y encuentra la ideal para ti.
+                    <a href="<?php echo BASE_URL; ?>/public/carrera/lista" class="vt-careers-link-all">Ver todas las carreras</a>
+                </p>
+            <?php else: ?>
+                <h1 class="vt-careers-title vt-display">Explora tu futuro</h1>
+            <?php endif; ?>
+            <?php if (empty($carreras)): ?>
+                <p class="text-center text-muted py-5">No hay carreras disponibles por el momento.</p>
+            <?php else: ?>
+            <div class="vt-careers-toolbar">
                     <div class="vt-careers-search">
                         <span class="material-symbols-outlined">search</span>
                         <input type="text" id="carrerasBusqueda" class="form-control" placeholder="Busca por carrera, área o interés...">
@@ -35,9 +50,6 @@ require_once __DIR__ . '/../layout/header.php';
                 </div>
             </section>
 
-            <?php if (empty($carreras)): ?>
-                <p class="text-center text-muted py-5">No hay carreras disponibles por el momento.</p>
-            <?php else: ?>
             <section class="row g-4">
                 <?php foreach ($carreras as $carrera): ?>
                     <article class="col-12 col-md-6 col-lg-4"
