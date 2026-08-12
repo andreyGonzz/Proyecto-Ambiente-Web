@@ -1,8 +1,6 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
 
-$resultados = $resultados ?? [];
-
 $pageTitle = 'Resultados del Cuestionario - ' . siteName;
 $pageStyles = ['admin.css', 'usuarios.css'];
 $pageScripts = ['admin.js'];
@@ -64,26 +62,11 @@ require_once __DIR__ . '/../layout/header.php';
                                 </tr>
                             </thead>
                             <tbody id="resultadosTableBody">
-                                <?php if (empty($resultados)): ?>
-                                    <tr>
-                                        <td colspan="6" class="text-center text-muted py-4">
-                                            Aún no hay resultados guardados. Cuando un usuario complete el cuestionario, aparecerá aquí.
-                                        </td>
-                                    </tr>
-                                <?php else: ?>
-                                    <?php foreach ($resultados as $r): ?>
-                                        <tr data-busqueda="<?php echo htmlspecialchars(strtolower($r['usuario_nombre'] . ' ' . $r['usuario_correo'] . ' ' . $r['carrera_nombre'])); ?>">
-                                            <td><?php echo htmlspecialchars($r['usuario_nombre']); ?></td>
-                                            <td><?php echo htmlspecialchars($r['usuario_correo']); ?></td>
-                                            <td><?php echo htmlspecialchars($r['area_principal_label']); ?></td>
-                                            <td>
-                                                <span class="badge rounded-pill text-bg-primary"><?php echo (int) $r['afinidad_principal']; ?>%</span>
-                                            </td>
-                                            <td><?php echo htmlspecialchars($r['carrera_nombre'] ?: '—'); ?></td>
-                                            <td><?php echo htmlspecialchars($r['fecha']); ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-4">
+                                        Cargando resultados...
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -92,4 +75,4 @@ require_once __DIR__ . '/../layout/header.php';
         </main>
     </div>
 
-    <?php require_once __DIR__ . '/../layout/footer.php'; ?>
+    <?php require_once __DIR__ . '/../layout/footer.php'; ?> 

@@ -3,8 +3,6 @@ require_once __DIR__ . '/../../config/config.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-$logueado = isset($_SESSION['user_id']);
-$nombreUsuario = $logueado ? $_SESSION['user_nombre'] : '';
 
 // Variables opcionales que la vista puede definir antes de incluir este archivo
 $pageTitle = $pageTitle ?? siteName;
@@ -42,6 +40,11 @@ $sinNavbar = !empty($sinNavbar);
         <link rel="stylesheet"
             href="<?= htmlspecialchars(BASE_URL) ?>/public/assets/styles/<?= htmlspecialchars($estilo) ?>?v=<?= file_exists($estiloRuta) ? filemtime($estiloRuta) : '' ?>">
     <?php endforeach; ?>
+    <!-- Variables globales para JS -->
+    <script>
+        window.BASE_URL_ = <?= json_encode(BASE_URL) ?>;
+        window.API_ROOT = encodeURI(<?= json_encode(BASE_URL) ?>) + '/public/';
+    </script>
 </head>
 
 <body<?= $bodyClass !== '' ? ' class="' . htmlspecialchars($bodyClass) . '"' : '' ?>>
@@ -60,17 +63,20 @@ $sinNavbar = !empty($sinNavbar);
             </nav>
         </div>
         <div class="d-flex align-items-center gap-3">
-            <?php if ($logueado): ?>
-                <span class="vt-text-on-surface-variant d-none d-md-inline-block">
-                    Hola, <?= htmlspecialchars($nombreUsuario) ?>
-                </span>
-                <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/logout" class="vt-btn-primary vt-shadow-soft d-none d-md-inline-flex">
-                    <span class="material-symbols-outlined">logout</span>
-                    Cerrar sesión
-                </a>
+            <?php if (!empty($_SESSION['user_id'])): ?>
+                <span class="vt-text-on-surface-variant d-none d-md-inline-block" id="navNombre">Bienvenido, <?= htmlspecialchars($_SESSION['user_nombre'] ?? $_SESSION['user_name'] ?? $_SESSION['user_correo'] ?? '') ?></span>
+                <div id="navSesion" class="d-md-inline-flex align-items-center gap-3">
+                    <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/logout" class="vt-btn-primary vt-shadow-soft">
+                        <span class="material-symbols-outlined">logout</span>
+                        Cerrar sesión
+                    </a>
+                </div>
             <?php else: ?>
-                <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/login" class="vt-link-primary d-none d-md-inline-block">Iniciar sesión</a>
-                <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/register" class="vt-btn-primary vt-shadow-soft d-none d-md-inline-flex">Registrarse</a>
+                <span class="vt-text-on-surface-variant d-none d-md-inline-block" id="navNombre"></span>
+                <div id="navInvitado" class="d-md-inline-flex align-items-center gap-3">
+                    <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/login" class="vt-link-primary">Iniciar sesión</a>
+                    <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/register" class="vt-btn-primary vt-shadow-soft">Registrarse</a>
+                </div>
             <?php endif; ?>
 
             <button type="button" class="btn vt-navbar-burger d-md-none" data-bs-toggle="offcanvas"
@@ -89,22 +95,27 @@ $sinNavbar = !empty($sinNavbar);
         </span>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
     </div>
-    <div class="offcanvas-body d-flex flex-column">
+        <div class="offcanvas-body d-flex flex-column">
         <nav class="d-flex flex-column mb-3">
             <a href="<?= htmlspecialchars(BASE_URL) ?>/public/" class="vt-nav-link vt-nav-link-mobile">Inicio</a>
             <a href="<?= htmlspecialchars(BASE_URL) ?>/public/areas/index" class="vt-nav-link vt-nav-link-mobile">Carreras</a>
         </nav>
         <hr>
         <div class="d-flex flex-column gap-2 mt-auto">
-            <?php if ($logueado): ?>
-                <span class="vt-text-on-surface-variant">Hola, <?= htmlspecialchars($nombreUsuario) ?></span>
-                <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/logout" class="vt-btn-primary justify-content-center">
-                    <span class="material-symbols-outlined">logout</span>
-                    Cerrar sesión
-                </a>
+            <?php if (!empty($_SESSION['user_id'])): ?>
+                <div class="text-center mb-2" id="navNombreMovil">Bienvenido, <?= htmlspecialchars($_SESSION['user_nombre'] ?? $_SESSION['user_name'] ?? $_SESSION['user_correo'] ?? '') ?></div>
+                <div id="navSesionMovil" class="d-flex flex-column gap-2">
+                    <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/logout" class="vt-btn-primary justify-content-center">
+                        <span class="material-symbols-outlined">logout</span>
+                        Cerrar sesión
+                    </a>
+                </div>
             <?php else: ?>
-                <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/login" class="vt-link-primary">Iniciar sesión</a>
-                <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/register" class="vt-btn-primary justify-content-center">Registrarse</a>
+                <div class="text-center mb-2" id="navNombreMovil"></div>
+                <div id="navInvitadoMovil" class="d-flex flex-column gap-2">
+                    <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/login" class="vt-link-primary">Iniciar sesión</a>
+                    <a href="<?= htmlspecialchars(BASE_URL) ?>/public/auth/register" class="vt-btn-primary justify-content-center">Registrarse</a>
+                </div>
             <?php endif; ?>
         </div>
     </div>

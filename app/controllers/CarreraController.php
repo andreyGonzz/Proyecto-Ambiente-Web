@@ -13,15 +13,13 @@ class CarreraController extends Controller
 
     public function index()
     {
-        $carreras = $this->carreraModel->getAll();
-        $areas = $this->model('Cuestionario')->getAreas();
-        $this->view('admin/carrera', ['carreras' => $carreras, 'areas' => $areas]);
+        $this->view('admin/carrera');
     }
 
     public function create()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            return $this->view('admin/carrera');
+            return $this->respondJson(['success' => false, 'message' => 'Método no permitido'], 405);
         }
 
         $data = $this->datosDelFormulario();
@@ -40,12 +38,12 @@ class CarreraController extends Controller
 
     public function edit($id = null)
     {
-        if (!$id) {
-            return $this->view('admin/carrera');
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return $this->respondJson(['success' => false, 'message' => 'Método no permitido'], 405);
         }
 
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            return $this->view('admin/carrera', ['carrera' => $this->carreraModel->getById($id)]);
+        if (!$id) {
+            return $this->respondJson(['success' => false, 'message' => 'ID de carrera no proporcionado'], 400);
         }
 
         $data = $this->datosDelFormulario();
@@ -78,42 +76,26 @@ class CarreraController extends Controller
     public function apiList()
     {
         $carreras = $this->carreraModel->getAll();
-        $this->respondJson($carreras);
+        $this->respondJson(['success' => true, 'data' => $carreras]);
     }
 
-    public function lista()
+    public function apiAreas()
     {
-        $areaId = isset($_GET['area']) ? (int) $_GET['area'] : 0;
-        $carreras = $this->carreraModel->getAll();
         $areas = $this->model('Cuestionario')->getAreas();
-
-        $areaLabel = '';
-        $areaNombre = '';
-        foreach ($areas as $area) {
-            if ((int) $area['area_id'] === $areaId) {
-                $areaLabel = $area['label'];
-                $areaNombre = $area['nombre'];
-                break;
-            }
-        }
-
-        $this->view('carreras/carreraList', [
-            'carreras' => $carreras,
-            'areas' => $areas,
-            'areaId' => $areaId,
-            'areaLabel' => $areaLabel,
-            'areaNombre' => $areaNombre,
-        ]);
+        $this->respondJson(['success' => true, 'data' => $areas]);
     }
 
-    public function detalle($id = null)
+    public function apiDetalle($id = null)
     {
         $carrera = $id ? $this->carreraModel->getById((int) $id) : null;
+        if (!$carrera) {
+            return $this->respondJson(['success' => false, 'message' => 'Carrera no encontrada'], 404);
+        }
 
         $afinidad = null;
-        if ($carrera && isset($_SESSION['user_id'])) {
+        if (isset($_SESSION['user_id'])) {
             $resultado = $this->model('Cuestionario')->obtenerUltimoResultado((int) $_SESSION['user_id']);
-            if ($resultado) {
+            if ($resultado && is_array($resultado['desglose'] ?? null)) {
                 $areaCarrera = (int) $carrera['areaId'];
                 foreach ($resultado['desglose'] as $area) {
                     if ((int) $area['area_id'] === $areaCarrera) {
@@ -124,10 +106,23 @@ class CarreraController extends Controller
             }
         }
 
-        $this->view('carreras/detalleCarrera', [
-            'carrera' => $carrera,
-            'afinidad' => $afinidad,
+        return $this->respondJson([
+            'success' => true,
+            'data' => [
+                'carrera' => $carrera,
+                'afinidad' => $afinidad,
+            ],
         ]);
+    }
+
+    public function lista()
+    {
+        $this->view('carreras/carreraList');
+    }
+
+    public function detalle($id = null)
+    {
+        $this->view('carreras/detalleCarrera');
     }
 
     public function apiStore()

@@ -55,4 +55,51 @@ document.addEventListener('DOMContentLoaded', () => {
         strengthLabel.textContent = strengthTexts[level - 1];
         strengthLabel.style.color = levelColors[level - 1];
     });
+
+    const registerForm = document.getElementById('registerForm');
+    if (registerForm) {
+        registerForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const submitBtn = registerForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch(registerForm.action, {
+                    method: 'POST',
+                    body: new FormData(registerForm),
+                });
+
+                const data = await response.json();
+
+                if (data.ok) {
+                    if (typeof Swal !== 'undefined') {
+                        await Swal.fire({
+                            icon: 'success',
+                            title: '¡Cuenta creada!',
+                            text: data.message,
+                            timer: 2500,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                        });
+                    }
+                    window.location.href = (typeof BASE_URL_ !== 'undefined' ? BASE_URL_ : '') + '/public/auth/login';
+                } else {
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({ icon: 'error', title: 'Error', text: data.message || 'No se pudo registrar el usuario.' });
+                    } else {
+                        alert(data.message || 'No se pudo registrar el usuario.');
+                    }
+                }
+            } catch (error) {
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo conectar con el servidor. Inténtalo de nuevo.' });
+                } else {
+                    alert('No se pudo conectar con el servidor. Inténtalo de nuevo.');
+                }
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+    }
 });

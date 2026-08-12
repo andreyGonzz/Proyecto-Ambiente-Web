@@ -2,8 +2,11 @@ const API_ROOT = window.API_ROOT;
 
 let usuarios = [];
 let carreras = [];
+let resultados = [];
+let areas = [];
 let cargaUsuariosFallida = false;
 let cargaCarrerasFallida = false;
+let cargaResultadosFallida = false;
 
 function apiUrl(controlador, accion, id) {
     let url = API_ROOT + '?url=' + controlador + '/' + accion;
@@ -96,8 +99,12 @@ async function cargarUsuarios() {
     const resultado = await peticionApi(apiUrl('usuario', 'apiList'));
     cargaUsuariosFallida = !resultado.ok;
 
-    if (resultado.ok && Array.isArray(resultado.datos)) {
-        usuarios = resultado.datos.map((usuario) => ({
+    const lista = resultado.ok && resultado.datos && Array.isArray(resultado.datos.data)
+        ? resultado.datos.data
+        : [];
+
+    if (Array.isArray(lista)) {
+        usuarios = lista.map((usuario) => ({
             usuarioId: Number(usuario.id),
             nombre: usuario.nombre || '',
             correo: usuario.correo || '',
@@ -114,8 +121,12 @@ async function cargarCarreras() {
     const resultado = await peticionApi(apiUrl('carrera', 'apiList'));
     cargaCarrerasFallida = !resultado.ok;
 
-    if (resultado.ok && Array.isArray(resultado.datos)) {
-        carreras = resultado.datos.map((carrera) => ({
+    const lista = resultado.ok && resultado.datos && Array.isArray(resultado.datos.data)
+        ? resultado.datos.data
+        : [];
+
+    if (Array.isArray(lista)) {
+        carreras = lista.map((carrera) => ({
             ...carrera,
             carreraId: Number(carrera.carreraId),
             estadoId: Number(carrera.estadoId),
@@ -125,6 +136,67 @@ async function cargarCarreras() {
     }
 
     renderCarreras();
+}
+
+async function cargarAreas() {
+    const select = document.querySelector('#carreraForm [name="areaId"]');
+    if (!select) return;
+
+    const resultado = await peticionApi(apiUrl('carrera', 'apiAreas'));
+
+    select.innerHTML = '<option value="">Selecciona un área...</option>';
+
+    const lista = resultado.ok && resultado.datos && Array.isArray(resultado.datos.data)
+        ? resultado.datos.data
+        : [];
+
+    areas = lista;
+    lista.forEach((area) => {
+        const opcion = document.createElement('option');
+        opcion.value = area.area_id;
+        opcion.textContent = `${area.nombre} - ${area.label}`;
+        select.appendChild(opcion);
+    });
+}
+
+async function cargarResultados() {
+    const tabla = document.querySelector('#resultadosTableBody');
+    if (!tabla) return;
+
+    const resultado = await peticionApi(apiUrl('usuario', 'apiResultados'));
+    cargaResultadosFallida = !resultado.ok;
+
+    const lista = resultado.ok && resultado.datos && Array.isArray(resultado.datos.data)
+        ? resultado.datos.data
+        : [];
+
+    resultados = lista;
+    renderResultados();
+}
+
+function renderResultados(lista = resultados) {
+    const tabla = document.querySelector('#resultadosTableBody');
+    if (!tabla) return;
+
+    if (!lista.length) {
+        tabla.innerHTML = cargaResultadosFallida
+            ? '<tr><td colspan="6" class="text-center py-4">No se pudieron cargar los datos.</td></tr>'
+            : '<tr><td colspan="6" class="text-center py-4">Aún no hay resultados guardados. Cuando un usuario complete el cuestionario, aparecerá aquí.</td></tr>';
+        return;
+    }
+
+    tabla.innerHTML = lista.map((r) => `
+        <tr data-busqueda="${escapar(String(r.usuario_nombre + ' ' + r.usuario_correo + ' ' + (r.carrera_nombre || '')).toLowerCase())}">
+            <td>${escapar(r.usuario_nombre)}</td>
+            <td>${escapar(r.usuario_correo)}</td>
+            <td>${escapar(r.area_principal_label)}</td>
+            <td>
+                <span class="badge rounded-pill text-bg-primary">${Number(r.afinidad_principal)}%</span>
+            </td>
+            <td>${escapar(r.carrera_nombre || '—')}</td>
+            <td>${escapar(r.fecha)}</td>
+        </tr>
+    `).join('');
 }
 
 async function crearUsuario(datos) {
@@ -657,11 +729,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     inicializarInterfaz();
     await cargarUsuarios();
     await cargarCarreras();
+    await cargarAreas();
+    await cargarResultados();
 });
 
 window.adminState = {
     cargarUsuarios,
     cargarCarreras,
+    cargarAreas,
+    cargarResultados,
     crearUsuario,
     modificarUsuario,
     eliminarUsuario,
@@ -670,4 +746,5 @@ window.adminState = {
     eliminarCarrera,
     renderUsuarios,
     renderCarreras,
+    renderResultados,
 };

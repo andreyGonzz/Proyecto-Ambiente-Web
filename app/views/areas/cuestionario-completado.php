@@ -36,7 +36,8 @@ require_once __DIR__ . '/../layout/header.php';
                                     Ver mis resultados
                                     <span class="material-symbols-outlined vt-btn-icon">arrow_forward</span>
                                 </a>
-                                <a href="<?php echo BASE_URL; ?>/public/cuestionario/reiniciar" class="vt-secondary-link">
+                                <a href="<?php echo BASE_URL; ?>/public/cuestionario/reiniciar" class="vt-secondary-link"
+                                    id="btnReiniciarCuestionario">
                                     Volver a intentar el cuestionario
                                 </a>
                                 <a href="<?php echo BASE_URL; ?>/public/index.php" class="vt-secondary-link">

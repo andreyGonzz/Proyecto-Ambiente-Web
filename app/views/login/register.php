@@ -1,7 +1,4 @@
 <?php
-require_once __DIR__ . '/../../config/config.php';
-$error = $error ?? '';
-
 $pageTitle = 'Vocatio - Crear cuenta';
 $pageStyles = ['login.css'];
 $pageScripts = ['register.js'];
@@ -22,13 +19,8 @@ require_once __DIR__ . '/../layout/header.php';
                             <p class="vt-text-on-surface-variant">Únete para descubrir tu camino profesional con confianza.</p>
                         </div>
 
-                        <form class="d-flex flex-column gap-3" method="POST"
+                        <form class="d-flex flex-column gap-3" id="registerForm" method="POST"
                             action="<?php echo BASE_URL; ?>/public/auth/register">
-                            <?php if ($error !== ''): ?>
-                                <div class="alert alert-danger mb-0" role="alert">
-                                    <?= htmlspecialchars($error) ?>
-                                </div>
-                            <?php endif; ?>
                             <div class="position-relative">
                                 <input class="form-control vt-register-input" id="fullname" name="fullname" type="text" placeholder="Nombre completo" required>
                                 <label class="vt-register-label" for="fullname">Nombre completo</label>

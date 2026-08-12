@@ -1,14 +1,5 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ' . BASE_URL . '/public/auth/login');
-    exit;
-}
-
-$totalPreguntas = $totalPreguntas ?? 60;
 
 $pageTitle = 'Cuestionario Vocacional - ' . siteName;
 $pageStyles = ['cuestionario.css'];
@@ -17,16 +8,6 @@ $bodyClass = 'page-cuestionario';
 $sinNavbar = true;
 require_once __DIR__ . '/../layout/header.php';
 ?>
-    <script>
-        window.VOCATIO = {
-            baseUrl: <?= json_encode(BASE_URL) ?>,
-            userId: <?= (int) $_SESSION['user_id'] ?>,
-            totalPreguntas: <?= (int) $totalPreguntas ?>,
-            urlGuardar: <?= json_encode(BASE_URL . '/public/cuestionario/apiGuardar') ?>,
-            urlResultado: <?= json_encode(BASE_URL . '/public/cuestionario/resultado') ?>
-        };
-    </script>
-
     <header class="site-header bg-white border-bottom">
         <div class="container container-max d-flex align-items-center justify-content-between py-3">
             <div class="brand d-flex align-items-center gap-2">

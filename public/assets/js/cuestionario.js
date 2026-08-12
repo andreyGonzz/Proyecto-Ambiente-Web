@@ -1,9 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const cfg = window.VOCATIO || {};
-    if (!cfg.baseUrl || !cfg.totalPreguntas) return;
+    const API_ROOT = (typeof BASE_URL_ !== 'undefined' ? BASE_URL_ : '') + '/public/';
+    if (!API_ROOT) return;
+
+    const cfg = {
+        urlPreguntas: API_ROOT + 'cuestionario/apiPreguntas',
+        urlGuardar: API_ROOT + 'cuestionario/apiGuardar',
+        urlResultado: API_ROOT + 'cuestionario/resultado',
+        urlLogin: API_ROOT + 'auth/login',
+    };
 
     const letras = ['A', 'B', 'C', 'D', 'E'];
-    const storageKey = 'vocatio_respuestas_' + (cfg.userId || 0);
+    const storageKey = 'vocatio_respuestas';
 
     const elTitulo = document.getElementById('preguntaTitulo');
     const elModulo = document.getElementById('preguntaModulo');
@@ -165,8 +172,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    fetch(cfg.baseUrl + '/public/cuestionario/apiPreguntas')
-        .then(res => res.json())
+    fetch(cfg.urlPreguntas)
+        .then(async res => {
+            if (res.status === 401) {
+                window.location.href = cfg.urlLogin;
+                throw new Error('Debes iniciar sesión para continuar.');
+            }
+            return res.json();
+        })
         .then(json => {
             if (!json.success || !Array.isArray(json.preguntas) || json.preguntas.length === 0) {
                 throw new Error('No hay preguntas disponibles en la base de datos.');

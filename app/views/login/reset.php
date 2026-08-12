@@ -1,10 +1,9 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
-$error = $error ?? '';
-$token = $token ?? '';
 
 $pageTitle = 'Vocatio - Nueva contraseña';
 $pageStyles = ['login.css'];
+$pageScripts = ['reset.js'];
 $bodyClass = 'bg-light min-vh-100 d-flex flex-column';
 require_once __DIR__ . '/../layout/header.php';
 ?>
@@ -18,16 +17,16 @@ require_once __DIR__ . '/../layout/header.php';
                             <p class="vt-text-on-surface-variant mb-0">Elige una contraseña segura para tu cuenta.</p>
                         </div>
 
-                        <?php if ($error !== ''): ?>
-                            <div class="alert alert-danger" role="alert">
-                                <?= htmlspecialchars($error) ?>
-                            </div>
-                        <?php endif; ?>
+                        <div id="resetCargando" class="text-center text-muted py-4">
+                            Validando el enlace de recuperación...
+                        </div>
 
-                        <?php if ($token !== ''): ?>
+                        <div id="resetFormSection" class="d-none">
                             <form method="POST" action="<?php echo BASE_URL; ?>/public/auth/reset"
-                                class="d-flex flex-column gap-3">
-                                <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
+                                class="d-flex flex-column gap-3" id="resetForm">
+                                <input type="hidden" name="token" id="resetToken">
+
+                                <div id="resetError" class="alert alert-danger d-none" role="alert"></div>
 
                                 <div>
                                     <label for="password" class="form-label vt-label">Nueva contraseña</label>
@@ -45,15 +44,18 @@ require_once __DIR__ . '/../layout/header.php';
                                     Guardar nueva contraseña
                                 </button>
                             </form>
-                        <?php else: ?>
-                            <div class="text-center">
-                                <a href="<?php echo BASE_URL; ?>/public/auth/recover"
-                                    class="vt-link-primary d-inline-flex align-items-center gap-2">
-                                    <span class="material-symbols-outlined">arrow_back</span>
-                                    Solicitar un nuevo enlace de recuperación
-                                </a>
-                            </div>
-                        <?php endif; ?>
+                        </div>
+
+                        <div id="resetInvalido" class="d-none text-center">
+                            <p class="vt-text-on-surface-variant mb-4">
+                                El enlace es inválido o ha expirado. Solicita uno nuevo para restablecer tu contraseña.
+                            </p>
+                            <a href="<?php echo BASE_URL; ?>/public/auth/recover"
+                                class="vt-link-primary d-inline-flex align-items-center gap-2">
+                                <span class="material-symbols-outlined">arrow_back</span>
+                                Solicitar un nuevo enlace de recuperación
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -14,7 +14,7 @@ token_expira datetime
 
 
 insert into usuarios (nombre, correo, contrasena, rol) values ('Admin', 'admin@admin.com', '$2y$10$mHTsxtlyxSSy4s5ULRybEufBSP3bi2HDb8/2GfSJZvD4Hdj3nlWlC', 'ADMIN');
---contraseña : admin123
+-- contraseña : admin123
 
 
 create table if not exists areas(

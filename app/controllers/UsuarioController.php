@@ -13,20 +13,18 @@ class UsuarioController extends Controller
 
     public function index()
     {
-        $users = $this->userModel->getAll();
-        $this->view('admin/usuarios', ['users' => $users]);
+        $this->view('admin/usuarios');
     }
 
     public function resultados()
     {
-        $resultados = $this->model('Cuestionario')->obtenerResultados();
-        $this->view('admin/resultados', ['resultados' => $resultados]);
+        $this->view('admin/resultados');
     }
 
     public function create()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            return $this->view('admin/usuarios');
+            return $this->respondJson(['success' => false, 'message' => 'Método no permitido'], 405);
         }
 
         $data = [
@@ -57,13 +55,12 @@ class UsuarioController extends Controller
 
     public function edit($id = null)
     {
-        if (!$id) {
-            return $this->view('admin/usuarios');
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return $this->respondJson(['success' => false, 'message' => 'Método no permitido'], 405);
         }
 
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $user = $this->userModel->getById($id);
-            return $this->view('admin/usuarios', ['user' => $user]);
+        if (!$id) {
+            return $this->respondJson(['success' => false, 'message' => 'ID de usuario no proporcionado'], 400);
         }
 
         $data = [
@@ -109,7 +106,13 @@ class UsuarioController extends Controller
     public function apiList()
     {
         $users = $this->userModel->getAll();
-        $this->respondJson($users);
+        $this->respondJson(['success' => true, 'data' => $users]);
+    }
+
+    public function apiResultados()
+    {
+        $resultados = $this->model('Cuestionario')->obtenerResultados();
+        $this->respondJson(['success' => true, 'data' => $resultados]);
     }
 
     public function apiStore()

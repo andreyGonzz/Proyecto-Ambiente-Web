@@ -18,4 +18,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
         container.appendChild(confetti);
     }
+
+    const btnReiniciar = document.getElementById('btnReiniciarCuestionario');
+    const API_ROOT = (typeof BASE_URL_ !== 'undefined' ? BASE_URL_ : '') + '/public/';
+    if (btnReiniciar && API_ROOT) {
+        btnReiniciar.addEventListener('click', async function (event) {
+            event.preventDefault();
+            try {
+                await fetch(API_ROOT + 'cuestionario/reiniciar', { method: 'POST' });
+            } catch (error) {
+                // se continúa aunque la petición falle
+            }
+            window.location.href = API_ROOT + 'cuestionario';
+        });
+    }
 });

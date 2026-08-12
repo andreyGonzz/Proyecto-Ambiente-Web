@@ -86,12 +86,7 @@ require_once __DIR__ . '/../layout/header.php';
                     <div class="mb-3">
                         <label class="form-label">Área de la carrera</label>
                         <select class="form-select" name="areaId" required>
-                            <option value="">Selecciona un área...</option>
-                            <?php foreach ($areas as $area): ?>
-                                <option value="<?php echo (int) $area['area_id']; ?>">
-                                    <?php echo htmlspecialchars($area['nombre']); ?> - <?php echo htmlspecialchars($area['label']); ?>
-                                </option>
-                            <?php endforeach; ?>
+                            <option value="">Cargando áreas...</option>
                         </select>
                     </div>
                     <div class="mb-3">

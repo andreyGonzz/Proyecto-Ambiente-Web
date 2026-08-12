@@ -93,10 +93,13 @@ class AuthController extends Controller
         }
 
         if ($error === null) {
-            return $this->view('login/login');
+            return $this->respond([
+                'ok' => true,
+                'message' => 'Tu cuenta fue creada correctamente. Serás redirigido para iniciar sesión.',
+            ]);
         }
 
-        $this->view('login/register', ['error' => $error]);
+        $this->respond(['ok' => false, 'message' => $error], 400);
     }
 
     public function recover()
@@ -138,9 +141,10 @@ class AuthController extends Controller
     public function reset($token = null)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $token = trim($_POST['token'] ?? '');
-            $nueva = $_POST['password'] ?? '';
-            $confirmacion = $_POST['confirm_password'] ?? '';
+            $input = json_decode(file_get_contents('php://input'), true) ?? [];
+            $token = trim($_POST['token'] ?? $input['token'] ?? $token ?? '');
+            $nueva = $_POST['password'] ?? $input['password'] ?? '';
+            $confirmacion = $_POST['confirm_password'] ?? $input['confirm_password'] ?? '';
 
             $error = null;
             $usuario = $this->model('Usuario');
@@ -159,27 +163,42 @@ class AuthController extends Controller
                 $user = $usuario->getByToken($token);
                 if ($usuario->actualizarContrasena($user['correo'], $nueva)) {
                     $usuario->setToken($user['correo'], null, null);
-                    return $this->view('login/login');
+                    return $this->respond([
+                        'ok' => true,
+                        'message' => 'Tu contraseña fue actualizada. Serás redirigido para iniciar sesión.',
+                    ]);
                 }
                 $error = 'No se pudo actualizar la contraseña. Inténtalo de nuevo.';
             }
 
-            $this->view('login/reset', ['error' => $error, 'token' => $token]);
+            $this->respond(['ok' => false, 'message' => $error], 400);
         }
 
+        $this->view('login/reset');
+    }
+
+    public function apiValidarToken($token = null)
+    {
         $usuario = $this->model('Usuario');
-        if (!$usuario->getByToken($token ?? '')) {
-            $this->view('login/reset', ['error' => 'El enlace es inválido o ha expirado. Solicita un nuevo enlace de recuperación.']);
-        }
+        $valido = $usuario->getByToken($token ?? '') ? true : false;
+        $this->respond(['ok' => true, 'valido' => $valido]);
+    }
 
-        $this->view('login/reset', ['token' => $token]);
+    public function apiSesion()
+    {
+        $this->respond([
+            'ok' => true,
+            'logueado' => isset($_SESSION['user_id']),
+            'nombre' => $_SESSION['user_nombre'] ?? '',
+            'rol' => $_SESSION['user_rol'] ?? '',
+        ]);
     }
 
     public function logout()
     {
         $_SESSION = [];
         session_destroy();
-        $this->view('main/index');
+        $this->redirect('/public/');
     }
 
     private function enviarCorreo($correo, $enlace)

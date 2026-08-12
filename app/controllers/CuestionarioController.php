@@ -26,9 +26,7 @@ class CuestionarioController extends Controller
     public function index()
     {
         $this->requerirLogin();
-        $this->view('areas/cuestionario', [
-            'totalPreguntas' => $this->cuestionarioModel->getTotalPreguntas(),
-        ]);
+        $this->view('areas/cuestionario');
     }
 
     public function apiPreguntas()
@@ -41,6 +39,29 @@ class CuestionarioController extends Controller
             'success' => true,
             'total' => $this->cuestionarioModel->getTotalPreguntas(),
             'preguntas' => $this->cuestionarioModel->getPreguntasConOpciones(),
+        ]);
+    }
+
+    public function apiResultado()
+    {
+        $usuarioId = $this->usuarioLogueado();
+        if (!$usuarioId) {
+            return $this->respondJson(['success' => false, 'message' => 'No autorizado'], 401);
+        }
+
+        if (!$this->cuestionarioModel->haRespondido($usuarioId)) {
+            return $this->respondJson(['success' => true, 'haRespondido' => false]);
+        }
+
+        $recomendacion = $this->recomendarPara($usuarioId);
+
+        return $this->respondJson([
+            'success' => true,
+            'haRespondido' => true,
+            'areas' => $recomendacion['areas'],
+            'areaPrincipalId' => $recomendacion['areaPrincipalId'],
+            'carreraRecomendada' => $recomendacion['carreraRecomendada'],
+            'nombreUsuario' => $_SESSION['user_nombre'] ?? '',
         ]);
     }
 
@@ -96,27 +117,23 @@ class CuestionarioController extends Controller
     public function resultado()
     {
         $this->requerirLogin();
-        $usuarioId = $this->usuarioLogueado();
 
-        if (!$this->cuestionarioModel->haRespondido($usuarioId)) {
+        if (!$this->cuestionarioModel->haRespondido($this->usuarioLogueado())) {
             $this->redirect('/public/cuestionario');
         }
 
-        $recomendacion = $this->recomendarPara($usuarioId);
-
-        $this->view('areas/index', [
-            'areas' => $recomendacion['areas'],
-            'areaPrincipalId' => $recomendacion['areaPrincipalId'],
-            'carreraRecomendada' => $recomendacion['carreraRecomendada'],
-            'nombreUsuario' => $_SESSION['user_nombre'] ?? '',
-        ]);
+        $this->view('areas/index');
     }
 
     public function reiniciar()
     {
-        $this->requerirLogin();
-        $this->cuestionarioModel->reiniciar($this->usuarioLogueado());
-        $this->redirect('/public/cuestionario');
+        $usuarioId = $this->usuarioLogueado();
+        if (!$usuarioId) {
+            return $this->respondJson(['success' => false, 'message' => 'No autorizado'], 401);
+        }
+
+        $this->cuestionarioModel->reiniciar($usuarioId);
+        return $this->respondJson(['success' => true, 'message' => 'Cuestionario reiniciado']);
     }
 
     private function respondJson($data, $code = 200)

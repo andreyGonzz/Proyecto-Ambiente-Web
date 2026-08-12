@@ -96,14 +96,19 @@ class Usuario
         return $stmt->execute();
     }
 
-    public function getByToken($token)
+public function getByToken($token)
     {
-        $query = "SELECT * FROM usuarios WHERE token = ? AND token_expira > NOW() LIMIT 1";
+        $query = "SELECT * FROM usuarios WHERE token = ? LIMIT 1";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("s", $token);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        $usuario = $result->fetch_assoc();
+
+        if ($usuario && $usuario['token_expira'] && strtotime($usuario['token_expira']) > time()) {
+            return $usuario;
+        }
+return null;
     }
 
     public function verificarCredenciales($correo, $contrasena)
