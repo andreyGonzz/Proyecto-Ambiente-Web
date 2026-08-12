@@ -84,6 +84,17 @@ require_once __DIR__ . '/../layout/header.php';
                 <div class="modal-body">
                     <input type="hidden" name="carrera_id" value="">
                     <div class="mb-3">
+                        <label class="form-label">Área de la carrera</label>
+                        <select class="form-select" name="areaId" required>
+                            <option value="">Selecciona un área...</option>
+                            <?php foreach ($areas as $area): ?>
+                                <option value="<?php echo (int) $area['area_id']; ?>">
+                                    <?php echo htmlspecialchars($area['nombre']); ?> - <?php echo htmlspecialchars($area['label']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label">Nombre</label>
                         <input class="form-control" name="nombre" required>
                     </div>

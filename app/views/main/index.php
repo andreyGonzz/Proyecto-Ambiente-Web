@@ -129,15 +129,12 @@ require_once __DIR__ . '/../layout/header.php';
                     <div class="vt-bento-item vt-bento-item--large vt-hover-lift">
                         <div class="vt-bento-bg vt-bento-bg--tech"></div>
                         <div class="vt-bento-overlay"></div>
-                        <div class="vt-bento-content vt-bento-content--split">
-                            <div>
-                                <span class="vt-bento-tag">Alta Demanda</span>
-                                <h3 class="vt-headline-lg">Tecnología y Software</h3>
-                                <p class="vt-bento-desc">Desarrollo, análisis de datos, inteligencia artificial y
-                                    ciberseguridad.</p>
-                            </div>
-                            <span class="material-symbols-outlined fs-2">terminal</span>
+                        <div class="vt-bento-content">
+                            <h3 class="vt-headline-md">Tecnología y Software</h3>
                         </div>
+                        <span class="material-symbols-outlined vt-bento-icon-corner">
+                            terminal
+                        </span>
                     </div>
 
                     <?php foreach ($bentoSecondary as $item): ?>

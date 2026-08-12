@@ -102,7 +102,6 @@ require_once __DIR__ . '/../layout/header.php';
                                     <a href="<?php echo BASE_URL; ?>/public/carrera/lista?area=<?php echo (int) $areaPrincipalId; ?>"
                                         class="btn-explorar btn-explorar--ghost">
                                         Explorar carreras relacionadas
-                                        <span class="material-symbols-outlined">apartments</span>
                                     </a>
                                 </div>
                             </div>
@@ -146,38 +145,17 @@ require_once __DIR__ . '/../layout/header.php';
                             </div>
                         <?php endforeach; ?>
                     </div>
-                </div>
-            </div>
-
-            <!-- Tarjeta de interés secundario -->
-            <?php if ($secundaria): ?>
-                <div class="col-12 col-md-6">
-                    <div class="card-vocatio d-flex flex-row align-items-start gap-3">
-                        <div class="icono-circulo">
-                            <span class="material-symbols-outlined"><?php echo htmlspecialchars($secundaria['icono']); ?></span>
-                        </div>
-                        <div>
-                            <h3 class="h5 mb-2"><?php echo htmlspecialchars($secundaria['label']); ?></h3>
-                            <p class="mb-0" style="color: var(--color-on-surface-variant);">
-                                <?php echo htmlspecialchars($secundaria['descripcion']); ?>
-                            </p>
-                        </div>
+                    <div class="card-cta card-cta--desglose">
+                        <h3 class="h5 mb-4">¿Listo para dar el siguiente paso?</h3>
+                        <a href="<?php echo BASE_URL; ?>/public/carrera/lista?area=<?php echo (int) $areaPrincipalId; ?>" class="btn-explorar">
+                            Explorar carreras relacionadas
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </a>
+                        <a href="<?php echo BASE_URL; ?>/public/cuestionario/reiniciar" class="btn-explorar btn-explorar--ghost mt-3">
+                            Volver a intentar el cuestionario
+                            <span class="material-symbols-outlined">replay</span>
+                        </a>
                     </div>
-                </div>
-            <?php endif; ?>
-
-            <!-- Tarjeta CTA -->
-            <div class="col-12 col-md-6">
-                <div class="card-cta">
-                    <h3 class="h5 mb-4">¿Listo para dar el siguiente paso?</h3>
-                    <a href="<?php echo BASE_URL; ?>/public/carrera/lista?area=<?php echo (int) $areaPrincipalId; ?>" class="btn-explorar">
-                        Explorar carreras relacionadas
-                        <span class="material-symbols-outlined">arrow_forward</span>
-                    </a>
-                    <a href="<?php echo BASE_URL; ?>/public/cuestionario/reiniciar" class="btn-explorar btn-explorar--ghost mt-3">
-                        Volver a intentar el cuestionario
-                        <span class="material-symbols-outlined">replay</span>
-                    </a>
                 </div>
             </div>
 

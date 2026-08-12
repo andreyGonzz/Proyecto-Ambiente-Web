@@ -68,13 +68,54 @@
   width: 100%;
 }
 
+.vt-careers-chip-carousel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.vt-careers-carousel-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border: 1px solid var(--color-outline-variant);
+  background-color: var(--color-surface-container-lowest);
+  color: var(--color-on-surface-variant);
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+
+.vt-careers-carousel-arrow:hover {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  border-color: var(--color-primary);
+}
+
 .vt-careers-chip-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.75rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 0.25rem 0;
+  flex: 1 1 auto;
+}
+
+.vt-careers-chip-list::-webkit-scrollbar {
+  display: none;
 }
 
 .vt-careers-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  flex-shrink: 0;
   border: 1px solid var(--color-outline-variant);
   background-color: var(--color-surface-container-low);
   color: var(--color-on-surface-variant);
@@ -84,6 +125,10 @@
   font-weight: 500;
   text-decoration: none;
   transition: all 0.2s ease;
+}
+
+.vt-careers-chip .material-symbols-outlined {
+  font-size: 1.1rem;
 }
 
 .vt-careers-chip:hover,

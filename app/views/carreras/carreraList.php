@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../config/config.php';
 $areaId = $areaId ?? 0;
 $areaLabel = $areaLabel ?? '';
 $areaNombre = $areaNombre ?? '';
+$areas = $areas ?? [];
 
 function chipDificultad($dificultad)
 {
@@ -42,18 +43,30 @@ require_once __DIR__ . '/../layout/header.php';
                     </div>
                 </div>
 
-                <div class="vt-careers-chip-list">
-                    <button type="button" class="vt-careers-chip is-active" data-dificultad="Todas">Todas</button>
-                    <button type="button" class="vt-careers-chip" data-dificultad="Baja">Baja</button>
-                    <button type="button" class="vt-careers-chip" data-dificultad="Media">Media</button>
-                    <button type="button" class="vt-careers-chip" data-dificultad="Alta">Alta</button>
+                <div class="vt-careers-chip-carousel">
+                    <button type="button" class="vt-careers-carousel-arrow" id="carruselAnterior" aria-label="Anterior">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                    <div class="vt-careers-chip-list" id="areaCarrusel">
+                        <button type="button" class="vt-careers-chip <?= $areaId === 0 ? 'is-active' : '' ?>" data-area="0">Todas</button>
+                        <?php foreach ($areas as $area): ?>
+                            <button type="button" class="vt-careers-chip <?= (int) $area['area_id'] === $areaId ? 'is-active' : '' ?>"
+                                    data-area="<?= (int) $area['area_id'] ?>">
+                                <span class="material-symbols-outlined"><?= htmlspecialchars($area['icono']) ?></span>
+                                <?= htmlspecialchars($area['nombre']) ?>
+                            </button>
+                        <?php endforeach; ?>
+                    </div>
+                    <button type="button" class="vt-careers-carousel-arrow" id="carruselSiguiente" aria-label="Siguiente">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
                 </div>
             </section>
 
             <section class="row g-4">
                 <?php foreach ($carreras as $carrera): ?>
                     <article class="col-12 col-md-6 col-lg-4"
-                             data-dificultad="<?= htmlspecialchars($carrera['dificultad']) ?>"
+                             data-area="<?= (int) $carrera['areaId'] ?>"
                              data-nombre="<?= htmlspecialchars($carrera['nombre']) ?>">
                         <div class="vt-career-card">
                             <?php if (!empty($carrera['imagen'])): ?>

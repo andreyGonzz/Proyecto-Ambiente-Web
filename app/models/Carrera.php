@@ -54,6 +54,7 @@ class Carrera
     public function create($data)
     {
         $nombre = trim($data['nombre'] ?? '');
+        $areaId = (int) ($data['areaId'] ?? 1);
         $dificultad = $data['dificultad'] ?? 'Media';
         $disponibilidad = $data['disponibilidad'] ?? 'Disponible';
         $estadoId = (int) ($data['estadoId'] ?? 1);
@@ -65,11 +66,11 @@ class Carrera
         $habilidades = trim($data['habilidades'] ?? '');
 
         $stmt = $this->conn->prepare(
-            "INSERT INTO carreras (nombre, dificultad, disponibilidad, estado_id, imagen_url,
+            "INSERT INTO carreras (area_id, nombre, dificultad, disponibilidad, estado_id, imagen_url,
                                    descripcion, duracion, salario, demanda, habilidades)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
         );
-        $stmt->bind_param('sssissssss', $nombre, $dificultad, $disponibilidad, $estadoId, $imagen,
+        $stmt->bind_param('isssissssss', $areaId, $nombre, $dificultad, $disponibilidad, $estadoId, $imagen,
             $descripcion, $duracion, $salario, $demanda, $habilidades);
 
         if (!$stmt->execute()) {
@@ -87,6 +88,7 @@ class Carrera
         }
 
         $nombre = isset($data['nombre']) ? trim($data['nombre']) : $actual['nombre'];
+        $areaId = isset($data['areaId']) ? (int) $data['areaId'] : (int) $actual['areaId'];
         $dificultad = $data['dificultad'] ?? $actual['dificultad'];
         $disponibilidad = $data['disponibilidad'] ?? $actual['disponibilidad'];
         $estadoId = isset($data['estadoId']) ? (int) $data['estadoId'] : (int) $actual['estadoId'];
@@ -99,11 +101,11 @@ class Carrera
 
         $stmt = $this->conn->prepare(
             "UPDATE carreras
-             SET nombre = ?, dificultad = ?, disponibilidad = ?, estado_id = ?, imagen_url = ?,
+             SET area_id = ?, nombre = ?, dificultad = ?, disponibilidad = ?, estado_id = ?, imagen_url = ?,
                  descripcion = ?, duracion = ?, salario = ?, demanda = ?, habilidades = ?
              WHERE id = ?"
         );
-        $stmt->bind_param('sssissssssi', $nombre, $dificultad, $disponibilidad, $estadoId, $imagen,
+        $stmt->bind_param('issssisssssi', $areaId, $nombre, $dificultad, $disponibilidad, $estadoId, $imagen,
             $descripcion, $duracion, $salario, $demanda, $habilidades, $id);
         $stmt->execute();
 

@@ -24,6 +24,10 @@
   box-sizing: border-box;
 }
 
+a {
+  text-decoration: none;
+}
+
 body {
   font-family: "Inter", sans-serif;
   background-color: var(--color-background);
@@ -236,6 +240,10 @@ main {
   color: var(--color-on-primary-container);
 }
 
+.card-cta--desglose {
+  padding: 1.25rem;
+}
+
 .btn-explorar {
   background-color: var(--color-primary);
   color: var(--color-on-primary);
@@ -297,6 +305,35 @@ main {
   background-color: transparent;
   color: var(--color-on-primary-container);
   border-color: var(--color-on-primary-container);
+}
+
+.carrera-recomendada .btn-explorar--ghost:hover {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+
+/* ============ Botones sobre tarjeta CTA (fondo azul) ============ */
+.card-cta .btn-explorar:not(.btn-explorar--ghost) {
+  background-color: #ffffff;
+  color: var(--color-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-cta .btn-explorar:not(.btn-explorar--ghost):hover {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.card-cta .btn-explorar--ghost {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.card-cta .btn-explorar--ghost:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-color: #ffffff;
 }
 
 /* ============ Carrera recomendada ============ */

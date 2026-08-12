@@ -382,6 +382,7 @@ function abrirFormularioCarrera(id) {
 
     const carrera = carreras.find((item) => item.carreraId === Number(id));
     formulario.querySelector('[name="carrera_id"]').value = carrera ? carrera.carreraId : '';
+    formulario.querySelector('[name="areaId"]').value = carrera ? carrera.areaId : '';
     formulario.querySelector('[name="nombre"]').value = carrera ? carrera.nombre : '';
     formulario.querySelector('[name="descripcion"]').value = carrera ? (carrera.descripcion || '') : '';
     formulario.querySelector('[name="imagen"]').value = carrera ? (carrera.imagen || '') : '';
@@ -462,6 +463,7 @@ async function manejarEnvioCarrera(evento) {
     const carreraId = formulario.querySelector('[name="carrera_id"]').value;
     const datos = {
         nombre: formulario.querySelector('[name="nombre"]').value.trim(),
+        areaId: Number(formulario.querySelector('[name="areaId"]').value),
         descripcion: formulario.querySelector('[name="descripcion"]').value.trim(),
         imagen: formulario.querySelector('[name="imagen"]').value.trim(),
         dificultad: formulario.querySelector('[name="dificultad"]').value,
@@ -475,6 +477,11 @@ async function manejarEnvioCarrera(evento) {
 
     if (!datos.nombre) {
         notificarAdvertencia('El nombre de la carrera es obligatorio.');
+        return;
+    }
+
+    if (!datos.areaId) {
+        notificarAdvertencia('Selecciona el área de la carrera.');
         return;
     }
 

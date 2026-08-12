@@ -14,7 +14,8 @@ class CarreraController extends Controller
     public function index()
     {
         $carreras = $this->carreraModel->getAll();
-        $this->view('admin/carrera', ['carreras' => $carreras]);
+        $areas = $this->model('Cuestionario')->getAreas();
+        $this->view('admin/carrera', ['carreras' => $carreras, 'areas' => $areas]);
     }
 
     public function create()
@@ -83,23 +84,22 @@ class CarreraController extends Controller
     public function lista()
     {
         $areaId = isset($_GET['area']) ? (int) $_GET['area'] : 0;
-        $carreras = $areaId > 0 ? $this->carreraModel->getByArea($areaId) : $this->carreraModel->getAll();
+        $carreras = $this->carreraModel->getAll();
+        $areas = $this->model('Cuestionario')->getAreas();
 
         $areaLabel = '';
         $areaNombre = '';
-        if ($areaId > 0) {
-            $areas = $this->model('Cuestionario')->getAreas();
-            foreach ($areas as $area) {
-                if ((int) $area['area_id'] === $areaId) {
-                    $areaLabel = $area['label'];
-                    $areaNombre = $area['nombre'];
-                    break;
-                }
+        foreach ($areas as $area) {
+            if ((int) $area['area_id'] === $areaId) {
+                $areaLabel = $area['label'];
+                $areaNombre = $area['nombre'];
+                break;
             }
         }
 
         $this->view('carreras/carreraList', [
             'carreras' => $carreras,
+            'areas' => $areas,
             'areaId' => $areaId,
             'areaLabel' => $areaLabel,
             'areaNombre' => $areaNombre,
@@ -204,6 +204,7 @@ class CarreraController extends Controller
     {
         return [
             'nombre' => $datos['nombre'] ?? '',
+            'areaId' => $datos['areaId'] ?? 1,
             'dificultad' => $datos['dificultad'] ?? 'Media',
             'disponibilidad' => $datos['disponibilidad'] ?? 'Disponible',
             'estadoId' => $datos['estadoId'] ?? 1,

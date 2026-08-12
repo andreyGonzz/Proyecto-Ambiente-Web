@@ -233,7 +233,7 @@ main {
   align-items: center;
   justify-content: center;
   background-color: var(--color-primary-container);
-  color: var(--color-primary);
+  color: #ffffff;
   border-radius: var(--radius-lg);
 }
 
